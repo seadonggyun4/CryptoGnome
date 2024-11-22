@@ -22,13 +22,17 @@ export default function Header() {
     ];
 
     return (
-        <header className="bg-bg1 text-textWhite flex items-center justify-between px-6 py-3 dark:bg-dark-bg1 dark:text-dark-textWhite">
+        <header className="bg-bg1 text-textWhite flex items-center justify-between px-6 dark:bg-dark-bg1 dark:text-dark-textWhite">
             {/* Left Section */}
             <div className="flex items-center space-x-4">
-                <div className="text-primary font-bold text-xl dark:text-dark-primary">
-                    <span>BINANCE</span>
+                <div className="w-32">
+                    <img
+                        src="/title.png"
+                        alt="Binance Logo"
+                        className="w-full h-auto object-contain"
+                    />
                 </div>
-                <nav className="flex space-x-6 text-sm">
+                <nav className="flex space-x-7 text-sm">
                     {navItems.map((item) => (
                         <a
                             key={item}
@@ -51,11 +55,11 @@ export default function Header() {
                     <FontAwesomeIcon icon="search" className="w-full h-full"/>
                 </div>
                 <button
-                    className="bg-line text-PrimaryText py-1 px-4 rounded-md hover:opacity-80 transition duration-200 dark:bg-dark-line dark:text-dark-PrimaryText">
+                    className="text-sm bg-line text-PrimaryText py-2 px-3 rounded-md hover:opacity-80 transition duration-200 dark:bg-dark-line dark:text-dark-PrimaryText">
                     Log In
                 </button>
                 <button
-                    className="bg-primary text-textBlack py-1 px-4 rounded-md hover:opacity-80 transition duration-200 dark:bg-dark-primary dark:text-dark-textBlack">
+                    className="text-sm bg-primary text-textBlack py-2 px-3 rounded-md hover:opacity-80 transition duration-200 dark:bg-dark-primary dark:text-dark-textBlack">
                     Sign Up
                 </button>
                 {icons.map(({icon, label}) => (
