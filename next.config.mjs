@@ -9,5 +9,11 @@ const nextConfig = {
             },
         ];
     },
+    webpack(config) {
+        // Font Awesome의 기본 CSS 로드 방지 설정
+        config.resolve.alias['@fortawesome/fontawesome-svg-core/styles.css'] = false;
+        return config;
+    },
 };
+
 export default nextConfig;

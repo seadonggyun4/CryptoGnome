@@ -1,3 +1,5 @@
 export default function BTCUSDTPage() {
-  return <div>BTC/USDT Trade Page</div>;
+  return (
+    <div>Trading app</div>
+  );
 }
