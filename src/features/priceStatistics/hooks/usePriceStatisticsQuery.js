@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 
-export const usePriceStatistics = () => {
+export const usePriceStatisticsQuery = () => {
     const fetchPriceStatistics = async () => {
         try {
             const response = await apiClient("https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT");
@@ -22,12 +22,10 @@ export const usePriceStatistics = () => {
         }
     };
 
-    // 수정된 부분: 객체 형태로 useQuery 호출
     return useQuery({
         queryKey: ["priceStatistics"],
         queryFn: fetchPriceStatistics,
-        staleTime: 1000,
-        refetchInterval: 2000,
+        staleTime: 5000,
         retry: 1,
     });
 };
