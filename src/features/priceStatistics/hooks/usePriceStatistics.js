@@ -27,7 +27,7 @@ export const usePriceStatistics = () => {
         queryKey: ["priceStatistics"],
         queryFn: fetchPriceStatistics,
         staleTime: 1000,
-        refetchInterval: 1000,
+        refetchInterval: 2000,
         retry: 1,
     });
 };

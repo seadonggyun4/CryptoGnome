@@ -46,13 +46,13 @@ export default function PriceStatistics() {
                 {/* 오른쪽 영역 */}
                 <div className="flex items-center space-x-6">
                     <div className="flex flex-col">
-            <span className="text-lg font-semibold text-error dark:text-dark-error">
-              ${parseFloat(lastPrice).toFixed(2)}
-            </span>
+                        <span className="text-lg font-semibold text-error dark:text-dark-error">
+                          ${parseFloat(lastPrice).toFixed(2)}
+                        </span>
                         <span className="text-sm text-error dark:text-dark-error">
-              ${parseFloat(priceChange).toFixed(2)} (
+                          ${parseFloat(priceChange).toFixed(2)} (
                             {parseFloat(priceChangePercent).toFixed(2)}%)
-            </span>
+                        </span>
                     </div>
                     <ul className="flex text-sm text-textSecondary dark:text-dark-textSecondary space-x-10">
                         <li className="flex flex-col">

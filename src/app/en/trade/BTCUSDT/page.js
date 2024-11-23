@@ -1,13 +1,14 @@
 import Card from "@/app/common/elements/Card";
 import PriceStatistics from "@/app/en/trade/BTCUSDT/components/PriceStatistics";
 import StoreProvider from "@/process/store/queryClientProvider";
+import Orderbook from "@/app/en/trade/BTCUSDT/components/OrderBook";
 
 export default function BTCUSDTPage() {
   return (
       <StoreProvider>
-          <section className="bg-black ">
+          <section className="bg-black">
               <div className="mx-auto max-w-[1528px] h-full px-4 lg:px-0 py-1">
-                  <div className="flex h-screen gap-1 mb-1">
+                  <div className="flex h-full gap-1 mb-1">
                       {/* 왼쪽 큰 영역 */}
                       <div className="flex flex-col gap-1 h-full w-full">
                           {/* 상단 영역 */}
@@ -19,12 +20,8 @@ export default function BTCUSDTPage() {
                           {/* 메인 콘텐츠 영역 */}
                           <div className="flex-1 flex gap-1">
                               {/* 왼쪽 Order Book */}
-                              <div className="w-80">
-                                  <Card>
-                                      <h3 className="text-md font-semibold text-textPrimary dark:text-dark-textPrimary mb-2">
-                                          Order Book
-                                      </h3>
-                                  </Card>
+                              <div className="w-96">
+                                  <Orderbook/>
                               </div>
 
 

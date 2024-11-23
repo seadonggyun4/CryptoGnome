@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
+/* 전역 스타일 설정 */
+:root {
     font-size: 15px;
 }
