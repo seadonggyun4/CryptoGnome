@@ -9,11 +9,16 @@ import {
 import { useOrderBookQuery } from "@/features/orderbook/hooks/useOrderBookQuery";
 import { useOrderBookWebSocket } from "@/features/orderbook/hooks/useOrderBookWebSocket";
 import Card from "@/app/common/elements/Card";
+import { usePriceStatistics } from "@/features/priceStatistics/provider/PriceStatisticsContext";
+import React from "react";
+
 
 export default function OrderBook() {
     // WebSocket과 Query 데이터 훅 사용
     const { data: queryData, isLoading, isError } = useOrderBookQuery("BTCUSDT");
     useOrderBookWebSocket("BTCUSDT");
+    const { data:priceData } = usePriceStatistics();
+
 
     // Query 및 WebSocket 데이터
     const bids = queryData?.bids || [];
@@ -111,7 +116,7 @@ export default function OrderBook() {
                                         key={cell.id}
                                         className={
                                             cell.column.id === "price"
-                                                ? `text-red-500 text-left py-1`
+                                                ? `text-error dark:text-dark-error text-left py-1`
                                                 : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
                                         }
                                     >
@@ -126,8 +131,17 @@ export default function OrderBook() {
                         </tbody>
                     </table>
 
+                    <div className="flex items-center space-x-2 my-2">
+                        <span className="text-xl font-semibold text-error dark:text-dark-error">
+                          {parseFloat(priceData?.lastPrice).toFixed(2)}
+                        </span>
+                        <span className="text-sm text-DisabledText dark:text-dark-DisabledText">
+                          ${parseFloat(priceData?.lastPrice).toFixed(2)}
+                        </span>
+                    </div>
+
                     {/* Buy Orders */}
-                    <table className="table-fixed w-full text-xs mt-4">
+                    <table className="table-fixed w-full text-xs">
                         <thead>
                         {buyTable.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
@@ -160,7 +174,7 @@ export default function OrderBook() {
                                         key={cell.id}
                                         className={
                                             cell.column.id === "price"
-                                                ? `text-green-500 text-left py-1`
+                                                ? `text-success dark:text-dark-success text-left py-1`
                                                 : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
                                         }
                                     >

@@ -2,12 +2,10 @@
 
 import React from "react";
 import Card from "@/app/common/elements/Card";
-import { usePriceStatisticsQuery } from "@/features/priceStatistics/hooks/usePriceStatisticsQuery";
-import { usePriceStatisticsWebSocket } from "@/features/priceStatistics/hooks/usePriceStatisticsWebSocket";
+import { usePriceStatistics } from "@/features/priceStatistics/provider/PriceStatisticsContext";
 
 export default function PriceStatistics() {
-    const { data, isLoading, error } = usePriceStatisticsQuery();
-    usePriceStatisticsWebSocket("BTCUSDT");
+    const { data, isLoading, error } = usePriceStatistics();
 
     if (isLoading) return <Card>Loading...</Card>;
     if (error) return <Card>Error fetching data</Card>;
@@ -49,10 +47,10 @@ export default function PriceStatistics() {
                 <div className="flex items-center space-x-6">
                     <div className="flex flex-col">
                         <span className="text-lg font-semibold text-error dark:text-dark-error">
-                            ${parseFloat(lastPrice).toFixed(2)}
+                          {parseFloat(lastPrice).toFixed(2)}
                         </span>
                         <span className="text-sm text-PrimaryText dark:text-dark-PrimaryText">
-                            ${parseFloat(lastPrice).toFixed(2)}
+                          ${parseFloat(lastPrice).toFixed(2)}
                         </span>
                     </div>
                     <ul className="flex text-sm text-textSecondary dark:text-dark-textSecondary space-x-5">
@@ -100,7 +98,6 @@ export default function PriceStatistics() {
                                 ))}
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div>
