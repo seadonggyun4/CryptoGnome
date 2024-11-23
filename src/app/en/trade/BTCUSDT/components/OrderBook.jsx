@@ -6,49 +6,34 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
+import { useOrderBookQuery } from "@/features/orderbook/hooks/useOrderBookQuery";
+import { useOrderBookWebSocket } from "@/features/orderbook/hooks/useOrderBookWebSocket";
 import Card from "@/app/common/elements/Card";
 
 export default function OrderBook() {
-    // 가데이터 정의
-    const sellOrders = [
-        { price: "98449.98", amount: "0.00089", total: "87.62048" },
-        { price: "98449.83", amount: "0.00010", total: "9.84498" },
-        { price: "98449.20", amount: "0.30581", total: "30.11" },
-        { price: "98449.07", amount: "4.43885", total: "437.00" },
-        { price: "98449.98", amount: "0.00089", total: "87.62048" },
-        { price: "98449.83", amount: "0.00010", total: "9.84498" },
-        { price: "98449.20", amount: "0.30581", total: "30.11" },
-        { price: "98449.07", amount: "4.43885", total: "437.00" },
-        { price: "98449.98", amount: "0.00089", total: "87.62048" },
-        { price: "98449.83", amount: "0.00010", total: "9.84498" },
-        { price: "98449.20", amount: "0.30581", total: "30.11" },
-        { price: "98449.07", amount: "4.43885", total: "437.00" },
-        { price: "98449.98", amount: "0.00089", total: "87.62048" },
-        { price: "98449.83", amount: "0.00010", total: "9.84498" },
-        { price: "98449.20", amount: "0.30581", total: "30.11" },
-        { price: "98449.07", amount: "4.43885", total: "437.00" },
-        { price: "98449.07", amount: "4.43885", total: "437.00" },
-    ];
+    // WebSocket과 Query 데이터 훅 사용
+    const { data: queryData, isLoading, isError } = useOrderBookQuery("BTCUSDT");
+    useOrderBookWebSocket("BTCUSDT");
 
-    const buyOrders = [
-        { price: "98449.06", amount: "3.86000", total: "380.01" },
-        { price: "98449.04", amount: "0.20301", total: "19.99" },
-        { price: "98448.48", amount: "0.00111", total: "109.27781" },
-        { price: "98446.48", amount: "0.28010", total: "27.57" },
-        { price: "98449.06", amount: "3.86000", total: "380.01" },
-        { price: "98449.04", amount: "0.20301", total: "19.99" },
-        { price: "98448.48", amount: "0.00111", total: "109.27781" },
-        { price: "98446.48", amount: "0.28010", total: "27.57" },
-        { price: "98449.06", amount: "3.86000", total: "380.01" },
-        { price: "98449.04", amount: "0.20301", total: "19.99" },
-        { price: "98448.48", amount: "0.00111", total: "109.27781" },
-        { price: "98446.48", amount: "0.28010", total: "27.57" },
-        { price: "98449.06", amount: "3.86000", total: "380.01" },
-        { price: "98449.04", amount: "0.20301", total: "19.99" },
-        { price: "98448.48", amount: "0.00111", total: "109.27781" },
-        { price: "98446.48", amount: "0.28010", total: "27.57" },
-        { price: "98446.48", amount: "0.28010", total: "27.57" },
-    ];
+    // Query 및 WebSocket 데이터
+    const bids = queryData?.bids || [];
+    const asks = queryData?.asks || [];
+
+    // 데이터 포맷팅 함수
+    const formatOrderData = (orders) => {
+        let total = 0;
+        return orders.map(([price, amount]) => {
+            total += parseFloat(price) * parseFloat(amount);
+            return {
+                price: parseFloat(price).toFixed(2),
+                amount: parseFloat(amount).toFixed(6),
+                total: total.toFixed(2),
+            };
+        });
+    };
+
+    const formattedBids = formatOrderData(bids);
+    const formattedAsks = formatOrderData(asks);
 
     // 컬럼 정의
     const columnHelper = createColumnHelper();
@@ -69,34 +54,42 @@ export default function OrderBook() {
 
     // React Table 인스턴스 생성
     const sellTable = useReactTable({
-        data: sellOrders,
+        data: formattedAsks,
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
 
     const buyTable = useReactTable({
-        data: buyOrders,
+        data: formattedBids,
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
+
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error loading data</div>;
 
     return (
         <Card>
             <div className="py-1">
                 <div className="px-6 py-2 border-b-2 border-b-line dark:border-b-dark-line">
-                    <h2 className="text-PrimaryText dark:text-dark-PrimaryText font-bold text-sm">Order Book</h2>
+                    <h2 className="text-PrimaryText dark:text-dark-PrimaryText font-bold text-sm">
+                        Order Book
+                    </h2>
                 </div>
-
                 <div className="px-6">
                     {/* Sell Orders */}
-                    <table className="w-full text-xs">
+                    <table className="table-fixed w-full text-xs">
                         <thead>
                         {sellTable.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
                                     <th
                                         key={header.id}
-                                        className={`${header.id !== 'price' ? 'text-right' : 'text-left'} py-3 text-DisabledText dark:text-dark-DisabledText`}
+                                        className={`${
+                                            header.id !== "price"
+                                                ? "text-right"
+                                                : "text-left"
+                                        } py-3 text-DisabledText dark:text-dark-DisabledText`}
                                     >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -109,10 +102,23 @@ export default function OrderBook() {
                         </thead>
                         <tbody>
                         {sellTable.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800">
+                            <tr
+                                key={row.id}
+                                className="hover:bg-gray-800"
+                            >
                                 {row.getVisibleCells().map((cell) => (
-                                    <td key={cell.id} className={cell.id === `${row.id}_price` ? `text-red-500 text-left py-1` : 'text-PrimaryText dark:text-dark-PrimaryText text-right py-1'}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    <td
+                                        key={cell.id}
+                                        className={
+                                            cell.column.id === "price"
+                                                ? `text-red-500 text-left py-1`
+                                                : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                        }
+                                    >
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
                                     </td>
                                 ))}
                             </tr>
@@ -121,14 +127,18 @@ export default function OrderBook() {
                     </table>
 
                     {/* Buy Orders */}
-                    <table className="w-full text-xs">
+                    <table className="table-fixed w-full text-xs mt-4">
                         <thead>
-                        {sellTable.getHeaderGroups().map((headerGroup) => (
+                        {buyTable.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
                                     <th
                                         key={header.id}
-                                        className={`${header.id !== 'price' ? 'text-right' : 'text-left'} py-3 text-DisabledText dark:text-dark-DisabledText`}
+                                        className={`${
+                                            header.id !== "price"
+                                                ? "text-right"
+                                                : "text-left"
+                                        } py-3 text-DisabledText dark:text-dark-DisabledText`}
                                     >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -141,11 +151,23 @@ export default function OrderBook() {
                         </thead>
                         <tbody>
                         {buyTable.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800">
+                            <tr
+                                key={row.id}
+                                className="hover:bg-gray-800"
+                            >
                                 {row.getVisibleCells().map((cell) => (
-                                    <td key={cell.id}
-                                        className={cell.id === `${row.id}_price` ? `text-green-500 text-left py-1` : 'text-PrimaryText dark:text-dark-PrimaryText text-right py-1'}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    <td
+                                        key={cell.id}
+                                        className={
+                                            cell.column.id === "price"
+                                                ? `text-green-500 text-left py-1`
+                                                : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                        }
+                                    >
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
                                     </td>
                                 ))}
                             </tr>
