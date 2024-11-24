@@ -4,6 +4,7 @@ import StoreProvider from "@/process/store/queryClientProvider";
 import { PriceStatisticsProvider } from "@/features/priceStatistics/provider/PriceStatisticsContext";
 import OrderBook from "@/app/en/trade/BTCUSDT/components/OrderBook";
 import ChartContainer from "@/app/en/trade/BTCUSDT/components/ChartContainer";
+import TradingForm from "@/app/en/trade/BTCUSDT/components/TradingForm";
 
 export default function BTCUSDTPage() {
   return (
@@ -14,7 +15,6 @@ export default function BTCUSDTPage() {
                       <div className="flex h-full gap-1 mb-1">
                           {/* 왼쪽 큰 영역 */}
                           <div className="flex flex-col gap-1 h-full w-full">
-                              {/* 상단 영역 */}
                               <div>
                                   <PriceStatistics/>
                               </div>
@@ -22,7 +22,7 @@ export default function BTCUSDTPage() {
 
                               {/* 메인 콘텐츠 영역 */}
                               <div className="flex-1 flex gap-1">
-                                  {/* 왼쪽 Order Book */}
+                                  {/* Order Book */}
                                   <div className="w-96">
                                       <OrderBook/>
                                   </div>
@@ -33,10 +33,8 @@ export default function BTCUSDTPage() {
                                       {/* Chart */}
                                       <ChartContainer />
 
-                                      {/* Spot (Order Form) */}
-                                      <Card>
-                                          <h3 className="text-md font-semibold text-textPrimary dark:text-dark-textPrimary mb-2">Spot</h3>
-                                      </Card>
+                                      {/* tradingForm */}
+                                      <TradingForm />
                                   </div>
                               </div>
                           </div>

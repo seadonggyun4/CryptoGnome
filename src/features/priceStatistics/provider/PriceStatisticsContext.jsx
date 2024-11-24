@@ -10,7 +10,7 @@ const PriceStatisticsContext = createContext(null);
 // Provider 구현
 export function PriceStatisticsProvider({ children }) {
     const queryData = usePriceStatisticsQuery();
-    usePriceStatisticsWebSocket("BTCUSDT"); // WebSocket으로 실시간 업데이트
+    usePriceStatisticsWebSocket("BTCUSDT"); 
 
     return (
         <PriceStatisticsContext.Provider value={queryData}>

@@ -21,11 +21,23 @@ const ChartContainer = () => {
             case "chart":
                 return <TradingChart />;
             case "info":
-                return <div>Info Content</div>;
+                return (
+                    <div className="flex items-center justify-center h-full font-semibold text-primary">
+                        Info
+                    </div>
+                );
             case "tradingData":
-                return <div>Trading Data Content</div>;
+                return (
+                    <div className="flex items-center justify-center h-full font-semibold text-primary">
+                        TradingData
+                    </div>
+                );
             case "square":
-                return <div>Square Content</div>;
+                return (
+                    <div className="flex items-center justify-center h-full font-semibold text-primary">
+                        Square
+                    </div>
+                );
             default:
                 return null;
         }
