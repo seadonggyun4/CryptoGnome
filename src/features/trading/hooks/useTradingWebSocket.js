@@ -24,21 +24,18 @@ export const useTradingWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
                     y: [candle.o, candle.h, candle.l, candle.c], // [시가, 고가, 저가, 종가]
                 };
 
-                // 현재 캐시 데이터를 가져와 비교
-                const cachedData = queryClient.getQueryData(["tradingData", symbol, interval]);
-
-                if (cachedData) {
-                    const lastPoint = cachedData[cachedData.length - 1]; // 마지막 데이터 포인트
-                    const isSame = lastPoint?.x.getTime() === newPoint.x.getTime()
-                    if (isSame) {
-                        return; // 기존 시간과 동일하면 업데이트하지 않음
-                    }
-                }
-
-                // 데이터가 다를 경우에만 업데이트
+                // 현재 캐시 데이터를 가져와 비교 및 제한
                 queryClient.setQueryData(["tradingData", symbol, interval], (prevData) => {
                     if (!prevData) return [newPoint]; // 캐시가 없는 경우 초기화
-                    return [...prevData, newPoint]; // 새로운 데이터 추가
+
+                    // 데이터가 다를 경우 새로운 데이터 추가 및 제한
+                    const lastPoint = prevData[prevData.length - 1]; // 마지막 데이터 포인트
+                    const isSame = lastPoint?.x.getTime() === newPoint.x.getTime();
+                    if (isSame) return prevData; // 기존 시간과 동일하면 업데이트하지 않음
+
+                    // 새로운 데이터 추가, 최대 200개로 제한
+                    const updatedData = [...prevData, newPoint];
+                    return updatedData.slice(-200); // 마지막 200개만 유지
                 });
             }
         };

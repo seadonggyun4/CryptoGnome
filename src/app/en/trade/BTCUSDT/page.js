@@ -5,6 +5,7 @@ import { PriceStatisticsProvider } from "@/features/priceStatistics/provider/Pri
 import OrderBook from "@/app/en/trade/BTCUSDT/components/OrderBook";
 import ChartContainer from "@/app/en/trade/BTCUSDT/components/ChartContainer";
 import TradingForm from "@/app/en/trade/BTCUSDT/components/TradingForm";
+import UserHistory from "@/app/en/trade/BTCUSDT/components/UserHistory";
 
 export default function BTCUSDTPage() {
   return (
@@ -60,11 +61,7 @@ export default function BTCUSDTPage() {
                       </div>
 
                       <div className="h-80 mb-1">
-                          <Card>
-                              <h3 className="text-md font-semibold text-textPrimary dark:text-dark-textPrimary mb-2">
-                                  openOder
-                              </h3>
-                          </Card>
+                          <UserHistory />
                       </div>
                   </div>
               </section>
