@@ -21,8 +21,8 @@ export default function OrderBook() {
 
 
     // Query 및 WebSocket 데이터
-    const bids = queryData?.bids || [];
-    const asks = queryData?.asks || [];
+    const bids = (queryData?.bids || []).slice(0, 17);
+    const asks = (queryData?.asks || []).slice(0, 17);
 
     // 데이터 포맷팅 함수
     const formatOrderData = (orders) => {
@@ -78,152 +78,155 @@ export default function OrderBook() {
         getCoreRowModel: getCoreRowModel(),
     });
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error loading data</div>;
-
     return (
         <Card>
-            <div className="py-1">
+            <div className="py-1 h-full">
                 <div className="px-6 py-2 border-b-2 border-b-line dark:border-b-dark-line">
                     <h2 className="text-PrimaryText dark:text-dark-PrimaryText font-bold text-sm">
                         Order Book
                     </h2>
                 </div>
-                <div className="px-6">
-                    {/* Sell Orders */}
-                    <table className="table-fixed w-full text-xs">
-                        <thead>
-                        {sellTable.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <th
-                                        key={header.id}
-                                        className={`${
-                                            header.id !== "price"
-                                                ? "text-right"
-                                                : "text-left"
-                                        } py-3 text-iconNormal dark:text-dark-iconNormal`}
-                                    >
-                                        {flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
-                        </thead>
-                        <tbody>
-                        {sellTable.getRowModel().rows.map((row) => (
-                            <tr
-                                key={row.id}
-                                className="hover:bg-gray-800"
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <td
-                                        key={cell.id}
-                                        className={
-                                            cell.column.id === "price"
-                                                ? `text-Error dark:text-dark-error text-left py-1`
-                                                : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
-                                        }
-                                    >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                {
+                    isLoading
+                        ? 'Loading...'
+                        : (
+                            <div className="px-6">
+                                {/* Sell Orders */}
+                                <table className="table-fixed w-full text-xs">
+                                    <thead>
+                                    {sellTable.getHeaderGroups().map((headerGroup) => (
+                                        <tr key={headerGroup.id}>
+                                            {headerGroup.headers.map((header) => (
+                                                <th
+                                                    key={header.id}
+                                                    className={`${
+                                                        header.id !== "price"
+                                                            ? "text-right"
+                                                            : "text-left"
+                                                    } py-3 text-iconNormal dark:text-dark-iconNormal`}
+                                                >
+                                                    {flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                    </thead>
+                                    <tbody>
+                                    {sellTable.getRowModel().rows.map((row) => (
+                                        <tr
+                                            key={row.id}
+                                            className="hover:bg-gray-800"
+                                        >
+                                            {row.getVisibleCells().map((cell) => (
+                                                <td
+                                                    key={cell.id}
+                                                    className={
+                                                        cell.column.id === "price"
+                                                            ? `text-Error dark:text-dark-error text-left py-1`
+                                                            : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                                    }
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
 
-                    <div className="flex items-center space-x-2 my-2">
+                                <div className="flex items-center space-x-2 my-2">
                         <span className="text-xl font-semibold text-error dark:text-dark-error">
                           {parseFloat(priceData?.lastPrice).toFixed(2)}
                         </span>
-                        <span className="text-sm text-iconNormal dark:text-iconNormal">
+                                    <span className="text-sm text-iconNormal dark:text-iconNormal">
                           ${parseFloat(priceData?.lastPrice).toFixed(2)}
                         </span>
-                    </div>
+                                </div>
 
-                    {/* Buy Orders */}
-                    <table className="table-fixed w-full text-xs">
-                        <thead>
-                        {buyTable.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <th
-                                        key={header.id}
-                                        className={`${
-                                            header.id !== "price"
-                                                ? "text-right"
-                                                : "text-left"
-                                        } py-3 text-iconNormal dark:text-dark-iconNormal`}
-                                    >
-                                        {flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
-                        </thead>
-                        <tbody>
-                        {buyTable.getRowModel().rows.map((row) => (
-                            <tr
-                                key={row.id}
-                                className="hover:bg-gray-800"
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <td
-                                        key={cell.id}
-                                        className={
-                                            cell.column.id === "price"
-                                                ? `text-success dark:text-dark-success text-left py-1`
-                                                : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
-                                        }
-                                    >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                                {/* Buy Orders */}
+                                <table className="table-fixed w-full text-xs">
+                                    <thead>
+                                    {buyTable.getHeaderGroups().map((headerGroup) => (
+                                        <tr key={headerGroup.id}>
+                                            {headerGroup.headers.map((header) => (
+                                                <th
+                                                    key={header.id}
+                                                    className={`${
+                                                        header.id !== "price"
+                                                            ? "text-right"
+                                                            : "text-left"
+                                                    } py-3 text-iconNormal dark:text-dark-iconNormal`}
+                                                >
+                                                    {flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                    </thead>
+                                    <tbody>
+                                    {buyTable.getRowModel().rows.map((row) => (
+                                        <tr
+                                            key={row.id}
+                                            className="hover:bg-gray-800"
+                                        >
+                                            {row.getVisibleCells().map((cell) => (
+                                                <td
+                                                    key={cell.id}
+                                                    className={
+                                                        cell.column.id === "price"
+                                                            ? `text-success dark:text-dark-success text-left py-1`
+                                                            : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                                    }
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
 
-                    {/* 막대 그래프 */}
-                    <div className="flex items-center justify-between text-xs my-3">
-                            <div className="w-16 text-PrimaryText dark:text-dark-PrimaryText">
-                                B
-                                <span className="text-success dark:text-dark-success ml-1">{buyPercentage}%</span>
+                                {/* 막대 그래프 */}
+                                <div className="flex items-center justify-between text-xs my-3">
+                                    <div className="w-16 text-PrimaryText dark:text-dark-PrimaryText">
+                                        B
+                                        <span className="text-success dark:text-dark-success ml-1">{buyPercentage}%</span>
+                                    </div>
+                                    <div className="w-32 h-1 flex items-center rounded overflow-hidden">
+                                        <div
+                                            className="bg-success dark:bg-dark-success h-full"
+                                            style={{
+                                                width: `${buyPercentage}%`,
+                                            }}
+                                        />
+                                        <div
+                                            className="bg-error dark:bg-dark-error h-full"
+                                            style={{
+                                                width: `${sellPercentage}%`,
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="text-right w-16 text-PrimaryText dark:text-dark-PrimaryText">
+                                        <span className="text-error dark:text-dark-error mr-1">{sellPercentage}%</span>
+                                        S
+                                    </div>
+                                </div>
                             </div>
-                            <div className="w-32 h-1 flex items-center rounded overflow-hidden">
-                                <div
-                                    className="bg-success dark:bg-dark-success h-full"
-                                    style={{
-                                        width: `${buyPercentage}%`,
-                                    }}
-                                />
-                                <div
-                                    className="bg-error dark:bg-dark-error h-full"
-                                    style={{
-                                        width: `${sellPercentage}%`,
-                                    }}
-                                />
-                            </div>
-                            <div className="text-right w-16 text-PrimaryText dark:text-dark-PrimaryText">
-                                <span className="text-error dark:text-dark-error mr-1">{sellPercentage}%</span>
-                                S
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    )
+                }
+            </div>
         </Card>
     );
 }

@@ -7,9 +7,6 @@ import { usePriceStatistics } from "@/features/priceStatistics/provider/PriceSta
 export default function PriceStatistics() {
     const { data, isLoading, error } = usePriceStatistics();
 
-    if (isLoading) return <Card>Loading...</Card>;
-    if (error) return <Card>Error fetching data</Card>;
-
     const {
         lastPrice = "N/A",
         priceChange = "N/A",
@@ -43,63 +40,67 @@ export default function PriceStatistics() {
                     </div>
                 </div>
 
-                {/* 오른쪽 영역 */}
-                <div className="flex items-center space-x-6">
-                    <div className="flex flex-col">
-                        <span className="text-lg font-semibold text-error dark:text-dark-error">
-                          {parseFloat(lastPrice).toFixed(2)}
-                        </span>
-                        <span className="text-sm text-PrimaryText dark:text-dark-PrimaryText">
-                          ${parseFloat(lastPrice).toFixed(2)}
-                        </span>
-                    </div>
-                    <ul className="flex text-sm text-textSecondary dark:text-dark-textSecondary space-x-5">
-                        <li className="flex flex-col">
-                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Change</span>
-                            <p className="text-sm text-error dark:text-dark-error">
-                                {parseFloat(priceChange).toFixed(2)} (
-                                {parseFloat(priceChangePercent).toFixed(2)}%)
-                            </p>
-                        </li>
-                        <li className="flex flex-col">
-                            <span className="text-iconNormal dark:text-dark-iconNormal">24h High</span>
-                            <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                {parseFloat(highPrice).toFixed(2)}
-                            </p>
-                        </li>
-                        <li className="flex flex-col">
-                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Low</span>
-                            <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                {parseFloat(lowPrice).toFixed(2)}
-                            </p>
-                        </li>
-                        <li className="flex flex-col">
-                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(BTC)</span>
-                            <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                {parseFloat(volume).toLocaleString()}
-                            </p>
-                        </li>
-                        <li className="flex flex-col">
-                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(USDT)</span>
-                            <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                {parseFloat(quoteVolume).toLocaleString()}
-                            </p>
-                        </li>
-                        <li>
-                            <span className="text-iconNormal dark:text-dark-iconNormal">Token Tags</span>
-                            <div className="flex space-x-2 mt-1">
-                                {["POW", "Payments", "Vol", "Hot", "Price Protection"].map((tag, index) => (
-                                    <span
-                                        key={index}
-                                        className="bg-BadgeBg dark:bg-dark-BadgeBg text-TextLink dark:text-dark-TextLink text-xs font-medium px-1 rounded cursor-pointer"
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
+                {isLoading
+                    ? 'Loading...'
+                    : (
+                        <div className="flex items-center space-x-6">
+                            <div className="flex flex-col">
+                                <span className="text-lg font-semibold text-error dark:text-dark-error">
+                                    {parseFloat(lastPrice).toFixed(2)}
+                                </span>
+                                <span className="text-sm text-PrimaryText dark:text-dark-PrimaryText">
+                                    ${parseFloat(lastPrice).toFixed(2)}
+                                </span>
                             </div>
-                        </li>
-                    </ul>
-                </div>
+                            <ul className="flex text-sm text-textSecondary dark:text-dark-textSecondary space-x-5">
+                                <li className="flex flex-col">
+                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Change</span>
+                                    <p className="text-sm text-error dark:text-dark-error">
+                                        {parseFloat(priceChange).toFixed(2)} (
+                                        {parseFloat(priceChangePercent).toFixed(2)}%)
+                                    </p>
+                                </li>
+                                <li className="flex flex-col">
+                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h High</span>
+                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                        {parseFloat(highPrice).toFixed(2)}
+                                    </p>
+                                </li>
+                                <li className="flex flex-col">
+                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Low</span>
+                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                        {parseFloat(lowPrice).toFixed(2)}
+                                    </p>
+                                </li>
+                                <li className="flex flex-col">
+                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(BTC)</span>
+                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                        {parseFloat(volume).toLocaleString()}
+                                    </p>
+                                </li>
+                                <li className="flex flex-col">
+                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(USDT)</span>
+                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                        {parseFloat(quoteVolume).toLocaleString()}
+                                    </p>
+                                </li>
+                                <li>
+                                    <span className="text-iconNormal dark:text-dark-iconNormal">Token Tags</span>
+                                    <div className="flex space-x-2 mt-1">
+                                        {["POW", "Payments", "Vol", "Hot", "Price Protection"].map((tag, index) => (
+                                            <span
+                                                key={index}
+                                                className="bg-BadgeBg dark:bg-dark-BadgeBg text-TextLink dark:text-dark-TextLink text-xs font-medium px-1 rounded cursor-pointer"
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    )
+                }
             </div>
         </Card>
     );
