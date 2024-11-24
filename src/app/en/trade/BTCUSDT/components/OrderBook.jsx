@@ -10,7 +10,7 @@ import { useOrderBookQuery } from "@/features/orderbook/hooks/useOrderBookQuery"
 import { useOrderBookWebSocket } from "@/features/orderbook/hooks/useOrderBookWebSocket";
 import Card from "@/app/common/elements/Card";
 import { usePriceStatistics } from "@/features/priceStatistics/provider/PriceStatisticsContext";
-import React from "react";
+import {useMemo} from "react";
 
 
 export default function OrderBook() {
@@ -21,8 +21,8 @@ export default function OrderBook() {
 
 
     // Query 및 WebSocket 데이터
-    const bids = (queryData?.bids || []).slice(0, 17);
-    const asks = (queryData?.asks || []).slice(0, 17);
+    const bids = queryData?.bids || [];
+    const asks = queryData?.asks || [];
 
     // 데이터 포맷팅 함수
     const formatOrderData = (orders) => {
@@ -37,8 +37,8 @@ export default function OrderBook() {
         });
     };
 
-    const formattedBids = formatOrderData(bids);
-    const formattedAsks = formatOrderData(asks);
+    const formattedBids = useMemo(() => formatOrderData(bids), [bids]);
+    const formattedAsks = useMemo(() => formatOrderData(asks), [asks]);
 
     // 구매 및 판매 주문량 계산
     const totalBuyVolume = bids.reduce((acc, [price, amount]) => acc + parseFloat(amount), 0);

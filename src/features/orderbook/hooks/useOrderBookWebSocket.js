@@ -12,15 +12,25 @@ export const useOrderBookWebSocket = (symbol = "BTCUSDT") => {
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
-            // React Query의 캐시를 업데이트
             queryClient.setQueryData(["orderBook", symbol], (oldData) => {
                 if (!oldData) return { bids: data.b, asks: data.a };
-                return {
-                    bids: [...data.b, ...oldData.bids].slice(0, 20), // 최신 데이터로 업데이트
-                    asks: [...data.a, ...oldData.asks].slice(0, 20),
-                };
+
+                // 기존 데이터와 새로운 데이터를 병합하여 불필요한 업데이트 방지
+                const updatedBids = [...data.b, ...oldData.bids].slice(0, 17);
+                const updatedAsks = [...data.a, ...oldData.asks].slice(0, 17);
+
+                // 데이터 변경이 있을 경우에만 반환
+                if (
+                    JSON.stringify(updatedBids) !== JSON.stringify(oldData.bids) ||
+                    JSON.stringify(updatedAsks) !== JSON.stringify(oldData.asks)
+                ) {
+                    return { bids: updatedBids, asks: updatedAsks };
+                }
+
+                return oldData; // 변경 없으면 기존 데이터 유지
             });
         };
+
 
         ws.onclose = () => {
             console.log("WebSocket Closed");
