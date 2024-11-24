@@ -55,38 +55,38 @@ export default function PriceStatistics() {
                     </div>
                     <ul className="flex text-sm text-textSecondary dark:text-dark-textSecondary space-x-5">
                         <li className="flex flex-col">
-                            <span className="text-DisabledText dark:text-dark-DisabledText">24h Change</span>
+                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Change</span>
                             <p className="text-sm text-error dark:text-dark-error">
                                 {parseFloat(priceChange).toFixed(2)} (
                                 {parseFloat(priceChangePercent).toFixed(2)}%)
                             </p>
                         </li>
                         <li className="flex flex-col">
-                            <span className="text-DisabledText dark:text-dark-DisabledText">24h High</span>
+                            <span className="text-iconNormal dark:text-dark-iconNormal">24h High</span>
                             <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
                                 {parseFloat(highPrice).toFixed(2)}
                             </p>
                         </li>
                         <li className="flex flex-col">
-                            <span className="text-DisabledText dark:text-dark-DisabledText">24h Low</span>
+                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Low</span>
                             <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
                                 {parseFloat(lowPrice).toFixed(2)}
                             </p>
                         </li>
                         <li className="flex flex-col">
-                            <span className="text-DisabledText dark:text-dark-DisabledText">24h Volume(BTC)</span>
+                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(BTC)</span>
                             <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
                                 {parseFloat(volume).toLocaleString()}
                             </p>
                         </li>
                         <li className="flex flex-col">
-                            <span className="text-DisabledText dark:text-dark-DisabledText">24h Volume(USDT)</span>
+                            <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(USDT)</span>
                             <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
                                 {parseFloat(quoteVolume).toLocaleString()}
                             </p>
                         </li>
                         <li>
-                            <span className="text-DisabledText dark:text-dark-DisabledText">Token Tags</span>
+                            <span className="text-iconNormal dark:text-dark-iconNormal">Token Tags</span>
                             <div className="flex space-x-2 mt-1">
                                 {["POW", "Payments", "Vol", "Hot", "Price Protection"].map((tag, index) => (
                                     <span

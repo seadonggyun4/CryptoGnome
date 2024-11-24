@@ -40,6 +40,14 @@ export default function OrderBook() {
     const formattedBids = formatOrderData(bids);
     const formattedAsks = formatOrderData(asks);
 
+    // 구매 및 판매 주문량 계산
+    const totalBuyVolume = bids.reduce((acc, [price, amount]) => acc + parseFloat(amount), 0);
+    const totalSellVolume = asks.reduce((acc, [price, amount]) => acc + parseFloat(amount), 0);
+    const totalVolume = totalBuyVolume + totalSellVolume;
+
+    const buyPercentage = ((totalBuyVolume / totalVolume) * 100).toFixed(2);
+    const sellPercentage = ((totalSellVolume / totalVolume) * 100).toFixed(2);
+
     // 컬럼 정의
     const columnHelper = createColumnHelper();
     const columns = [
@@ -94,7 +102,7 @@ export default function OrderBook() {
                                             header.id !== "price"
                                                 ? "text-right"
                                                 : "text-left"
-                                        } py-3 text-DisabledText dark:text-dark-DisabledText`}
+                                        } py-3 text-iconNormal dark:text-dark-iconNormal`}
                                     >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -116,7 +124,7 @@ export default function OrderBook() {
                                         key={cell.id}
                                         className={
                                             cell.column.id === "price"
-                                                ? `text-error dark:text-dark-error text-left py-1`
+                                                ? `text-Error dark:text-dark-error text-left py-1`
                                                 : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
                                         }
                                     >
@@ -135,7 +143,7 @@ export default function OrderBook() {
                         <span className="text-xl font-semibold text-error dark:text-dark-error">
                           {parseFloat(priceData?.lastPrice).toFixed(2)}
                         </span>
-                        <span className="text-sm text-DisabledText dark:text-dark-DisabledText">
+                        <span className="text-sm text-iconNormal dark:text-iconNormal">
                           ${parseFloat(priceData?.lastPrice).toFixed(2)}
                         </span>
                     </div>
@@ -152,7 +160,7 @@ export default function OrderBook() {
                                             header.id !== "price"
                                                 ? "text-right"
                                                 : "text-left"
-                                        } py-3 text-DisabledText dark:text-dark-DisabledText`}
+                                        } py-3 text-iconNormal dark:text-dark-iconNormal`}
                                     >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -188,8 +196,34 @@ export default function OrderBook() {
                         ))}
                         </tbody>
                     </table>
+
+                    {/* 막대 그래프 */}
+                    <div className="flex items-center justify-between text-xs my-3">
+                            <div className="w-16 text-PrimaryText dark:text-dark-PrimaryText">
+                                B
+                                <span className="text-success dark:text-dark-success ml-1">{buyPercentage}%</span>
+                            </div>
+                            <div className="w-32 h-1 flex items-center rounded overflow-hidden">
+                                <div
+                                    className="bg-success dark:bg-dark-success h-full"
+                                    style={{
+                                        width: `${buyPercentage}%`,
+                                    }}
+                                />
+                                <div
+                                    className="bg-error dark:bg-dark-error h-full"
+                                    style={{
+                                        width: `${sellPercentage}%`,
+                                    }}
+                                />
+                            </div>
+                            <div className="text-right w-16 text-PrimaryText dark:text-dark-PrimaryText">
+                                <span className="text-error dark:text-dark-error mr-1">{sellPercentage}%</span>
+                                S
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </Card>
     );
 }
