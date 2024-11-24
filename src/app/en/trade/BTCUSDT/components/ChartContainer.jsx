@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Tabs from "@/app/common/elements/Tabs";
 import Card from "@/app/common/elements/Card";
+import TradingChart from "@/app/en/trade/BTCUSDT/elements/TradingChart";
 
 const ChartContainer = () => {
     const tabs = [
@@ -18,7 +19,7 @@ const ChartContainer = () => {
     const tabContent = useMemo(() => {
         switch (currentTab) {
             case "chart":
-                return <div>Chart Content</div>;
+                return <TradingChart />;
             case "info":
                 return <div>Info Content</div>;
             case "tradingData":
@@ -33,7 +34,7 @@ const ChartContainer = () => {
     return (
         <Card>
             <Tabs activeTab={currentTab} tabs={tabs} onTabChange={setCurrentTab} />
-            <div className="p-4">{tabContent}</div>
+            {tabContent}
         </Card>
     );
 };
