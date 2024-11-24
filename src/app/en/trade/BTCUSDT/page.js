@@ -9,7 +9,7 @@ export default function BTCUSDTPage() {
   return (
       <StoreProvider>
           <PriceStatisticsProvider>
-              <section className="bg-black">
+              <section>
                   <div className="mx-auto max-w-[1528px] h-full px-4 lg:px-0 py-1">
                       <div className="flex h-full gap-1 mb-1">
                           {/* 왼쪽 큰 영역 */}
