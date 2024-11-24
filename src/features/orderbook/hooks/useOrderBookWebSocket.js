@@ -26,8 +26,6 @@ export const useOrderBookWebSocket = (symbol = "BTCUSDT") => {
                 ) {
                     return { bids: updatedBids, asks: updatedAsks };
                 }
-
-                return oldData; // 변경 없으면 기존 데이터 유지
             });
         };
 

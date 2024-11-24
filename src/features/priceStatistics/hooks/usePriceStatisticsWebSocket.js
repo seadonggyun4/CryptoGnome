@@ -35,7 +35,6 @@ export const usePriceStatisticsWebSocket = (symbol = "BTCUSDT") => {
                 ) {
                     return updatedData; // 변경된 데이터 반환
                 }
-                return oldData; // 변경 없으면 기존 데이터 유지
             });
         };
 
