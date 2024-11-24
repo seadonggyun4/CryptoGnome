@@ -3,6 +3,7 @@ import PriceStatistics from "@/app/en/trade/BTCUSDT/components/PriceStatistics";
 import StoreProvider from "@/process/store/queryClientProvider";
 import { PriceStatisticsProvider } from "@/features/priceStatistics/provider/PriceStatisticsContext";
 import OrderBook from "@/app/en/trade/BTCUSDT/components/OrderBook";
+import ChartContainer from "@/app/en/trade/BTCUSDT/components/ChartContainer";
 
 export default function BTCUSDTPage() {
   return (
@@ -30,9 +31,7 @@ export default function BTCUSDTPage() {
                                   {/* 오른쪽 Chart + Spot */}
                                   <div className="flex flex-col gap-1 w-full">
                                       {/* Chart */}
-                                      <Card>
-                                          <h3 className="text-md font-semibold text-textPrimary dark:text-dark-textPrimary mb-2">Chart</h3>
-                                      </Card>
+                                      <ChartContainer />
 
                                       {/* Spot (Order Form) */}
                                       <Card>
