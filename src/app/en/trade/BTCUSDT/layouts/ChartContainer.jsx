@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Tabs from "@/app/common/elements/Tabs";
 import Card from "@/app/common/elements/Card";
-import TradingChart from "@/app/en/trade/BTCUSDT/elements/TradingChart";
+import TradingChart from "@/app/en/trade/BTCUSDT/components/TradingChart";
 
 const ChartContainer = () => {
     const tabs = [

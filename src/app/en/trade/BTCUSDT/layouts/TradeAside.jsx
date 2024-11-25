@@ -3,6 +3,7 @@
 import Card from "@/app/common/elements/Card";
 import Tabs from "@/app/common/elements/Tabs";
 import {useMemo, useState} from "react";
+import MarketTrades from "@/app/en/trade/BTCUSDT/components/MarketTrades";
 
 export default function TradeAside() {
     const tabs = [
@@ -15,11 +16,7 @@ export default function TradeAside() {
     const tabContent = useMemo(() => {
         switch (currentTab) {
             case "marketTrades":
-                return (
-                    <div className="flex items-center justify-center h-full text-PrimaryText dark:text-dark-PrimaryText">
-                        <span className="mr-2 text-primary">Log In</span> or <span className="ml-2 text-primary">Register</span> Now to trade
-                    </div>
-                );
+                return <MarketTrades />;
             case "myTrades":
                 return (
                     <div className="flex items-center justify-center h-full text-PrimaryText dark:text-dark-PrimaryText">

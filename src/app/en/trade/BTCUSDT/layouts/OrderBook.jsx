@@ -141,12 +141,12 @@ export default function OrderBook() {
                                 </table>
 
                                 <div className="flex items-center space-x-2 my-2">
-                        <span className="text-xl font-semibold text-error dark:text-dark-error">
-                          {parseFloat(priceData?.lastPrice).toFixed(2)}
-                        </span>
+                                    <span className="text-xl font-semibold text-error dark:text-dark-error">
+                                      {parseFloat(priceData?.lastPrice).toFixed(2)}
+                                    </span>
                                     <span className="text-sm text-iconNormal dark:text-iconNormal">
-                          ${parseFloat(priceData?.lastPrice).toFixed(2)}
-                        </span>
+                                      ${parseFloat(priceData?.lastPrice).toFixed(2)}
+                                    </span>
                                 </div>
 
                                 {/* Buy Orders */}

@@ -1,12 +1,12 @@
 import Card from "@/app/common/elements/Card";
-import PriceStatistics from "@/app/en/trade/BTCUSDT/components/PriceStatistics";
+import PriceStatistics from "@/app/en/trade/BTCUSDT/layouts/PriceStatistics";
 import StoreProvider from "@/process/store/queryClientProvider";
 import { PriceStatisticsProvider } from "@/features/priceStatistics/provider/PriceStatisticsContext";
-import OrderBook from "@/app/en/trade/BTCUSDT/components/OrderBook";
-import ChartContainer from "@/app/en/trade/BTCUSDT/components/ChartContainer";
-import TradingForm from "@/app/en/trade/BTCUSDT/components/TradingForm";
-import UserHistory from "@/app/en/trade/BTCUSDT/components/UserHistory";
-import TradeAside from "@/app/en/trade/BTCUSDT/components/TradeAside";
+import OrderBook from "@/app/en/trade/BTCUSDT/layouts/OrderBook";
+import ChartContainer from "@/app/en/trade/BTCUSDT/layouts/ChartContainer";
+import TradingForm from "@/app/en/trade/BTCUSDT/layouts/TradingForm";
+import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
+import TradeAside from "@/app/en/trade/BTCUSDT/layouts/TradeAside";
 
 export default function BTCUSDTPage() {
   return (
