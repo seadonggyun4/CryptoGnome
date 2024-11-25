@@ -6,7 +6,7 @@ export const useMarketTradeQuery = (symbol = "BTCUSDT") => {
     const fetchMarketTrades = async () => {
         try {
             const response = await apiClient(
-                `https://api.binance.com/api/v3/trades?symbol=${symbol}&limit=50`
+                `https://api.binance.com/api/v3/trades?symbol=${symbol}&limit=100`
             );
 
             return response.data.map((trade) => ({
