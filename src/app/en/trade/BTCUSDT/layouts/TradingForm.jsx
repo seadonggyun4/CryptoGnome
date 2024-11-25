@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Tabs from "@/app/common/elements/Tabs";
 import Card from "@/app/common/elements/Card";
+import Spot from "@/app/en/trade/BTCUSDT/components/Spot";
 
 const TradingForm = () => {
     const tabs = [
@@ -18,9 +19,7 @@ const TradingForm = () => {
         switch (activeTab) {
             case "Spot":
                 return (
-                    <div className="flex items-center justify-center h-full font-semibold text-primary">
-                        Spot Trading Form
-                    </div>
+                    <Spot />
                 );
             case "Cross":
                 return (
