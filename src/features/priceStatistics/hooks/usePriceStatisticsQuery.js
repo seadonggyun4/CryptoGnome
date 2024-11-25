@@ -1,31 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "@/process/api";
-import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
+import { useTopMoversQuery } from "@/features/topMovers/hooks/useTopMoversQuery";
 
-export const usePriceStatisticsQuery = () => {
+export const usePriceStatisticsQuery = (symbol = "BTCUSDT") => {
+    const { data: allData, isLoading, isError } = useTopMoversQuery();
+
     const fetchPriceStatistics = async () => {
-        try {
-            const response = await apiClient("https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT");
-            const {
-                lastPrice,
-                priceChange,
-                priceChangePercent,
-                highPrice,
-                lowPrice,
-                volume,
-                quoteVolume,
-            } = response.data;
-            return { lastPrice, priceChange, priceChangePercent, highPrice, lowPrice, volume, quoteVolume };
-        } catch (error) {
-            apiErrorHandler(error);
-            throw error;
+        if (!allData) throw new Error("No data available");
+
+        const targetSymbolData = allData.find((item) => item.symbol === symbol);
+        if (!targetSymbolData) {
+            throw new Error(`Symbol ${symbol} not found`);
         }
+        return targetSymbolData;
     };
 
     return useQuery({
-        queryKey: ["priceStatistics"],
+        queryKey: ["priceStatistics", symbol],
         queryFn: fetchPriceStatistics,
-        staleTime: 5000,
+        enabled: !!allData, // allData가 있을 때만 실행
+        staleTime: 60000,
         retry: 1,
     });
 };
