@@ -64,7 +64,7 @@ const MarketTrades = ({ symbol = "BTCUSDT" }) => {
         <div className="overflow-auto h-full px-4">
             <table className="table-fixed w-full text-xs border-collapse">
                 {/* 테이블 헤더 */}
-                <thead className="sticky top-0 bg-gray-900 dark:bg-dark-bg z-10">
+                <thead className="sticky top-0 bg-bg dark:bg-dark-bg z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header) => (
@@ -104,7 +104,7 @@ const MarketTrades = ({ symbol = "BTCUSDT" }) => {
                             key={row.id}
                             className={`hover:bg-gray-800 ${
                                 row.original.isBuyerMaker
-                                    ? "text-Error"
+                                    ? "text-error"
                                     : "text-success"
                             }`}
                         >

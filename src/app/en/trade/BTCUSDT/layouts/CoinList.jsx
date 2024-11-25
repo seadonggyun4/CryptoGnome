@@ -11,14 +11,7 @@ export default function CoinList() {
     const [searchActive, setSearchActive] = useState(false);
 
     // 훅으로 코인 목록 데이터 가져오기
-    const { data: coinListData, isLoading } = useCoinList("USDC");
-
-    // 검색 필터링 (useMemo로 최적화)
-    const filteredData = useMemo(() => {
-        return coinListData?.filter((coin) =>
-            coin.symbol.toLowerCase().includes(searchText.toLowerCase())
-        );
-    }, [coinListData, searchText]);
+    const { data: coinListData, isLoading } = useCoinList("BTC");
 
     // tanstack table 설정 (useMemo로 최적화)
     const columnHelper = createColumnHelper();
@@ -34,14 +27,14 @@ export default function CoinList() {
             }),
             columnHelper.accessor("lastPrice", {
                 header: "Last Price",
-                cell: (info) => parseFloat(info.getValue()).toFixed(6),
+                cell: (info) => info.getValue(),
             }),
             columnHelper.accessor("priceChangePercent", {
                 header: "24h Change",
                 cell: (info) => {
                     const value = parseFloat(info.getValue());
                     return (
-                        <span className={value > 0 ? "text-success" : "text-Error"}>
+                        <span className={value > 0 ? "text-success" : "text-error"}>
                             {value.toFixed(2)}%
                         </span>
                     );
@@ -52,7 +45,7 @@ export default function CoinList() {
     );
 
     const table = useReactTable({
-        data: filteredData || [],
+        data: coinListData || [],
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
@@ -65,9 +58,9 @@ export default function CoinList() {
 
     return (
         <Card>
-            <div className="h-96">
+            <div className="h-[446px]">
                 {/* 검색 창 */}
-                <div className="flex items-center space-x-4 px-2 py-4">
+                <div className="flex items-center space-x-4 px-4 py-4">
                     <SearchInput
                         inputValue={searchText}
                         onSearch={setSearchText}
@@ -88,18 +81,22 @@ export default function CoinList() {
                 </div>
 
                 {/* 테이블 */}
-                <div className="overflow-auto max-h-[calc(100%-70px)] px-2 py-4">
+                <div className="overflow-auto h-[380px] px-4 overflow-x-hidden">
                     {isLoading ? (
                         <div className="text-center py-4">Loading...</div>
                     ) : (
-                        <table className="table-auto w-full text-xs">
-                            <thead>
+                        <table className="table-fixed w-full text-xs border-collapse">
+                            <thead className="sticky top-0 bg-bg dark:bg-dark-bg z-10">
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => (
                                         <th
                                             key={header.id}
-                                            className="text-left py-3 px-2 text-iconNormal dark:text-dark-iconNormal"
+                                            className={`${
+                                                header.id !== "symbol"
+                                                    ? "text-right"
+                                                    : "text-left"
+                                            } py-3 text-iconNormal dark:text-dark-iconNormal`}
                                         >
                                             {flexRender(header.column.columnDef.header, header.getContext())}
                                         </th>

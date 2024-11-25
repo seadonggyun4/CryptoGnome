@@ -18,13 +18,13 @@ export const useTickerWebSocket = (symbol = "") => {
             if (symbol) {
                 const updatedData = {
                     symbol: data.s,
-                    lastPrice: parseFloat(data.c).toFixed(2),
-                    priceChange: parseFloat(data.p).toFixed(2),
-                    priceChangePercent: parseFloat(data.P).toFixed(2),
-                    highPrice: parseFloat(data.h).toFixed(2),
-                    lowPrice: parseFloat(data.l).toFixed(2),
-                    volume: parseFloat(data.v).toFixed(2),
-                    quoteVolume: parseFloat(data.q).toFixed(2), // 추가된 quoteVolume
+                    lastPrice: data.c,
+                    priceChange: data.p,
+                    priceChangePercent: data.P,
+                    highPrice: data.h,
+                    lowPrice: data.l,
+                    volume: data.v,
+                    quoteVolume: data.q,
                     time: new Date().toLocaleTimeString(),
                 };
 
@@ -36,13 +36,13 @@ export const useTickerWebSocket = (symbol = "") => {
             else {
                 const updatedData = data.map((item) => ({
                     symbol: item.s,
-                    lastPrice: parseFloat(item.c).toFixed(2),
-                    priceChange: parseFloat(item.p).toFixed(2),
-                    priceChangePercent: parseFloat(item.P).toFixed(2),
-                    highPrice: parseFloat(item.h).toFixed(2),
-                    lowPrice: parseFloat(item.l).toFixed(2),
-                    volume: parseFloat(item.v).toFixed(2),
-                    quoteVolume: parseFloat(item.q).toFixed(2), // 추가된 quoteVolume
+                    lastPrice: item.c,
+                    priceChange: item.p,
+                    priceChangePercent: item.P,
+                    highPrice: item.h,
+                    lowPrice: item.l,
+                    volume: item.v,
+                    quoteVolume: item.q,
                     time: new Date().toLocaleTimeString(),
                 }));
 
