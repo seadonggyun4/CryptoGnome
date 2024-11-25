@@ -8,6 +8,7 @@ import TradingForm from "@/app/en/trade/BTCUSDT/layouts/TradingForm";
 import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
 import TradeAside from "@/app/en/trade/BTCUSDT/layouts/TradeAside";
 import TopMovers from "@/app/en/trade/BTCUSDT/layouts/TopMovers";
+import CoinList from "@/app/en/trade/BTCUSDT/layouts/CoinList";
 
 export default function BTCUSDTPage() {
   return (
@@ -44,13 +45,7 @@ export default function BTCUSDTPage() {
 
                           {/* 오른쪽 aside 영역 */}
                           <aside className="flex flex-col gap-1 h-full w-96">
-                              <Card>
-                                  <div className="min-h-96">
-                                      <h3 className="flex items-center justify-center text-md font-semibold text-textPrimary dark:text-dark-textPrimary">
-                                          USDT
-                                      </h3>
-                                  </div>
-                              </Card>
+                              <CoinList />
                               <TradeAside/>
                               <TopMovers />
                           </aside>
