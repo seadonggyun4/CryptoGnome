@@ -52,7 +52,7 @@ export default function Header() {
                     className="flex items-center justify-center w-5 h-5 text-textWhite hover:text-primary transition-colors duration-200 dark:text-dark-textWhite dark:hover:text-dark-primary cursor-pointer"
                     aria-label="Search"
                 >
-                    <FontAwesomeIcon icon="search" className="w-full h-full"/>
+                    <FontAwesomeIcon icon="search"/>
                 </div>
                 <button
                     className="text-sm bg-line text-PrimaryText py-2 px-3 rounded-md hover:opacity-80 transition duration-200 dark:bg-dark-line dark:text-dark-PrimaryText">
@@ -68,7 +68,7 @@ export default function Header() {
                         className="flex items-center justify-center w-5 h-5 text-textWhite hover:text-primary transition-colors duration-200 dark:text-dark-textWhite dark:hover:text-dark-primary cursor-pointer"
                         aria-label={label}
                     >
-                        <FontAwesomeIcon icon={icon} className="w-full h-full"/>
+                        <FontAwesomeIcon icon={icon}/>
                     </div>
                 ))}
             </div>
