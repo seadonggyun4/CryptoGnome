@@ -1,7 +1,7 @@
 import Card from "@/app/common/elements/Card";
 import PriceStatistics from "@/app/en/trade/BTCUSDT/layouts/PriceStatistics";
 import StoreProvider from "@/process/store/queryClientProvider";
-import { PriceStatisticsProvider } from "@/features/priceStatistics/provider/PriceStatisticsContext";
+import { PriceStatisticsProvider } from "@/app/en/trade/BTCUSDT/provider/PriceStatisticsContext";
 import OrderBook from "@/app/en/trade/BTCUSDT/layouts/OrderBook";
 import ChartContainer from "@/app/en/trade/BTCUSDT/layouts/ChartContainer";
 import TradingForm from "@/app/en/trade/BTCUSDT/layouts/TradingForm";
@@ -20,7 +20,7 @@ export default function BTCUSDTPage() {
                           {/* 왼쪽 큰 영역 */}
                           <div className="flex flex-col gap-1 h-full w-full">
                               <div>
-                                  {/*<PriceStatistics/>*/}
+                                  <PriceStatistics/>
                               </div>
 
 
@@ -28,17 +28,17 @@ export default function BTCUSDTPage() {
                               <div className="flex-1 flex gap-1">
                                   {/* Order Book */}
                                   <div className="w-80">
-                                      {/*<OrderBook/>*/}
+                                      <OrderBook/>
                                   </div>
 
 
                                   {/* 오른쪽 Chart + Spot */}
                                   <div className="flex-1 flex flex-col gap-1">
                                       {/* Chart */}
-                                      {/*<ChartContainer />*/}
+                                      <ChartContainer />
 
                                       {/* tradingForm */}
-                                      {/*<TradingForm />*/}
+                                      <TradingForm />
                                   </div>
                               </div>
                           </div>
@@ -46,13 +46,13 @@ export default function BTCUSDTPage() {
                           {/* 오른쪽 aside 영역 */}
                           <aside className="flex flex-col gap-1 h-full w-96">
                               <CoinList />
-                              {/*<TradeAside/>*/}
-                              {/*<TopMovers />*/}
+                              <TradeAside/>
+                              <TopMovers />
                           </aside>
                       </div>
 
                       <div className="h-80 mb-1">
-                          {/*<UserHistory />*/}
+                          <UserHistory />
                       </div>
                   </div>
               </section>

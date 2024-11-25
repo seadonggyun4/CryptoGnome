@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 import SearchInput from "@/app/common/elements/SearchInput";
-import { useCoinListQuery } from "@/features/coinList/hooks/useCoinListQuery";
+import { useCoinList } from "@/app/en/trade/BTCUSDT/hooks/useCoinList";
 import { useReactTable, getCoreRowModel, flexRender, createColumnHelper } from "@tanstack/react-table";
 
 export default function CoinList() {
@@ -11,7 +11,7 @@ export default function CoinList() {
     const [searchActive, setSearchActive] = useState(false);
 
     // 훅으로 코인 목록 데이터 가져오기
-    const { data: coinListData, isLoading } = useCoinListQuery("USDC");
+    const { data: coinListData, isLoading } = useCoinList("USDC");
 
     // 검색 필터링 (useMemo로 최적화)
     const filteredData = useMemo(() => {

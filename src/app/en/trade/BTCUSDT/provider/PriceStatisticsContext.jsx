@@ -1,16 +1,16 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
-import { usePriceStatisticsQuery } from "@/features/priceStatistics/hooks/usePriceStatisticsQuery";
-import { usePriceStatisticsWebSocket } from "@/features/priceStatistics/hooks/usePriceStatisticsWebSocket";
+import { useTickerWebSocket } from "@/features/ticker/hooks/useTickerWebSocket";
+import {useTickerQuery} from "@/features/ticker/hooks/useTickerQuery";
 
 // Context 생성
 const PriceStatisticsContext = createContext(null);
 
 // Provider 구현
 export function PriceStatisticsProvider({ children }) {
-    const queryData = usePriceStatisticsQuery();
-    usePriceStatisticsWebSocket("BTCUSDT"); 
+    const queryData = useTickerQuery("BTCUSDT");
+    useTickerWebSocket("BTCUSDT");
 
     return (
         <PriceStatisticsContext.Provider value={queryData}>
@@ -20,7 +20,7 @@ export function PriceStatisticsProvider({ children }) {
 }
 
 // Context 소비자 훅
-export function usePriceStatistics() {
+export function usePriceStatisticsContext() {
     const context = useContext(PriceStatisticsContext);
     if (!context) {
         throw new Error(

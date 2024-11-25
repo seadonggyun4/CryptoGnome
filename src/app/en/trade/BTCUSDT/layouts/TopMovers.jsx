@@ -6,13 +6,13 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
-import { useTopMoversQuery } from "@/features/topMovers/hooks/useTopMoversQuery";
+import { useTopMovers } from "@/app/en/trade/BTCUSDT/hooks/useTopMovers";
 import React, { useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 
 const TopMovers = () => {
     // 데이터 훅 사용
-    const { data: moversData, isLoading } = useTopMoversQuery();
+    const { data: moversData, isLoading } = useTopMovers();
 
     // 컬럼 정의
     const columnHelper = createColumnHelper();

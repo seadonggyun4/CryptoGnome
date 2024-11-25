@@ -2,10 +2,10 @@
 
 import React from "react";
 import Card from "@/app/common/elements/Card";
-import { usePriceStatistics } from "@/features/priceStatistics/provider/PriceStatisticsContext";
+import { usePriceStatisticsContext } from "@/app/en/trade/BTCUSDT/provider/PriceStatisticsContext";
 
 export default function PriceStatistics() {
-    const { data, isLoading, error } = usePriceStatistics();
+    const { data, isLoading, error } = usePriceStatisticsContext();
 
     const {
         lastPrice = "N/A",

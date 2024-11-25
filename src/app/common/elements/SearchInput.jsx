@@ -18,8 +18,8 @@ const SearchInput = ({ placeholder = "Search", inputValue, onSearch, onFocus, on
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder={placeholder}
-                onFocus={onFocus} // 포커스 이벤트 전달
-                onBlur={onBlur}   // 블러 이벤트 전달
+                onFocus={onFocus}
+                onBlur={onBlur}
                 className="w-full pl-10 pr-4 py-2 text-PrimaryText dark:text-dark-PrimaryText bg-bg1 dark:bg-dark-bg1 border border-line dark:border-dark-line rounded-xl focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-dark-primary"
             />
         </div>
