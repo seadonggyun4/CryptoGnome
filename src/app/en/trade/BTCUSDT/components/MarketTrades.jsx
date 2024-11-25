@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-table";
 import { useMarketTradeQuery } from "@/features/marketTrade/hooks/useMarketTradeQuery";
 import { useMarketTradeWebSocket } from "@/features/marketTrade/hooks/useMarketTradeWebSocket";
-import React, { useMemo } from "react";
+import React, { useMemo, useDeferredValue } from "react";
 
 const MarketTrades = ({ symbol = "BTCUSDT" }) => {
     // 데이터 훅 사용
@@ -52,6 +52,9 @@ const MarketTrades = ({ symbol = "BTCUSDT" }) => {
             })) || []
         );
     }, [trades]);
+
+    // useDeferredValue로 데이터 지연 렌더링
+    const deferredTrades = useDeferredValue(formattedTrades);
 
     // React Table 인스턴스 생성
     const table = useReactTable({
