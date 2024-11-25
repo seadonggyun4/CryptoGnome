@@ -7,16 +7,6 @@ import { usePriceStatisticsContext } from "@/app/en/trade/BTCUSDT/provider/Price
 export default function PriceStatistics() {
     const { data, isLoading, error } = usePriceStatisticsContext();
 
-    const {
-        lastPrice = "N/A",
-        priceChange = "N/A",
-        priceChangePercent = "N/A",
-        highPrice = "N/A",
-        lowPrice = "N/A",
-        volume = "N/A",
-        quoteVolume = "N/A",
-    } = data || {};
-
     return (
         <Card>
             <div className="flex items-center py-2 px-4 space-x-6">
@@ -46,42 +36,41 @@ export default function PriceStatistics() {
                         <div className="flex items-center space-x-6">
                             <div className="flex flex-col">
                                 <span className="text-lg font-semibold text-error dark:text-dark-error">
-                                    {parseFloat(lastPrice).toFixed(2)}
+                                    {parseFloat(data[0]?.lastPrice).toFixed(2)}
                                 </span>
                                 <span className="text-sm text-PrimaryText dark:text-dark-PrimaryText">
-                                    ${parseFloat(lastPrice).toFixed(2)}
+                                    ${parseFloat(data[0]?.lastPrice).toFixed(2)}
                                 </span>
                             </div>
                             <ul className="flex text-sm text-textSecondary dark:text-dark-textSecondary space-x-5">
                                 <li className="flex flex-col">
                                     <span className="text-iconNormal dark:text-dark-iconNormal">24h Change</span>
                                     <p className="text-sm text-error dark:text-dark-error">
-                                        {parseFloat(priceChange).toFixed(2)} (
-                                        {parseFloat(priceChangePercent).toFixed(2)}%)
+                                        {parseFloat(data[0]?.priceChangePercent).toFixed(2)}%
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-iconNormal dark:text-dark-iconNormal">24h High</span>
                                     <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                        {parseFloat(highPrice).toFixed(2)}
+                                        {parseFloat(data[0]?.highPrice).toFixed(2)}
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-iconNormal dark:text-dark-iconNormal">24h Low</span>
                                     <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                        {parseFloat(lowPrice).toFixed(2)}
+                                        {parseFloat(data[0]?.lowPrice).toFixed(2)}
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(BTC)</span>
                                     <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                        {parseFloat(volume).toLocaleString()}
+                                        {parseFloat(data[0]?.volume).toLocaleString()}
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(USDT)</span>
                                     <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
-                                        {parseFloat(quoteVolume).toLocaleString()}
+                                        {parseFloat(data[0]?.quoteVolume).toLocaleString()}
                                     </p>
                                 </li>
                                 <li>

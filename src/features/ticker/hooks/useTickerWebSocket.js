@@ -12,45 +12,30 @@ export const useTickerWebSocket = (symbol = "") => {
         const ws = new WebSocket(wsUrl);
 
         ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+            const response = JSON.parse(event.data);
 
-            // 단일 심볼 데이터 처리
-            if (symbol) {
-                const updatedData = {
-                    symbol: data.s,
-                    lastPrice: data.c,
-                    priceChange: data.p,
-                    priceChangePercent: data.P,
-                    highPrice: data.h,
-                    lowPrice: data.l,
-                    volume: data.v,
-                    quoteVolume: data.q,
-                    time: new Date().toLocaleTimeString(),
-                };
+            // API 응답이 배열 또는 단일 객체일 수 있으므로 일관된 배열 반환
+            const data = Array.isArray(response)
+                ? response
+                : [response];
 
-                queryClient.setQueryData(["ticker", symbol], (oldData) => {
-                    return { ...oldData, ...updatedData }; // 기존 데이터에 업데이트된 데이터 병합
-                });
-            }
-            // 전체 데이터 처리
-            else {
-                const updatedData = data.map((item) => ({
-                    symbol: item.s,
-                    lastPrice: item.c,
-                    priceChange: item.p,
-                    priceChangePercent: item.P,
-                    highPrice: item.h,
-                    lowPrice: item.l,
-                    volume: item.v,
-                    quoteVolume: item.q,
-                    time: new Date().toLocaleTimeString(),
-                }));
+            const updatedData = data.map((item) => ({
+                symbol: item.s,
+                lastPrice: item.c,
+                priceChange: item.p,
+                priceChangePercent: item.P,
+                highPrice: item.h,
+                lowPrice: item.l,
+                volume: item.v,
+                quoteVolume: item.q,
+                time: new Date().toLocaleTimeString(),
+            }));
 
-                queryClient.setQueryData(["tickers"], (oldData) => {
-                    // 기존 데이터를 병합하거나 새로운 데이터로 대체
-                    return updatedData;
-                });
-            }
+            queryClient.setQueryData(symbol ? ["ticker", symbol] : ["tickers"], (oldData) => {
+                // 기존 데이터를 병합하거나 새로운 데이터로 대체
+                return updatedData;
+            });
+
         };
 
         ws.onclose = () => {

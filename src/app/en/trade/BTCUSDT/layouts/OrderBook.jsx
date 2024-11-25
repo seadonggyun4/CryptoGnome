@@ -17,7 +17,7 @@ export default function OrderBook() {
     // WebSocket과 Query 데이터 훅 사용
     const { data: queryData, isLoading, isError } = useOrderBookQuery("BTCUSDT");
     useOrderBookWebSocket("BTCUSDT");
-    const { data:priceData } = usePriceStatisticsContext();
+    const { data:priceData, isLoading:priceLoading } = usePriceStatisticsContext();
 
 
     // Query 및 WebSocket 데이터
@@ -142,10 +142,10 @@ export default function OrderBook() {
 
                                 <div className="flex items-center space-x-2 my-2">
                                     <span className="text-xl font-semibold text-error dark:text-dark-error">
-                                      {parseFloat(priceData?.lastPrice).toFixed(2)}
+                                      {priceLoading ? '' : parseFloat(priceData[0]?.lastPrice).toFixed(2)}
                                     </span>
                                     <span className="text-sm text-iconNormal dark:text-iconNormal">
-                                      ${parseFloat(priceData?.lastPrice).toFixed(2)}
+                                      ${priceLoading ? '' : parseFloat(priceData[0]?.lastPrice).toFixed(2)}
                                     </span>
                                 </div>
 

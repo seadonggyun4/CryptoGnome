@@ -8,8 +8,8 @@ import {useTickerQuery} from "@/features/ticker/hooks/useTickerQuery";
 const PriceStatisticsContext = createContext(null);
 
 // Provider 구현
-export function PriceStatisticsProvider({ children }) {
-    const queryData = useTickerQuery("BTCUSDT");
+ export  function PriceStatisticsProvider({ children }) {
+    const queryData =  useTickerQuery("BTCUSDT");
     useTickerWebSocket("BTCUSDT");
 
     return (

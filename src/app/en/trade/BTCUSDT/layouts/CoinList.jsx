@@ -3,15 +3,14 @@
 import React, { useState, useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 import SearchInput from "@/app/common/elements/SearchInput";
-import { useCoinList } from "@/app/en/trade/BTCUSDT/hooks/useCoinList";
 import { useReactTable, getCoreRowModel, flexRender, createColumnHelper } from "@tanstack/react-table";
+import {useSearchTickerQuery} from "@/features/ticker/hooks/useTickerQuery";
 
 export default function CoinList() {
-    const [searchText, setSearchText] = useState("");
-    const [searchActive, setSearchActive] = useState(false);
+    const [searchText, setSearchText] = useState("BTC");
 
     // 훅으로 코인 목록 데이터 가져오기
-    const { data: coinListData, isLoading } = useCoinList("BTC");
+    const { data: coinListData, isLoading } = useSearchTickerQuery(searchText);
 
     // tanstack table 설정 (useMemo로 최적화)
     const columnHelper = createColumnHelper();
@@ -50,12 +49,6 @@ export default function CoinList() {
         getCoreRowModel: getCoreRowModel(),
     });
 
-    // 검색 창 동작 핸들러
-    const handleSearchFocus = () => setSearchActive(true);
-    const handleSearchBlur = () => {
-        if (!searchText.trim()) setSearchActive(false);
-    };
-
     return (
         <Card>
             <div className="h-[446px]">
@@ -64,29 +57,13 @@ export default function CoinList() {
                     <SearchInput
                         inputValue={searchText}
                         onSearch={setSearchText}
-                        onFocus={handleSearchFocus}
-                        onBlur={handleSearchBlur}
                     />
-                    {searchActive && (
-                        <button
-                            onClick={() => {
-                                setSearchText("");
-                                setSearchActive(false);
-                            }}
-                            className="text-TextToast dark:text-dark-primary"
-                        >
-                            Cancel
-                        </button>
-                    )}
                 </div>
 
                 {/* 테이블 */}
                 <div className="overflow-auto h-[380px] px-4 overflow-x-hidden">
-                    {isLoading ? (
-                        <div className="text-center py-4">Loading...</div>
-                    ) : (
-                        <table className="table-fixed w-full text-xs border-collapse">
-                            <thead className="sticky top-0 bg-bg dark:bg-dark-bg z-10">
+                    <table className="table-fixed w-full text-xs border-collapse">
+                        <thead className="sticky top-0 bg-bg dark:bg-dark-bg z-10">
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => (
@@ -103,27 +80,26 @@ export default function CoinList() {
                                     ))}
                                 </tr>
                             ))}
-                            </thead>
-                            <tbody>
-                            {table.getRowModel().rows.map((row) => (
-                                <tr key={row.id} className="hover:bg-gray-800">
-                                    {row.getVisibleCells().map((cell) => (
-                                        <td
-                                            key={cell.id}
-                                            className={`py-1 ${
-                                                cell.column.id === "symbol"
-                                                    ? "text-left"
-                                                    : "text-right text-PrimaryText dark:text-dark-PrimaryText"
-                                            }`}
-                                        >
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    )}
+                        </thead>
+                        <tbody>
+                        {table.getRowModel().rows.map((row) => (
+                            <tr key={row.id} className="hover:bg-gray-800">
+                                {row.getVisibleCells().map((cell) => (
+                                    <td
+                                        key={cell.id}
+                                        className={`py-1 ${
+                                            cell.column.id === "symbol"
+                                                ? "text-left"
+                                                : "text-right text-PrimaryText dark:text-dark-PrimaryText"
+                                        }`}
+                                    >
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </Card>
