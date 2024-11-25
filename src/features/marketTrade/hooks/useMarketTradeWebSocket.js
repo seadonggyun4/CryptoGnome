@@ -20,7 +20,7 @@ export const useMarketTradeWebSocket = (symbol = "BTCUSDT") => {
 
             queryClient.setQueryData(["marketTrades", symbol], (prevTrades) => {
                 if (!prevTrades) return [newTrade];
-                return [newTrade, ...prevTrades].slice(0, 200); // 최대 100개의 데이터 유지
+                return [newTrade, ...prevTrades].slice(0, 100); // 최대 100개의 데이터 유지
             });
         };
 
