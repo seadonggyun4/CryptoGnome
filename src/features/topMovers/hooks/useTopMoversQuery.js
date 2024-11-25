@@ -13,7 +13,7 @@ export const useTopMoversQuery = () => {
                 highPrice: parseFloat(item.highPrice).toFixed(2),
                 lowPrice: parseFloat(item.lowPrice).toFixed(2),
                 time: new Date().toLocaleTimeString(), // 현재 시간 표시
-            }));
+            })).slice(0, 10);
         } catch (error) {
             apiErrorHandler(error);
             throw error;
