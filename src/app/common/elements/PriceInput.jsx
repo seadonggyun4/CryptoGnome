@@ -25,12 +25,14 @@ const PriceInput = ({ placeholder = "Price", value, onChange, unit = "USDT" }) =
             </span>
             <div className=" flex flex-col items-center">
                 <button
+                    type="button"
                     onClick={handleIncrease}
                     className="transition w-10 text-iconNormal dark:text-dark-iconNormal hover:text-PrimaryText dark:hover:text-dark-PrimaryText border border-line dark:border-dark-line"
                 >
                     ^
                 </button>
                 <button
+                    type="button"
                     onClick={handleDecrease}
                     className="transition w-10 text-iconNormal dark:text-dark-iconNormal hover:text-PrimaryText dark:hover:text-dark-PrimaryText transform rotate-180 border border-line dark:border-dark-line"
                 >
