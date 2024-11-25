@@ -9,12 +9,10 @@ export const useTopMoversQuery = () => {
             return response.data.map((item) => ({
                 symbol: item.symbol,
                 lastPrice: parseFloat(item.lastPrice).toFixed(2),
-                priceChange: parseFloat(item.priceChange).toFixed(2),
                 priceChangePercent: parseFloat(item.priceChangePercent).toFixed(2),
                 highPrice: parseFloat(item.highPrice).toFixed(2),
                 lowPrice: parseFloat(item.lowPrice).toFixed(2),
-                volume: parseFloat(item.volume).toFixed(2),
-                quoteVolume: parseFloat(item.quoteVolume).toFixed(2),
+                time: new Date().toLocaleTimeString(), // 현재 시간 표시
             }));
         } catch (error) {
             apiErrorHandler(error);

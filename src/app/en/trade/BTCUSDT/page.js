@@ -7,6 +7,7 @@ import ChartContainer from "@/app/en/trade/BTCUSDT/layouts/ChartContainer";
 import TradingForm from "@/app/en/trade/BTCUSDT/layouts/TradingForm";
 import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
 import TradeAside from "@/app/en/trade/BTCUSDT/layouts/TradeAside";
+import TopMovers from "@/app/en/trade/BTCUSDT/layouts/TopMovers";
 
 export default function BTCUSDTPage() {
   return (
@@ -41,8 +42,8 @@ export default function BTCUSDTPage() {
                               </div>
                           </div>
 
-                          {/* 오른쪽 작은 영역 */}
-                          <div className="flex flex-col gap-1 h-full w-96">
+                          {/* 오른쪽 aside 영역 */}
+                          <aside className="flex flex-col gap-1 h-full w-96">
                               <Card>
                                   <div className="min-h-96">
                                       <h3 className="flex items-center justify-center text-md font-semibold text-textPrimary dark:text-dark-textPrimary">
@@ -51,14 +52,8 @@ export default function BTCUSDTPage() {
                                   </div>
                               </Card>
                               <TradeAside/>
-                              <div className="flex-1">
-                                  <Card>
-                                      <h3 className="text-md font-semibold text-textPrimary dark:text-dark-textPrimary">
-                                          topMovers
-                                      </h3>
-                                  </Card>
-                              </div>
-                          </div>
+                              <TopMovers />
+                          </aside>
                       </div>
 
                       <div className="h-80 mb-1">
