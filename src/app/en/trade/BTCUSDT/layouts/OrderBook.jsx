@@ -11,14 +11,15 @@ import { useOrderBookWebSocket } from "@/features/orderbook/hooks/useOrderBookWe
 import Card from "@/app/common/elements/Card";
 import { usePriceStatisticsContext } from "@/app/en/trade/BTCUSDT/provider/PriceStatisticsContext";
 import {useMemo} from "react";
+import {useTradePriceContext} from "@/app/en/trade/BTCUSDT/provider/TradePriceContext";
 
 
 export default function OrderBook() {
+    const { tradePrice, setTradePrice } = useTradePriceContext();
     // WebSocket과 Query 데이터 훅 사용
     const { data: queryData, isLoading, isError } = useOrderBookQuery("BTCUSDT");
     useOrderBookWebSocket("BTCUSDT");
     const { data:priceData, isLoading:priceLoading } = usePriceStatisticsContext();
-
 
     // Query 및 WebSocket 데이터
     const bids = queryData?.bids || [];
@@ -78,6 +79,15 @@ export default function OrderBook() {
         getCoreRowModel: getCoreRowModel(),
     });
 
+    const handleTdClick = (item) => {
+        setTradePrice({
+            buyPrice:  Number(item.price),
+            sellPrice: Number(item.price),
+            buyAmount: item.type === "buy" ? Number(item.amount) : 0,
+            sellAmount: item.type !== "buy" ? Number(item.amount) : 0,
+        })
+    };
+
     return (
         <Card>
             <div className="py-1 h-full min-h-96">
@@ -118,7 +128,7 @@ export default function OrderBook() {
                                     {sellTable.getRowModel().rows.map((row) => (
                                         <tr
                                             key={row.id}
-                                            className="hover:bg-gray-800"
+                                            className="hover:bg-gray-800 cursor-pointer"
                                         >
                                             {row.getVisibleCells().map((cell) => (
                                                 <td
@@ -127,6 +137,9 @@ export default function OrderBook() {
                                                         cell.column.id === "price"
                                                             ? `text-Error dark:text-dark-error text-left py-1`
                                                             : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                                    }
+                                                    onClick={() =>
+                                                        handleTdClick({...cell.row.original, type: 'buy'})
                                                     }
                                                 >
                                                     {flexRender(
@@ -176,7 +189,7 @@ export default function OrderBook() {
                                     {buyTable.getRowModel().rows.map((row) => (
                                         <tr
                                             key={row.id}
-                                            className="hover:bg-gray-800"
+                                            className="hover:bg-gray-800 cursor-pointer"
                                         >
                                             {row.getVisibleCells().map((cell) => (
                                                 <td
@@ -185,6 +198,9 @@ export default function OrderBook() {
                                                         cell.column.id === "price"
                                                             ? `text-success dark:text-dark-success text-left py-1`
                                                             : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                                    }
+                                                    onClick={() =>
+                                                        handleTdClick({...cell.row.original, type: 'sell'})
                                                     }
                                                 >
                                                     {flexRender(

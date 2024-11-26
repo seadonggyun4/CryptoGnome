@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import { useEffect } from "react";
 import PriceInput from "@/app/common/elements/PriceInput";
 import { useSymbolPrice } from "@/features/symbolPrice/hooks/useSymbolPrice";
+import { useTradePriceContext } from "@/app/en/trade/BTCUSDT/provider/TradePriceContext";
+
 
 export default function Spot() {
-    const [priceBuy, setPriceBuy] = useState(0);
-    const [priceSell, setPriceSell] = useState(0);
-
+    const { tradePrice, setTradePrice } = useTradePriceContext();
     const { data: price, isLoading } = useSymbolPrice("BTCUSDT");
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!isLoading && price){
-            setPriceBuy(price);
-            setPriceSell(price);
+            setTradePrice({
+                sellPrice: price,
+                buyPrice: price,
+            })
         }
     }, [price]);
 
@@ -22,12 +24,24 @@ export default function Spot() {
                 <PriceInput
                     placeholder="Price"
                     unit="USDT"
-                    value={priceBuy}
-                    onChange={setPriceBuy}
+                    value={tradePrice.buyPrice || 0}
+                    onChange={(value) => {
+                        setTradePrice({
+                            ...tradePrice,
+                            buyPrice: value,
+                        })
+                    }}
                 />
                 <PriceInput
                     placeholder="Amount"
                     unit="BTC"
+                    value={tradePrice.buyAmount || 0}
+                    onChange={(value) => {
+                        setTradePrice({
+                            ...tradePrice,
+                            buyAmount: value,
+                        })
+                    }}
                 />
                 <div className="w-full">
                     <div className="flex items-center w-full justify-between">
@@ -51,12 +65,24 @@ export default function Spot() {
                 <PriceInput
                     placeholder="Price"
                     unit="USDT"
-                    value={priceSell}
-                    onChange={setPriceSell}
+                    value={tradePrice.sellPrice || 0}
+                    onChange={(value) => {
+                        setTradePrice({
+                            ...tradePrice,
+                            sellPrice: value,
+                        })
+                    }}
                 />
                 <PriceInput
                     placeholder="Amount"
                     unit="BTC"
+                    value={tradePrice.sellAmount || 0}
+                    onChange={(value) => {
+                        setTradePrice({
+                            ...tradePrice,
+                            sellAmount: value,
+                        })
+                    }}
                 />
                 <div className="w-full">
                     <div className="flex items-center w-full justify-between">
