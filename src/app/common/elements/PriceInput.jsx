@@ -1,5 +1,3 @@
-import React from "react";
-
 const PriceInput = ({ placeholder = "Price", value, onChange, unit = "USDT" }) => {
     const handleIncrease = () => {
         if (onChange) onChange(value + 1); // Increment value

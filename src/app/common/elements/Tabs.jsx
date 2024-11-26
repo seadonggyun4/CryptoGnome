@@ -29,4 +29,6 @@ const Tabs = memo(({ activeTab, tabs, onTabChange }) => {
     );
 });
 
+Tabs.displayName = "Tabs";
+
 export default Tabs;
