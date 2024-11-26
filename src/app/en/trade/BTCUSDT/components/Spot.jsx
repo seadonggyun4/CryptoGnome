@@ -54,6 +54,7 @@ export default function Spot() {
                     </div>
                 </div>
                 <button
+                    type="button"
                     className="w-full bg-buy text-dark-PrimaryText font-semibold py-2 px-3 rounded-md hover:opacity-80 transition duration-200"
                 >
                     Log In
@@ -95,6 +96,7 @@ export default function Spot() {
                     </div>
                 </div>
                 <button
+                    type="button"
                     className="w-full bg-sell text-dark-PrimaryText font-semibold py-2 px-3 rounded-md hover:opacity-80 transition duration-200"
                 >
                     Log In
