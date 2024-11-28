@@ -1,5 +1,5 @@
 # binanace_data_visualization
-Project for visualizing data such as coin orderbook and trading on binanace site
+The Binance Data Visualization project is a web application that utilizes the Binance API to visualize real-time cryptocurrency data and provide a user-friendly trading environment. The project was built on React and Next.js, and real-time data updates were implemented using React Query and WebSocket.
 
 <br>
 
