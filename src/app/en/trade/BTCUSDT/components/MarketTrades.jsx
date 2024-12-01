@@ -7,13 +7,11 @@ import {
     createColumnHelper,
 } from "@tanstack/react-table";
 import { useMarketTradeQuery } from "@/features/marketTrade/hooks/useMarketTradeQuery";
-import { useMarketTradeWebSocket } from "@/features/marketTrade/hooks/useMarketTradeWebSocket";
 import React, { useMemo, useDeferredValue } from "react";
 
 const MarketTrades = ({ symbol = "BTCUSDT" }) => {
     // 데이터 훅 사용
     const { data: trades, isLoading } = useMarketTradeQuery(symbol);
-    useMarketTradeWebSocket(symbol);
 
     // 컬럼 정의
     const columnHelper = createColumnHelper();

@@ -7,7 +7,6 @@ import {
     createColumnHelper,
 } from "@tanstack/react-table";
 import { useOrderBookQuery } from "@/features/orderbook/hooks/useOrderBookQuery";
-import { useOrderBookWebSocket } from "@/features/orderbook/hooks/useOrderBookWebSocket";
 import Card from "@/app/common/elements/Card";
 import { usePriceStatisticsContext } from "@/app/en/trade/BTCUSDT/provider/PriceStatisticsContext";
 import {useMemo} from "react";
@@ -18,7 +17,6 @@ export default function OrderBook() {
     const { tradePrice, setTradePrice } = useTradePriceContext();
     // WebSocket과 Query 데이터 훅 사용
     const { data: queryData, isLoading, isError } = useOrderBookQuery("BTCUSDT");
-    useOrderBookWebSocket("BTCUSDT");
     const { data:priceData, isLoading:priceLoading } = usePriceStatisticsContext();
 
     // Query 및 WebSocket 데이터
