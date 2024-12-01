@@ -1,22 +1,28 @@
 import { useEffect, useState, useRef } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// QueryClient 설정 (캐시 유지 시간 관리)
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 5000,
+            cacheTime: 60000,
+        },
+    },
+});
 
 export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
     const queryClient = useQueryClient();
-    const wsRef = useRef(null); // WebSocket 참조 유지
+    const wsRef = useRef(null);
     const [buffers, setBuffers] = useState({
         trade: [],
         ticker: [],
         orderBook: { bids: [], asks: [] },
     });
 
-    console.log(wsRef)
-
     useEffect(() => {
-        // WebSocket이 이미 열려 있는지 확인
         if (wsRef.current) return;
 
-        // 단일 WebSocket 연결 생성
         const streams = [
             `${symbol.toLowerCase()}@trade`,
             `${symbol.toLowerCase()}@ticker`,
@@ -24,7 +30,7 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
             `${symbol.toLowerCase()}@kline_${interval}`,
         ];
         const ws = new WebSocket(`wss://stream.binance.com:9443/stream?streams=${streams.join("/")}`);
-        wsRef.current = ws; // WebSocket 참조 저장
+        wsRef.current = ws;
 
         ws.onmessage = (event) => {
             const message = JSON.parse(event.data);
@@ -83,11 +89,10 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
 
         return () => {
             ws.close();
-            wsRef.current = null; // WebSocket 참조 제거
+            wsRef.current = null;
         };
     }, [symbol, interval, queryClient]);
 
-    // React Query 캐시에 주기적으로 데이터 업데이트
     useEffect(() => {
         const intervalId = setInterval(() => {
             if (buffers.trade.length > 0) {
