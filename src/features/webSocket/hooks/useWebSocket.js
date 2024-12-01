@@ -105,7 +105,7 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
             if (buffers.orderBook.bids.length >= 17 || buffers.orderBook.asks.length >= 17) {
                 queryClient.setQueryData(["orderBook", symbol], buffers.orderBook);
             }
-        }, 500);
+        }, 200);
 
         return () => clearInterval(intervalId);
     }, [buffers, symbol, interval, queryClient]);
