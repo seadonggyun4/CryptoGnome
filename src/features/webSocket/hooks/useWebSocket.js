@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import {URL_SOCKET} from "@/process/constants";
+import { webSocketHandler } from "@/process/middleware/webSocketHandler";
+import { URL_SOCKET } from "@/process/constants";
 
 export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
     const queryClient = useQueryClient();
@@ -15,65 +16,61 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
             `${symbol.toLowerCase()}@depth`,
             `${symbol.toLowerCase()}@kline_${interval}`,
         ];
-        const ws = new WebSocket(`${URL_SOCKET}/stream?streams=${streams.join("/")}`);
-        wsRef.current = ws;
+        const url = `${URL_SOCKET}/stream?streams=${streams.join("/")}`;
 
-        ws.onmessage = (event) => {
-            const message = JSON.parse(event.data);
-            const data = message.data;
+        wsRef.current = webSocketHandler(url, {
+            onMessage: (message) => {
+                const data = message.data;
 
-            if (data.e === "trade") {
-                const newTrade = {
-                    price: data.p,
-                    qty: data.q,
-                    time: new Date(data.T),
-                    isBuyerMaker: data.m,
-                };
-                queryClient.setQueryData(["marketTrades", symbol], (prevTrades = []) => {
-                    return [...prevTrades, newTrade].slice(-100); // 최신 100개 유지
-                });
-            } else if (data.e === "24hrTicker") {
-                const updatedTicker = {
-                    symbol: data.s,
-                    lastPrice: data.c,
-                    priceChange: data.p,
-                    priceChangePercent: data.P,
-                    highPrice: data.h,
-                    lowPrice: data.l,
-                    volume: data.v,
-                    quoteVolume: data.q,
-                    time: new Date().toLocaleTimeString(),
-                };
-                queryClient.setQueryData(["ticker", symbol], [updatedTicker]);
-            } else if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) {
-                queryClient.setQueryData(["orderBook", symbol], {
-                    bids: data.b.slice(0, 17),
-                    asks: data.a.slice(0, 17),
-                });
-            } else if (data.e === "kline") {
-                const candle = data.k;
-                const newPoint = {
-                    x: new Date(candle.t),
-                    y: [candle.o, candle.h, candle.l, candle.c],
-                };
+                if (data.e === "trade") {
+                    const newTrade = {
+                        price: data.p,
+                        qty: data.q,
+                        time: new Date(data.T),
+                        isBuyerMaker: data.m,
+                    };
+                    queryClient.setQueryData(["marketTrades", symbol], (prevTrades = []) => {
+                        return [...prevTrades, newTrade].slice(-100);
+                    });
+                } else if (data.e === "24hrTicker") {
+                    const updatedTicker = {
+                        symbol: data.s,
+                        lastPrice: data.c,
+                        priceChange: data.p,
+                        priceChangePercent: data.P,
+                        highPrice: data.h,
+                        lowPrice: data.l,
+                        volume: data.v,
+                        quoteVolume: data.q,
+                        time: new Date().toLocaleTimeString(),
+                    };
+                    queryClient.setQueryData(["ticker", symbol], [updatedTicker]);
+                } else if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) {
+                    queryClient.setQueryData(["orderBook", symbol], {
+                        bids: data.b.slice(0, 17),
+                        asks: data.a.slice(0, 17),
+                    });
+                } else if (data.e === "kline") {
+                    const candle = data.k;
+                    const newPoint = {
+                        x: new Date(candle.t),
+                        y: [candle.o, candle.h, candle.l, candle.c],
+                    };
 
-                queryClient.setQueryData(["tradingData", symbol, interval], (prevData = []) => {
-                    const lastPoint = prevData[prevData.length - 1];
-                    if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
-                    return [...prevData, newPoint].slice(-200); // 최신 200개 유지
-                });
-            }
-        };
-
-        ws.onclose = () => {
-            console.log("WebSocket closed");
-            wsRef.current = null;
-        };
-        ws.onerror = (error) => console.error("WebSocket error:", error);
+                    queryClient.setQueryData(["tradingData", symbol, interval], (prevData = []) => {
+                        const lastPoint = prevData[prevData.length - 1];
+                        if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
+                        return [...prevData, newPoint].slice(-200);
+                    });
+                }
+            },
+        });
 
         return () => {
-            ws.close();
-            wsRef.current = null;
+            if (wsRef.current) {
+                wsRef.current.close();
+                wsRef.current = null;
+            }
         };
     }, [symbol, interval, queryClient]);
 
