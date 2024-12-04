@@ -2,6 +2,16 @@ import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { webSocketHandler } from "@/process/middleware/webSocketHandler";
 import { URL_SOCKET } from "@/process/constants";
+import { REALTIME_STALE_TIME, REALTIME_CACHE_TIME } from "@/process/constants";
+
+// real time react-query handle
+const updateQueryData = (queryClient, queryKey, updateFn) => {
+    queryClient.setQueryData(queryKey, updateFn, {
+        staleTime: REALTIME_STALE_TIME,
+        cacheTime: REALTIME_CACHE_TIME,
+    });
+};
+
 
 export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
     const queryClient = useQueryClient();
@@ -29,8 +39,8 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
                         time: new Date(data.T),
                         isBuyerMaker: data.m,
                     };
-                    queryClient.setQueryData(["marketTrades", symbol], (prevTrades = []) => {
-                        return [...prevTrades, newTrade].slice(-100);
+                    updateQueryData(queryClient, ["marketTrades", symbol], (prevTrades = []) => {
+                        return [...prevTrades, newTrade].slice(-100); // 최신 100개 데이터만 유지
                     });
                 } else if (data.e === "24hrTicker") {
                     const updatedTicker = {
@@ -44,23 +54,22 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
                         quoteVolume: data.q,
                         time: new Date().toLocaleTimeString(),
                     };
-                    queryClient.setQueryData(["ticker", symbol], [updatedTicker]);
+                    updateQueryData(queryClient, ["ticker", symbol], () => [updatedTicker]);
                 } else if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) {
-                    queryClient.setQueryData(["orderBook", symbol], {
+                    updateQueryData(queryClient, ["orderBook", symbol], () => ({
                         bids: data.b.slice(0, 17),
                         asks: data.a.slice(0, 17),
-                    });
+                    }));
                 } else if (data.e === "kline") {
                     const candle = data.k;
                     const newPoint = {
                         x: new Date(candle.t),
                         y: [candle.o, candle.h, candle.l, candle.c],
                     };
-
-                    queryClient.setQueryData(["tradingData", symbol, interval], (prevData = []) => {
+                    updateQueryData(queryClient, ["tradingData", symbol, interval], (prevData = []) => {
                         const lastPoint = prevData[prevData.length - 1];
                         if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
-                        return [...prevData, newPoint].slice(-200);
+                        return [...prevData, newPoint].slice(-200); // 최신 200개 유지
                     });
                 }
             },
