@@ -54,7 +54,7 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
                     time: new Date().toLocaleTimeString(),
                 };
                 queryClient.setQueryData(["ticker", symbol], [updatedTicker]);
-            } else if (data.e === "depthUpdate") {
+            } else if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) {
                 queryClient.setQueryData(["orderBook", symbol], {
                     bids: data.b.slice(0, 17),
                     asks: data.a.slice(0, 17),
