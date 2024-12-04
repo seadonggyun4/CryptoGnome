@@ -1,7 +1,9 @@
 import { useTickerQuery } from "@/features/ticker/hooks/useTickerQuery";
 
 export const useTopMovers = () => {
-    const { data, isLoading, error } = useTickerQuery();
+    const { data, isLoading, error } = useTickerQuery({
+        symbol: '',
+    });
 
     // priceChangePercent 기준으로 상위 10개 추출
     const topMovers = data
