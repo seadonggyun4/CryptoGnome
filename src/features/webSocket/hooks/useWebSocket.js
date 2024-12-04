@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { useQueryClient, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
+import { useQueryClient, QueryClient } from "@tanstack/react-query";
 
 // QueryClient 설정 (캐시 유지 시간 관리)
 const queryClient = new QueryClient({
@@ -14,11 +14,6 @@ const queryClient = new QueryClient({
 export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
     const queryClient = useQueryClient();
     const wsRef = useRef(null);
-    const [buffers, setBuffers] = useState({
-        trade: [],
-        ticker: [],
-        orderBook: { bids: [], asks: [] },
-    });
 
     useEffect(() => {
         if (wsRef.current) return;
@@ -36,49 +31,47 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
             const message = JSON.parse(event.data);
             const data = message.data;
 
-            setBuffers((prev) => {
-                const updatedBuffers = { ...prev };
+            if (data.e === "trade") {
+                const newTrade = {
+                    price: data.p,
+                    qty: data.q,
+                    time: new Date(data.T),
+                    isBuyerMaker: data.m,
+                };
+                queryClient.setQueryData(["marketTrades", symbol], (prevTrades = []) => {
+                    return [...prevTrades, newTrade].slice(-100); // 최신 100개 유지
+                });
+            } else if (data.e === "24hrTicker") {
+                const updatedTicker = {
+                    symbol: data.s,
+                    lastPrice: data.c,
+                    priceChange: data.p,
+                    priceChangePercent: data.P,
+                    highPrice: data.h,
+                    lowPrice: data.l,
+                    volume: data.v,
+                    quoteVolume: data.q,
+                    time: new Date().toLocaleTimeString(),
+                };
+                queryClient.setQueryData(["ticker", symbol], [updatedTicker]);
+            } else if (data.e === "depthUpdate") {
+                queryClient.setQueryData(["orderBook", symbol], {
+                    bids: data.b.slice(0, 17),
+                    asks: data.a.slice(0, 17),
+                });
+            } else if (data.e === "kline") {
+                const candle = data.k;
+                const newPoint = {
+                    x: new Date(candle.t),
+                    y: [candle.o, candle.h, candle.l, candle.c],
+                };
 
-                if (data.e === "trade") {
-                    const newTrade = {
-                        price: data.p,
-                        qty: data.q,
-                        time: new Date(data.T),
-                        isBuyerMaker: data.m,
-                    };
-                    updatedBuffers.trade = [...prev.trade, newTrade].slice(-100);
-                } else if (data.e === "24hrTicker") {
-                    const updatedTicker = {
-                        symbol: data.s,
-                        lastPrice: data.c,
-                        priceChange: data.p,
-                        priceChangePercent: data.P,
-                        highPrice: data.h,
-                        lowPrice: data.l,
-                        volume: data.v,
-                        quoteVolume: data.q,
-                        time: new Date().toLocaleTimeString(),
-                    };
-                    updatedBuffers.ticker = [updatedTicker];
-                } else if (data.e === "depthUpdate") {
-                    updatedBuffers.orderBook.bids = [...data.b, ...prev.orderBook.bids].slice(0, 17);
-                    updatedBuffers.orderBook.asks = [...data.a, ...prev.orderBook.asks].slice(0, 17);
-                } else if (data.e === "kline") {
-                    const candle = data.k;
-                    const newPoint = {
-                        x: new Date(candle.t),
-                        y: [candle.o, candle.h, candle.l, candle.c],
-                    };
-
-                    queryClient.setQueryData(["tradingData", symbol, interval], (prevData = []) => {
-                        const lastPoint = prevData[prevData.length - 1];
-                        if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
-                        return [...prevData, newPoint].slice(-200);
-                    });
-                }
-
-                return updatedBuffers;
-            });
+                queryClient.setQueryData(["tradingData", symbol, interval], (prevData = []) => {
+                    const lastPoint = prevData[prevData.length - 1];
+                    if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
+                    return [...prevData, newPoint].slice(-200); // 최신 200개 유지
+                });
+            }
         };
 
         ws.onclose = () => {
@@ -93,27 +86,5 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
         };
     }, [symbol, interval, queryClient]);
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            if (buffers.trade.length > 0) {
-                queryClient.setQueryData(["marketTrades", symbol], (prevTrades = []) => {
-                    return [...buffers.trade, ...prevTrades].slice(0, 100);
-                });
-                setBuffers((prev) => ({ ...prev, trade: [] }));
-            }
-
-            if (buffers.ticker.length > 0) {
-                queryClient.setQueryData(["ticker", symbol], buffers.ticker);
-                setBuffers((prev) => ({ ...prev, ticker: [] }));
-            }
-
-            if (buffers.orderBook.bids.length >= 17 || buffers.orderBook.asks.length >= 17) {
-                queryClient.setQueryData(["orderBook", symbol], buffers.orderBook);
-            }
-        }, 200);
-
-        return () => clearInterval(intervalId);
-    }, [buffers, symbol, interval, queryClient]);
-
-    return buffers;
+    return {}; // WebSocket 데이터를 직접 반환하지 않음 (React Query로 관리)
 };

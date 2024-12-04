@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useTradingQuery } from "@/features/trading/hooks/useTradingQuery";
+import { useMarketTradeWebSocket } from "@/features/marketTrade/hooks/useMarketTradeWebSocket";
 
 // dynamic import를 사용하여 react-apexcharts를 클라이언트에서만 로드
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -12,6 +13,7 @@ const TradingChart = () => {
     const [activeInterval, setActiveInterval] = useState("1h");
 
     const { data, isLoading } = useTradingQuery("BTCUSDT", activeInterval);
+    useMarketTradeWebSocket()
 
     useEffect(() => {
         if (data) {
