@@ -8,17 +8,8 @@ import { useTradingQuery } from "@/features/trading/hooks/useTradingQuery";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const TradingChart = () => {
-    const [chartData, setChartData] = useState([]);
     const [activeInterval, setActiveInterval] = useState("1h");
-
-    const { data, isLoading } = useTradingQuery("BTCUSDT", activeInterval);
-
-    useEffect(() => {
-        if (data) {
-            setChartData(data);
-        }
-    }, [data]);
-
+    const { data: chartData, isLoading } = useTradingQuery("BTCUSDT", activeInterval);
 
     const options = {
         chart: {
