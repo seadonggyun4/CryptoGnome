@@ -6,7 +6,7 @@ export const useSymbolPrice = (symbol = "BTCUSDT") => {
     const fetchSymbolPrice = async () => {
         try {
             const response = await apiClient(
-                `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
+                `ticker/price?symbol=${symbol}`
             );
             return parseFloat(response.data.price); // Return the price as a number
         } catch (error) {
@@ -18,6 +18,5 @@ export const useSymbolPrice = (symbol = "BTCUSDT") => {
     return useQuery({
         queryKey: ["symbolPrice", symbol],
         queryFn: fetchSymbolPrice,
-        staleTime: 5000,
     });
 };

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {URL_QUERY} from "@/process/constants";
 
 /**
  * API 요청 함수
@@ -8,7 +9,8 @@ import axios from "axios";
  */
 export const apiClient = async (url, options = {}) => {
     const defaultOptions = {
-        method: "GET",
+        url: `${URL_QUERY}/${url}`,
+        method: 'GET',
         headers: {
             "Content-Type": "application/json",
         },

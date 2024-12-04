@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
-import { useEffect, useState } from "react";
+import { apiClient } from "@/process/api";
 
 
 export const useTickerQuery = (symbol = "") => {
@@ -9,10 +8,10 @@ export const useTickerQuery = (symbol = "") => {
     const fetchTickerData = async () => {
         try {
             const url = symbol
-                ? `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol.toUpperCase()}`
-                : "https://api.binance.com/api/v3/ticker/24hr";
+                ? `ticker/24hr?symbol=${symbol.toUpperCase()}`
+                : "ticker/24hr";
 
-            const response = await axios.get(url);
+            const response = await apiClient(url);
 
             // API 응답이 배열 또는 단일 객체일 수 있으므로 일관된 배열 반환
             const data = await Array.isArray(response.data)
@@ -45,7 +44,7 @@ export const useSearchTickerQuery = (searchText = "") => {
     const deferredSearchText = useDeferredValue(searchText); // 렌더링 지연
 
     const fetchTickerData = async () => {
-        const response = await axios.get("https://api.binance.com/api/v3/ticker/24hr");
+        const response = await apiClient("ticker/24hr");
 
         return response.data.map((item) => ({
             ...item,
@@ -64,7 +63,6 @@ export const useSearchTickerQuery = (searchText = "") => {
             }
             return data;
         },
-        staleTime: 60000,
     });
 };
 

@@ -1,15 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useQueryClient, QueryClient } from "@tanstack/react-query";
-
-// QueryClient 설정 (캐시 유지 시간 관리)
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            staleTime: 5000,
-            cacheTime: 60000,
-        },
-    },
-});
+import { useQueryClient } from "@tanstack/react-query";
+import {URL_SOCKET} from "@/process/constants";
 
 export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
     const queryClient = useQueryClient();
@@ -24,7 +15,7 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
             `${symbol.toLowerCase()}@depth`,
             `${symbol.toLowerCase()}@kline_${interval}`,
         ];
-        const ws = new WebSocket(`wss://stream.binance.com:9443/stream?streams=${streams.join("/")}`);
+        const ws = new WebSocket(`${URL_SOCKET}/stream?streams=${streams.join("/")}`);
         wsRef.current = ws;
 
         ws.onmessage = (event) => {
