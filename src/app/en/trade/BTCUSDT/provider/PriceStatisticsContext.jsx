@@ -8,7 +8,7 @@ const PriceStatisticsContext = createContext(null);
 
 // Provider 구현
  export  function PriceStatisticsProvider({ children }) {
-    const queryData =  useTickerQuery("BTCUSDT");
+    const queryData =  useTickerQuery();
 
     return (
         <PriceStatisticsContext.Provider value={queryData}>
