@@ -5,7 +5,10 @@ import dynamic from "next/dynamic";
 import { useTradingQuery } from "@/features/trading/hooks/useTradingQuery";
 
 // dynamic import를 사용하여 react-apexcharts를 클라이언트에서만 로드
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), {
+    ssr: false,
+    loading: () => <div className="text-center text-iconNormal">Loading Chart...</div>,
+});
 
 const TradingChart = () => {
     const [activeInterval, setActiveInterval] = useState("1h");
@@ -92,7 +95,7 @@ const TradingChart = () => {
             </div>
 
             {isLoading ? (
-                <div className="text-center text-iconNormal">Loading...</div>
+                <div className="text-center text-iconNormal">Loading Chart...</div>
             ) : (
                 <Chart
                     options={options}
