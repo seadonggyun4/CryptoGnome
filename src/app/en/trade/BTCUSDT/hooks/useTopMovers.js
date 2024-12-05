@@ -1,14 +1,18 @@
+import { useMemo } from "react";
 import { useTickerQuery } from "@/features/ticker/hooks/useTickerQuery";
 
 export const useTopMovers = () => {
     const { data, isLoading, error } = useTickerQuery({
-        symbol: '',
+        symbol: "",
     });
 
-    // priceChangePercent 기준으로 상위 10개 추출
-    const topMovers = data
-        ?.sort((a, b) => parseFloat(b.priceChangePercent) - parseFloat(a.priceChangePercent))
-        .slice(0, 10);
+    // 정렬 및 슬라이싱 작업을 useMemo로 감싸서 불필요한 재계산 방지
+    const topMovers = useMemo(() => {
+        if (!data) return [];
+        return [...data]
+            .sort((a, b) => parseFloat(b.priceChangePercent) - parseFloat(a.priceChangePercent))
+            .slice(0, 10);
+    }, [data]);
 
     return { data: topMovers, isLoading, error };
 };
