@@ -1,14 +1,14 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
-import {useTickerQuery} from "@/features/ticker/hooks/useTickerQuery";
+import {useTicker} from "@/features/ticker/hooks/useTicker";
 
 // Context 생성
 const PriceStatisticsContext = createContext(null);
 
 // Provider 구현
  export  function PriceStatisticsProvider({ children }) {
-    const queryData =  useTickerQuery();
+    const queryData =  useTicker();
 
     return (
         <PriceStatisticsContext.Provider value={queryData}>

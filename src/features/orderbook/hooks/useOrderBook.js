@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import {apiErrorHandler} from "@/process/middleware/apiErrorHandler";
 
-export const useOrderBookQuery = (symbol = "BTCUSDT") => {
+export const useOrderBook = (symbol = "BTCUSDT") => {
     const fetchOrderBook = async () => {
         try {
             const response = await apiClient(
@@ -27,3 +27,11 @@ export const useOrderBookQuery = (symbol = "BTCUSDT") => {
         queryFn: fetchOrderBook,
     });
 };
+
+
+export const updateOrderBook =  (queryClient, data, symbol = "BTCUSDT") => {
+    queryClient.setQueryData(["orderBook", symbol], () => ({
+        bids: data.b.slice(0, 17),
+        asks: data.a.slice(0, 17),
+    }));
+}

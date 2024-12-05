@@ -2,7 +2,7 @@
 
 import React, { useState} from "react";
 import dynamic from "next/dynamic";
-import { useTradingQuery } from "@/features/trading/hooks/useTradingQuery";
+import { useTrading } from "@/features/trading/hooks/useTrading";
 
 // dynamic import를 사용하여 react-apexcharts를 클라이언트에서만 로드
 const Chart = dynamic(() => import("react-apexcharts"), {
@@ -12,7 +12,7 @@ const Chart = dynamic(() => import("react-apexcharts"), {
 
 const TradingChart = () => {
     const [activeInterval, setActiveInterval] = useState("1h");
-    const { data: chartData, isLoading } = useTradingQuery("BTCUSDT", activeInterval);
+    const { data: chartData, isLoading } = useTrading("BTCUSDT", activeInterval);
 
     const options = {
         chart: {

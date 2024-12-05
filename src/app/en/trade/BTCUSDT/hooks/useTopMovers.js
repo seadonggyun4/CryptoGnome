@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { useTickerQuery } from "@/features/ticker/hooks/useTickerQuery";
+import { useTicker } from "@/features/ticker/hooks/useTicker";
 
 export const useTopMovers = () => {
-    const { data, isLoading, error } = useTickerQuery({
+    const { data, isLoading, error } = useTicker({
         symbol: "",
     });
 

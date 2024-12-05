@@ -2,16 +2,20 @@ import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { webSocketHandler } from "@/process/middleware/webSocketHandler";
 import { URL_SOCKET } from "@/process/constants";
-import { REALTIME_STALE_TIME, REALTIME_CACHE_TIME } from "@/process/constants";
+import { updateTicker } from "@/features/ticker/hooks/useTicker";
+import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
+import { REALTIME_CACHE_TIME, REALTIME_STALE_TIME } from "@/process/constants";
+import {updateOrderBook} from "@/features/orderbook/hooks/useOrderBook";
+import {updateTradingData} from "@/features/trading/hooks/useTrading";
 
-// real time react-query handle
+
+// React Query 캐시 업데이트 함수
 const updateQueryData = (queryClient, queryKey, updateFn) => {
     queryClient.setQueryData(queryKey, updateFn, {
         staleTime: REALTIME_STALE_TIME,
         cacheTime: REALTIME_CACHE_TIME,
     });
 };
-
 
 export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
     const queryClient = useQueryClient();
@@ -32,46 +36,14 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
             onMessage: (message) => {
                 const data = message.data;
 
-                if (data.e === "trade") {
-                    const newTrade = {
-                        price: data.p,
-                        qty: data.q,
-                        time: new Date(data.T),
-                        isBuyerMaker: data.m,
-                    };
-                    updateQueryData(queryClient, ["marketTrades", symbol], (prevTrades = []) => {
-                        return [...prevTrades, newTrade].slice(-100); // 최신 100개 데이터만 유지
-                    });
-                } else if (data.e === "24hrTicker") {
-                    const updatedTicker = {
-                        symbol: data.s,
-                        lastPrice: data.c,
-                        priceChange: data.p,
-                        priceChangePercent: data.P,
-                        highPrice: data.h,
-                        lowPrice: data.l,
-                        volume: data.v,
-                        quoteVolume: data.q,
-                        time: new Date().toLocaleTimeString(),
-                    };
-                    updateQueryData(queryClient, ["ticker", symbol], () => [updatedTicker]);
-                } else if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) {
-                    updateQueryData(queryClient, ["orderBook", symbol], () => ({
-                        bids: data.b.slice(0, 17),
-                        asks: data.a.slice(0, 17),
-                    }));
-                } else if (data.e === "kline") {
-                    const candle = data.k;
-                    const newPoint = {
-                        x: new Date(candle.t),
-                        y: [candle.o, candle.h, candle.l, candle.c],
-                    };
-                    updateQueryData(queryClient, ["tradingData", symbol, interval], (prevData = []) => {
-                        const lastPoint = prevData[prevData.length - 1];
-                        if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
-                        return [...prevData, newPoint].slice(-200); // 최신 200개 유지
-                    });
-                }
+                // 실시간 거래 데이터 업데이트
+                if (data.e === "trade") updateMarketTrade(queryClient, data, symbol);
+                // 24시간 티커 데이터 업데이트
+                if (data.e === "24hrTicker") updateTicker(queryClient, data, symbol);
+                // 주문서 데이터 업데이트
+                if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) updateOrderBook(queryClient, data, symbol)
+                // 캔들스틱 데이터 업데이트
+                if (data.e === "kline") updateTradingData(queryClient, data, symbol, interval)
             },
         });
 
@@ -82,6 +54,4 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
             }
         };
     }, [symbol, interval, queryClient]);
-
-    return {}; // WebSocket 데이터를 직접 반환하지 않음 (React Query로 관리)
 };

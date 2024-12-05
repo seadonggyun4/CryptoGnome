@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 
-export const useTradingQuery = (symbol = "BTCUSDT", interval = "1d") => {
+export const useTrading = (symbol = "BTCUSDT", interval = "1d") => {
     const fetchTradingData = async () => {
         try {
             const response = await apiClient(
@@ -23,3 +23,17 @@ export const useTradingQuery = (symbol = "BTCUSDT", interval = "1d") => {
         queryFn: fetchTradingData,
     });
 };
+
+
+export const updateTradingData =  (queryClient, data, symbol = "BTCUSDT", interval) => {
+    const candle = data.k;
+    const newPoint = {
+        x: new Date(candle.t),
+        y: [candle.o, candle.h, candle.l, candle.c],
+    };
+    queryClient.setQueryData(["tradingData", symbol, interval], (prevData = []) => {
+        const lastPoint = prevData[prevData.length - 1];
+        if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
+        return [...prevData, newPoint].slice(-200); // 최신 200개 유지
+    });
+}

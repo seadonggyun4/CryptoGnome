@@ -4,13 +4,13 @@ import React, { useState, useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 import SearchInput from "@/app/common/elements/SearchInput";
 import { useReactTable, getCoreRowModel, flexRender, createColumnHelper } from "@tanstack/react-table";
-import {useTickerQuery} from "@/features/ticker/hooks/useTickerQuery";
+import {useTicker} from "@/features/ticker/hooks/useTicker";
 
 export default function CoinList() {
     const [searchText, setSearchText] = useState("BTC");
 
     // 훅으로 코인 목록 데이터 가져오기
-    const { data: coinListData, isLoading } = useTickerQuery({
+    const { data: coinListData, isLoading } = useTicker({
         symbol: "",
         searchText,
     });

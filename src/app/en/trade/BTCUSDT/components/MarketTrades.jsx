@@ -6,12 +6,12 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
-import { useMarketTradeQuery } from "@/features/marketTrade/hooks/useMarketTradeQuery";
+import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import React, { useMemo, useDeferredValue } from "react";
 
 const MarketTrades = ({ symbol = "BTCUSDT" }) => {
     // 데이터 훅 사용
-    const { data: trades, isLoading } = useMarketTradeQuery(symbol);
+    const { data: trades, isLoading } = useMarketTrade(symbol);
 
     // 컬럼 정의
     const columnHelper = createColumnHelper();
