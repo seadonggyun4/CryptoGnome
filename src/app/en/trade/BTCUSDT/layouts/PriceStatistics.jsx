@@ -2,6 +2,7 @@
 
 import React from "react";
 import Card from "@/app/common/elements/Card";
+import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import { useTickerContext } from "@/features/ticker/provider/TickerContext";
 
 const PriceStatistics = () => {
@@ -35,9 +36,7 @@ const PriceStatistics = () => {
                     : (
                         <div className="flex items-center space-x-6">
                             <div className="flex flex-col">
-                                <strong className="text-lg font-semibold text-error dark:text-dark-error">
-                                    {parseFloat(data[0]?.lastPrice).toFixed(2)}
-                                </strong>
+                                <RealTimePrice price={parseFloat(data[0]?.lastPrice).toFixed(2)} />
                                 <span className="text-sm text-PrimaryText dark:text-dark-PrimaryText">
                                     ${parseFloat(data[0]?.lastPrice).toFixed(2)}
                                 </span>

@@ -9,7 +9,8 @@ import {
 import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import Card from "@/app/common/elements/Card";
 import { useTickerContext } from "@/features/ticker/provider/TickerContext";
-import {useMemo} from "react";
+import React, {useMemo} from "react";
+import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 
 
 const OrderBook = () => {
@@ -138,9 +139,7 @@ const OrderBook = () => {
                                 </table>
 
                                 <div className="flex items-center space-x-2 my-2">
-                                    <span className="text-xl font-semibold text-error dark:text-dark-error">
-                                      {priceLoading ? '' : parseFloat(priceData[0]?.lastPrice).toFixed(2)}
-                                    </span>
+                                    <RealTimePrice price={priceLoading ? 0 : parseFloat(priceData[0]?.lastPrice).toFixed(2)} showIcon={true}/>
                                     <span className="text-sm text-iconNormal dark:text-iconNormal">
                                       ${priceLoading ? '' : parseFloat(priceData[0]?.lastPrice).toFixed(2)}
                                     </span>
