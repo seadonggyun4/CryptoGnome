@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +7,7 @@
 /* 전역 스타일 설정 */
 :root {
     font-size: 15px;
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
 /* 스크롤바 스타일 설정 */
