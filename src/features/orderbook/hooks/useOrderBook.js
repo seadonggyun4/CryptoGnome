@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import {apiErrorHandler} from "@/process/middleware/apiErrorHandler";
+import {REALTIME_CACHE_TIME, REALTIME_STALE_TIME} from "@/process/constants";
 
 export const useOrderBook = (symbol = "BTCUSDT") => {
     const fetchOrderBook = async () => {
@@ -33,5 +34,8 @@ export const updateOrderBook =  (queryClient, data, symbol = "BTCUSDT") => {
     queryClient.setQueryData(["orderBook", symbol], () => ({
         bids: data.b.slice(0, 17),
         asks: data.a.slice(0, 17),
-    }));
+    }),{
+        staleTime: REALTIME_STALE_TIME,
+        cacheTime: REALTIME_CACHE_TIME,
+    });
 }

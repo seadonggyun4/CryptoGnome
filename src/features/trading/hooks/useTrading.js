@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
+import {REALTIME_CACHE_TIME, REALTIME_STALE_TIME} from "@/process/constants";
 
 export const useTrading = (symbol = "BTCUSDT", interval = "1d") => {
     const fetchTradingData = async () => {
@@ -25,15 +26,19 @@ export const useTrading = (symbol = "BTCUSDT", interval = "1d") => {
 };
 
 
-export const updateTradingData =  (queryClient, data, symbol = "BTCUSDT", interval) => {
+export const updateTradingData =  (queryClient, data, symbol = "BTCUSDT") => {
     const candle = data.k;
     const newPoint = {
         x: new Date(candle.t),
         y: [candle.o, candle.h, candle.l, candle.c],
     };
-    queryClient.setQueryData(["tradingData", symbol, interval], (prevData = []) => {
+
+    queryClient.setQueryData(["tradingData", symbol, '1h'], (prevData = []) => {
         const lastPoint = prevData[prevData.length - 1];
         if (lastPoint?.x.getTime() === newPoint.x.getTime()) return prevData;
         return [...prevData, newPoint].slice(-200); // 최신 200개 유지
+    },{
+        staleTime: REALTIME_STALE_TIME,
+        cacheTime: REALTIME_CACHE_TIME,
     });
 }

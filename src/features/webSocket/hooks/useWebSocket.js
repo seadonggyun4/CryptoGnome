@@ -4,18 +4,8 @@ import { webSocketHandler } from "@/process/middleware/webSocketHandler";
 import { URL_SOCKET } from "@/process/constants";
 import { updateTicker } from "@/features/ticker/hooks/useTicker";
 import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
-import { REALTIME_CACHE_TIME, REALTIME_STALE_TIME } from "@/process/constants";
 import {updateOrderBook} from "@/features/orderbook/hooks/useOrderBook";
 import {updateTradingData} from "@/features/trading/hooks/useTrading";
-
-
-// React Query 캐시 업데이트 함수
-const updateQueryData = (queryClient, queryKey, updateFn) => {
-    queryClient.setQueryData(queryKey, updateFn, {
-        staleTime: REALTIME_STALE_TIME,
-        cacheTime: REALTIME_CACHE_TIME,
-    });
-};
 
 export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
     const queryClient = useQueryClient();
@@ -43,7 +33,7 @@ export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
                 // 주문서 데이터 업데이트
                 if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) updateOrderBook(queryClient, data, symbol)
                 // 캔들스틱 데이터 업데이트
-                if (data.e === "kline") updateTradingData(queryClient, data, symbol, interval)
+                if (data.e === "kline") updateTradingData(queryClient, data, symbol)
             },
         });
 
