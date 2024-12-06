@@ -9,6 +9,8 @@ const queryClient = new QueryClient({
         queries: {
             staleTime: GENERAL_STALE_TIME,
             cacheTime: GENERAL_CACHE_TIME,
+            refetchOnWindowFocus: false, // 탭 이동 시 재패치 방지
+            refetchOnMount: false, // 컴포넌트 마운트 시 재패치 방지
         },
     },
 });
