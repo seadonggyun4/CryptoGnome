@@ -6,17 +6,18 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
-import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import Card from "@/app/common/elements/Card";
 import React, { useMemo } from "react";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import { useQueryClient } from "@tanstack/react-query";
 
 const OrderBook = () => {
-    const { data: queryData, isLoading, isError } = useOrderBook("BTCUSDT");
-
     // React Query의 useQueryClient를 사용하여 캐싱된 데이터 가져오기
     const queryClient = useQueryClient();
+
+    const queryData = queryClient.getQueryData(["orderBook", "BTCUSDT"]) || [];
+    const isLoading = !Object.keys(queryData).length;
+
     const priceData = queryClient.getQueryData(["ticker", "BTCUSDT"]) || [];
     const priceLoading = !priceData.length;
 

@@ -8,11 +8,13 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
-import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
+import {useQueryClient} from "@tanstack/react-query";
 
 const MarketTrades = ({ symbol = "BTCUSDT" }) => {
     // 데이터 훅 사용
-    const { data: trades, isLoading } = useMarketTrade(symbol);
+    const queryClient = useQueryClient();
+    const trades = queryClient.getQueryData(["marketTrades", symbol]) || [];
+    const isLoading = !trades.length;
 
     // 컬럼 정의
     const columnHelper = createColumnHelper();

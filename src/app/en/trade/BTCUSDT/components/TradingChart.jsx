@@ -12,7 +12,7 @@ const Chart = dynamic(() => import("react-apexcharts"), {
 
 const TradingChart = () => {
     const [activeInterval, setActiveInterval] = useState("1h");
-    const { data: chartData, isLoading } = useTrading("BTCUSDT", activeInterval);
+    const { data: chartData, isLoading } = useTrading("BTCUSDT");
 
     const options = {
         chart: {
