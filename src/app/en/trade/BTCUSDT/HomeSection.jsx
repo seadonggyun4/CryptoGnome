@@ -15,7 +15,8 @@ const HomeSection = () => {
         <section>
             <div className="mx-auto max-w-[1528px] h-full px-4 lg:px-0 py-1">
                 <div className="flex gap-1 mb-1">
-                    <div className="flex flex-col gap-1 h-full w-full">
+                    {/*main*/}
+                    <div className="flex flex-col gap-1 w-full">
                         <div>
                             <PriceStatistics />
                         </div>
@@ -24,11 +25,16 @@ const HomeSection = () => {
                                 <OrderBook />
                             </div>
                             <div className="flex-1 flex flex-col gap-1">
-                                <ChartContainer />
-                                <TradingForm />
+                                <div className="flex-1 h-full">
+                                    <ChartContainer/>
+                                </div>
+                                <div className="flex-1">
+                                    <TradingForm/>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {/*aside*/}
                     <aside className="flex flex-col gap-1 w-96">
                         <div className="flex-1">
                             <CoinList/>
