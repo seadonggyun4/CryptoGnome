@@ -18,9 +18,12 @@ const RealTimePrice = ({ price, showIcon = false }) => {
     }, [price, beforePrice]);
 
     return (
-        <strong className={`text-lg font-semibold ${priceClass}`}>
-            {price}{ showIcon && <span className="ml-2">{arrowIcon}</span>}
-        </strong>
+        <>
+            <strong className={`text-lg font-semibold w-[70px] ${priceClass}`}>
+                {price}
+            </strong>
+            {showIcon && <span className={`text-lg font-semibold ${priceClass}`}>{arrowIcon}</span>}
+        </>
     );
 };
 
