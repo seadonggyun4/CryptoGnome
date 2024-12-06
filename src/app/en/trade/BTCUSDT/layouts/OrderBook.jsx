@@ -82,8 +82,8 @@ const OrderBook = () => {
     return (
         <Card>
             <div className="py-1 h-full min-h-96">
-                <div className="px-6 py-2 border-b border-b-line dark:border-b-dark-line">
-                    <h2 className="text-PrimaryText dark:text-dark-PrimaryText font-bold text-sm">
+                <div className="px-6 py-2 border-b border-b-light-line dark:border-b-dark-line">
+                    <h2 className="text-light-primaryText dark:text-dark-primaryText font-bold text-sm">
                         Order Book
                     </h2>
                 </div>
@@ -104,7 +104,7 @@ const OrderBook = () => {
                                                         header.id !== "price"
                                                             ? "text-right"
                                                             : "text-left"
-                                                    } py-3 text-iconNormal dark:text-dark-iconNormal`}
+                                                    } py-3 text-light-iconNormal dark:text-dark-iconNormal`}
                                                 >
                                                     {flexRender(
                                                         header.column.columnDef.header,
@@ -126,8 +126,8 @@ const OrderBook = () => {
                                                     key={cell.id}
                                                     className={
                                                         cell.column.id === "price"
-                                                            ? `text-Error dark:text-dark-error text-left py-1`
-                                                            : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                                            ? `text-error text-left py-1`
+                                                            : "text-primaryText dark:text-dark-primaryText text-right py-1"
                                                     }
                                                 >
                                                     {flexRender(
@@ -143,7 +143,7 @@ const OrderBook = () => {
 
                                 <div className="flex items-center space-x-2 my-2">
                                     <RealTimePrice price={priceLoading ? 0 : parseFloat(priceData[0]?.lastPrice).toFixed(2)} showIcon={true}/>
-                                    <span className="text-sm text-iconNormal dark:text-iconNormal">
+                                    <span className="text-sm text-light-iconNormal dark:text-dark-iconNormal">
                                       ${priceLoading ? '' : parseFloat(priceData[0]?.lastPrice).toFixed(2)}
                                     </span>
                                 </div>
@@ -160,7 +160,7 @@ const OrderBook = () => {
                                                         header.id !== "price"
                                                             ? "text-right"
                                                             : "text-left"
-                                                    } py-3 text-iconNormal dark:text-dark-iconNormal`}
+                                                    } py-3 text-light-iconNormal dark:text-dark-iconNormal`}
                                                 >
                                                     {flexRender(
                                                         header.column.columnDef.header,
@@ -182,8 +182,8 @@ const OrderBook = () => {
                                                     key={cell.id}
                                                     className={
                                                         cell.column.id === "price"
-                                                            ? `text-success dark:text-dark-success text-left py-1`
-                                                            : "text-PrimaryText dark:text-dark-PrimaryText text-right py-1"
+                                                            ? `text-success text-left py-1`
+                                                            : "text-light-primaryText dark:text-dark-primaryText text-right py-1"
                                                     }
                                                 >
                                                     {flexRender(
@@ -199,26 +199,26 @@ const OrderBook = () => {
 
                                 {/* 막대 그래프 */}
                                 <div className="flex items-center justify-between text-xs my-3">
-                                    <div className="w-16 text-PrimaryText dark:text-dark-PrimaryText">
+                                    <div className="w-16 text-light-primaryText dark:text-dark-primaryText">
                                         B
-                                        <span className="text-success dark:text-dark-success ml-1">{buyPercentage}%</span>
+                                        <span className="text-success ml-1">{buyPercentage}%</span>
                                     </div>
                                     <div className="w-32 h-1 flex items-center rounded overflow-hidden">
                                         <div
-                                            className="bg-success dark:bg-dark-success h-full"
+                                            className="bg-success h-full"
                                             style={{
                                                 width: `${buyPercentage}%`,
                                             }}
                                         />
                                         <div
-                                            className="bg-error dark:bg-dark-error h-full"
+                                            className="bg-error h-full"
                                             style={{
                                                 width: `${sellPercentage}%`,
                                             }}
                                         />
                                     </div>
-                                    <div className="text-right w-16 text-PrimaryText dark:text-dark-PrimaryText">
-                                        <span className="text-error dark:text-dark-error mr-1">{sellPercentage}%</span>
+                                    <div className="text-right w-16 text-light-primaryText dark:text-dark-primaryText">
+                                        <span className="text-error mr-1">{sellPercentage}%</span>
                                         S
                                     </div>
                                 </div>

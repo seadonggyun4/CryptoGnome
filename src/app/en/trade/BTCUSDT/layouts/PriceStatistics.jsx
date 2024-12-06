@@ -15,17 +15,17 @@ const PriceStatistics = () => {
             <div className="flex items-center py-2 px-4 space-x-6">
                 {/* 왼쪽 영역 */}
                 <div className="flex items-center space-x-3">
-                    <div className="flex justify-center items-center border-2 border-line dark:border-dark-line cursor-pointer w-6 h-6 p-3 rounded-md">
-                        <span className="text-DisabledText dark:text-dark-DisabledText">★</span>
+                    <div className="flex justify-center items-center border-2 border-light-line dark:border-dark-line cursor-pointer w-6 h-6 p-3 rounded-md">
+                        <span className="text-light-iconNormal dark:text-dark-iconNormal">★</span>
                     </div>
                     <div className="flex flex-col">
-                        <div className="text-lg font-semibold text-textPrimary dark:text-dark-textPrimary">
+                        <div className="text-lg font-semibold text-light-primaryText dark:text-dark-primaryText">
                             BTC/USDT
                         </div>
                         <a
                             href="https://www.binance.com/en/price/bitcoin"
                             target="_blank"
-                            className="underline text-sm text-textSecondary dark:text-dark-textSecondary"
+                            className="underline text-sm text-light-primaryText dark:text-dark-primaryText"
                             rel="noopener noreferrer"
                         >
                             Bitcoin Price
@@ -39,48 +39,48 @@ const PriceStatistics = () => {
                         <div className="flex items-center space-x-6">
                             <div className="flex flex-col">
                                 <RealTimePrice price={parseFloat(data[0]?.lastPrice).toFixed(2)} />
-                                <span className="text-sm text-PrimaryText dark:text-dark-PrimaryText">
+                                <span className="text-sm text-light-primaryText dark:text-dark-primaryText">
                                     ${parseFloat(data[0]?.lastPrice).toFixed(2)}
                                 </span>
                             </div>
-                            <ul className="flex text-sm text-textSecondary dark:text-dark-textSecondary space-x-5">
+                            <ul className="flex text-sm space-x-5">
                                 <li className="flex flex-col">
-                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Change</span>
-                                    <p className="text-sm text-error dark:text-dark-error">
+                                    <span className="text-light-iconNormal dark:text-dark-iconNormal">24h Change</span>
+                                    <p className="text-sm text-error">
                                         {parseFloat(data[0]?.priceChangePercent).toFixed(2)}%
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
-                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h High</span>
-                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                    <span className="text-light-iconNormal dark:text-dark-iconNormal">24h High</span>
+                                    <p className="text-light-primaryText dark:text-dark-primaryText font-semibold">
                                         {parseFloat(data[0]?.highPrice).toFixed(2)}
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
-                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Low</span>
-                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                    <span className="text-light-iconNormal dark:text-dark-iconNormal">24h Low</span>
+                                    <p className="text-light-primaryText dark:text-dark-primaryText font-semibold">
                                         {parseFloat(data[0]?.lowPrice).toFixed(2)}
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
-                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(BTC)</span>
-                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                    <span className="text-light-iconNormal dark:text-dark-iconNormal">24h Volume(BTC)</span>
+                                    <p className="text-light-primaryText dark:text-dark-primaryText font-semibold">
                                         {parseFloat(data[0]?.volume).toLocaleString()}
                                     </p>
                                 </li>
                                 <li className="flex flex-col">
-                                    <span className="text-iconNormal dark:text-dark-iconNormal">24h Volume(USDT)</span>
-                                    <p className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                                    <span className="text-light-iconNormal dark:text-dark-iconNormal">24h Volume(USDT)</span>
+                                    <p className="text-light-primaryText dark:text-dark-primaryText font-semibold">
                                         {parseFloat(data[0]?.quoteVolume).toLocaleString()}
                                     </p>
                                 </li>
                                 <li>
-                                    <span className="text-iconNormal dark:text-dark-iconNormal">Token Tags</span>
+                                    <span className="text-light-iconNormal dark:text-dark-iconNormal">Token Tags</span>
                                     <div className="flex space-x-2 mt-1">
                                         {["POW", "Payments", "Vol", "Hot", "Price Protection"].map((tag, index) => (
                                             <span
                                                 key={index}
-                                                className="bg-BadgeBg dark:bg-dark-BadgeBg text-TextLink dark:text-dark-TextLink text-xs font-medium px-1 rounded cursor-pointer"
+                                                className="bg-badgeBg text-textLink text-xs font-medium px-1 rounded cursor-pointer"
                                             >
                                                 {tag}
                                             </span>

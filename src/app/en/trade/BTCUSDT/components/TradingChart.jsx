@@ -12,7 +12,7 @@ const Chart = dynamic(() => import("react-apexcharts"), {
 
 const TradingChart = () => {
     const [activeInterval, setActiveInterval] = useState("1h");
-    const { data: chartData, isLoading } = useTrading("BTCUSDT");
+    const { data: chartData, isLoading } = useTrading("BTCUSDT", activeInterval);
 
     const options = {
         chart: {
@@ -78,15 +78,15 @@ const TradingChart = () => {
 
     return (
         <div>
-            <div className="flex px-2 space-x-1 border-b border-line dark:border-dark-line text-sm">
+            <div className="flex px-2 space-x-1 border-b border-light-line dark:border-dark-line text-sm">
                 {["1m", "15m", "1h", "4h", "1d", "1w"].map((interval) => (
                     <button
                         key={interval}
                         onClick={() => handleIntervalChange(interval)}
                         className={`p-2 rounded ${
                             activeInterval === interval
-                                ? "bg-gray-700 text-white"
-                                : "text-iconNormal dark:text-dark-iconNormal hover:bg-gray-700 hover:text-white"
+                                ? "bg-light-primaryText text-white dark:text-black dark:bg-dark-primaryText"
+                                : "text-light-iconNormal dark:text-dark-iconNormal hover:bg-light-primaryText hover:text-white hover:dark:text-black hover:dark:bg-dark-primaryText"
                         }`}
                     >
                         {interval.toUpperCase()}

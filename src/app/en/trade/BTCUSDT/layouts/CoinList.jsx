@@ -22,7 +22,7 @@ const CoinList = () => {
             columnHelper.accessor("symbol", {
                 header: "Pair",
                 cell: (info) => (
-                    <span className="text-PrimaryText dark:text-dark-PrimaryText font-semibold">
+                    <span className="text-primaryText dark:text-dark-primaryText font-semibold">
                         {info.getValue()}
                     </span>
                 ),
@@ -66,7 +66,7 @@ const CoinList = () => {
                 {/* 테이블 */}
                 <div className="overflow-auto h-[450px] px-4 overflow-x-hidden">
                     <table className="table-fixed w-full text-xs border-collapse">
-                        <thead className="sticky top-0 bg-bg dark:bg-dark-bg z-10">
+                        <thead className="sticky top-0 z-10 bg-light-bg1 dark:bg-dark-bg1">
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => (
@@ -76,7 +76,7 @@ const CoinList = () => {
                                                 header.id !== "symbol"
                                                     ? "text-right"
                                                     : "text-left"
-                                            } py-3 text-iconNormal dark:text-dark-iconNormal`}
+                                            } py-3 text-light-iconNormal dark:text-dark-iconNormal`}
                                         >
                                             {flexRender(header.column.columnDef.header, header.getContext())}
                                         </th>
@@ -93,7 +93,7 @@ const CoinList = () => {
                                         className={`py-1 ${
                                             cell.column.id === "symbol"
                                                 ? "text-left"
-                                                : "text-right text-PrimaryText dark:text-dark-PrimaryText"
+                                                : "text-right text-light-primaryText dark:text-dark-primaryText"
                                         }`}
                                     >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

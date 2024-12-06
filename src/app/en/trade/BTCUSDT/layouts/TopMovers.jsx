@@ -37,10 +37,10 @@ const TopMovers = () => {
 
                 return (
                     <div>
-                        <span className="block font-semibold text-PrimaryText dark:text-dark-PrimaryText">
+                        <span className="block font-semibold text-light-primaryText dark:text-dark-primaryText">
                             {row.symbol}
                         </span>
-                        <span className="block text-xs text-iconNormal dark:text-dark-iconNormal">
+                        <span className="block text-xs text-light-iconNormal dark:text-dark-iconNormal">
                             {formattedTime}
                         </span>
                     </div>
@@ -67,8 +67,8 @@ const TopMovers = () => {
                         <button
                             className={`w-5 h-5 flex items-center justify-center rounded ${
                                 parseFloat(row.priceChangePercent) > 0
-                                    ? "bg-success dark:bg-dark-success text-white"
-                                    : "bg-Error dark:bg-dark-error text-white"
+                                    ? "bg-success text-white"
+                                    : "bg-error text-white"
                             }`}
                         >
                             {parseFloat(row.priceChangePercent) > 0 ? "↑" : "↓"}
@@ -88,13 +88,13 @@ const TopMovers = () => {
 
     return (
         <Card>
-            <div className="flex items-center space-x-2 px-4 py-2 border-b border-line dark:border-dark-line">
-                <h2 className="text-sm font-bold text-PrimaryText dark:text-dark-PrimaryText">
+            <div className="flex items-center space-x-2 px-4 py-2 border-b border-light-line dark:border-dark-line">
+                <h2 className="text-sm font-bold text-light-primaryText dark:text-dark-primaryText">
                     Top Movers
                 </h2>
                 <a
                     href="https://www.binance.com/en/support/faq/understanding-top-movers-statuses-on-binance-spot-trading-18c97e8ab67a4e1b824edd590cae9f16?hl=en"
-                    className="underline text-xs text-iconNormal dark:text-dark-iconNormal"
+                    className="underline text-xs text-light-iconNormal dark:text-dark-iconNormal"
                     target="_blank"
                 >
                     FAQ

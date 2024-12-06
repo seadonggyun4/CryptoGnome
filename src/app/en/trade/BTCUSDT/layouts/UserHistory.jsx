@@ -19,31 +19,31 @@ const UserHistory = () => {
         switch (currentTab) {
             case "openOders":
                 return (
-                    <div className="flex items-center justify-center h-full text-PrimaryText dark:text-dark-PrimaryText">
+                    <div className="flex items-center justify-center h-full text-primaryText dark:text-dark-primaryText">
                         <span className="mr-2 text-primary">Log In</span> or <span className="ml-2 text-primary">Register</span> Now to trade
                     </div>
                 );
             case "orderHistory":
                 return (
-                    <div className="flex items-center justify-center h-full text-PrimaryText dark:text-dark-PrimaryText">
+                    <div className="flex items-center justify-center h-full text-primaryText dark:text-dark-primaryText">
                         <span className="mr-2 text-primary">Log In</span> or <span className="ml-2 text-primary">Register</span> Now to trade
                     </div>
                 );
             case "tradHistory":
                 return (
-                    <div className="flex items-center justify-center h-full text-PrimaryText dark:text-dark-PrimaryText">
+                    <div className="flex items-center justify-center h-full text-primaryText dark:text-dark-primaryText">
                         <span className="mr-2 text-primary">Log In</span> or <span className="ml-2 text-primary">Register</span> Now to trade
                     </div>
                 );
             case "funds":
                 return (
-                    <div className="flex items-center justify-center h-full text-PrimaryText dark:text-dark-PrimaryText">
+                    <div className="flex items-center justify-center h-full text-primaryText dark:text-dark-primaryText">
                         <span className="mr-2 text-primary">Log In</span> or <span className="ml-2 text-primary">Register</span> Now to trade
                     </div>
                 );
             case "gridOrders":
                 return (
-                    <div className="flex items-center justify-center h-full text-PrimaryText dark:text-dark-PrimaryText">
+                    <div className="flex items-center justify-center h-full text-primaryText dark:text-dark-primaryText">
                         <span className="mr-2 text-primary">Log In</span> or <span className="ml-2 text-primary">Register</span> Now to trade
                     </div>
                 );

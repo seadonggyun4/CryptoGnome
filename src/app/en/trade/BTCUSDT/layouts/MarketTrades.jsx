@@ -67,15 +67,15 @@ const MarketTrades = ({ symbol = "BTCUSDT" }) => {
     return(
         <Card>
             <div>
-                <div className="p-4 border-b border-b-line dark:border-b-dark-line">
-                    <h2 className="text-PrimaryText dark:text-dark-PrimaryText font-bold text-sm">
+                <div className="p-4 border-b border-b-light-line dark:border-b-dark-line">
+                    <h2 className="text-light-primaryText dark:text-dark-primaryText font-bold text-sm">
                         Market Trades
                     </h2>
                 </div>
                 <div className="overflow-auto h-60 px-4">
                     <table className="table-fixed w-full text-xs border-collapse">
                         {/* 테이블 헤더 */}
-                        <thead className="sticky top-0 bg-bg dark:bg-dark-bg z-10">
+                        <thead className="sticky top-0 z-10 bg-light-bg1 dark:bg-dark-bg1">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
@@ -85,7 +85,7 @@ const MarketTrades = ({ symbol = "BTCUSDT" }) => {
                                             header.id !== "price"
                                                 ? "text-right"
                                                 : "text-left"
-                                        } py-3 text-iconNormal dark:text-dark-iconNormal`}
+                                        } py-3 text-light-iconNormal dark:text-dark-iconNormal`}
                                         style={{
                                             width:
                                                 header.column.columnDef.meta?.width || "auto",
@@ -125,7 +125,7 @@ const MarketTrades = ({ symbol = "BTCUSDT" }) => {
                                             className={`${
                                                 cell.column.id === "price"
                                                     ? "text-left py-1"
-                                                    : "text-right text-PrimaryText dark:text-dark-PrimaryText py-1"
+                                                    : "text-right text-light-primaryText dark:text-dark-primaryText py-1"
                                             }`}
                                             style={{
                                                 width: cell.column.columnDef.meta?.width || "auto",
