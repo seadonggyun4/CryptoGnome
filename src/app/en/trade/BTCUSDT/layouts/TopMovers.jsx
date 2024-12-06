@@ -101,7 +101,7 @@ const TopMovers = () => {
                     FAQ
                 </a>
             </div>
-            <div className="overflow-auto max-h-28 px-4">
+            <div className="overflow-auto max-h-36 px-4">
                 {isLoading ? (
                     <div className="text-center py-4">Loading...</div>
                 ) : (

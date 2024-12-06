@@ -6,7 +6,7 @@ import OrderBook from "@/app/en/trade/BTCUSDT/layouts/OrderBook";
 import ChartContainer from "@/app/en/trade/BTCUSDT/layouts/ChartContainer";
 import TradingForm from "@/app/en/trade/BTCUSDT/layouts/TradingForm";
 import CoinList from "@/app/en/trade/BTCUSDT/layouts/CoinList";
-import TradeAside from "@/app/en/trade/BTCUSDT/layouts/TradeAside";
+import MarketTrades from "@/app/en/trade/BTCUSDT/layouts/MarketTrades";
 import TopMovers from "@/app/en/trade/BTCUSDT/layouts/TopMovers";
 import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
 
@@ -14,7 +14,7 @@ const HomeSection = () => {
     return (
         <section>
             <div className="mx-auto max-w-[1528px] h-full px-4 lg:px-0 py-1">
-                <div className="flex h-full gap-1 mb-1">
+                <div className="flex gap-1 mb-1">
                     <div className="flex flex-col gap-1 h-full w-full">
                         <div>
                             <PriceStatistics />
@@ -29,10 +29,16 @@ const HomeSection = () => {
                             </div>
                         </div>
                     </div>
-                    <aside className="flex flex-col gap-1 h-full w-96">
-                        <CoinList />
-                        <TradeAside />
-                        <TopMovers />
+                    <aside className="flex flex-col gap-1 w-96">
+                        <div className="flex-1">
+                            <CoinList/>
+                        </div>
+                        <div className="flex-2">
+                            <MarketTrades/>
+                        </div>
+                        <div className="flex-2">
+                            <TopMovers/>
+                        </div>
                     </aside>
                 </div>
                 <div className="h-80 mb-1">

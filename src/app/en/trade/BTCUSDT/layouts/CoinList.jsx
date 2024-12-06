@@ -54,7 +54,7 @@ export default function CoinList() {
 
     return (
         <Card>
-            <div className="h-[446px]">
+            <div className="h-full">
                 {/* 검색 창 */}
                 <div className="flex items-center space-x-4 px-4 py-4">
                     <SearchInput
@@ -64,7 +64,7 @@ export default function CoinList() {
                 </div>
 
                 {/* 테이블 */}
-                <div className="overflow-auto h-[380px] px-4 overflow-x-hidden">
+                <div className="overflow-auto h-[450px] px-4 overflow-x-hidden">
                     <table className="table-fixed w-full text-xs border-collapse">
                         <thead className="sticky top-0 bg-bg dark:bg-dark-bg z-10">
                             {table.getHeaderGroups().map((headerGroup) => (
