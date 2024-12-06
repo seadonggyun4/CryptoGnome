@@ -2,10 +2,10 @@
 
 import React from "react";
 import Card from "@/app/common/elements/Card";
-import { usePriceStatisticsContext } from "@/app/en/trade/BTCUSDT/provider/PriceStatisticsContext";
+import { useTickerContext } from "@/features/ticker/provider/TickerContext";
 
-export default function PriceStatistics() {
-    const { data, isLoading, error } = usePriceStatisticsContext();
+const PriceStatistics = () => {
+    const { data, isLoading, error } = useTickerContext();
 
     return (
         <Card>
@@ -35,9 +35,9 @@ export default function PriceStatistics() {
                     : (
                         <div className="flex items-center space-x-6">
                             <div className="flex flex-col">
-                                <span className="text-lg font-semibold text-error dark:text-dark-error">
+                                <strong className="text-lg font-semibold text-error dark:text-dark-error">
                                     {parseFloat(data[0]?.lastPrice).toFixed(2)}
-                                </span>
+                                </strong>
                                 <span className="text-sm text-PrimaryText dark:text-dark-PrimaryText">
                                     ${parseFloat(data[0]?.lastPrice).toFixed(2)}
                                 </span>
@@ -94,3 +94,5 @@ export default function PriceStatistics() {
         </Card>
     );
 }
+
+export default PriceStatistics;

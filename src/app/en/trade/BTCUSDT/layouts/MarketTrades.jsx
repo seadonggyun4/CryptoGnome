@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 
-export default function MarketTrades({ symbol = "BTCUSDT" }) {
+const MarketTrades = ({ symbol = "BTCUSDT" }) => {
     // 데이터 훅 사용
     const { data: trades, isLoading } = useMarketTrade(symbol);
 
@@ -145,3 +145,5 @@ export default function MarketTrades({ symbol = "BTCUSDT" }) {
         </Card>
     )
 }
+
+export default MarketTrades;

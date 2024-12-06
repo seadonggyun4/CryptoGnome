@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '@/utils/fontAwesome'; // Font Awesome 설정 파일
 
-export default function Header() {
+const Header = () => {
     // 다크 모드 토글 함수
     const toggleDarkMode = () => {
         const htmlElement = document.documentElement;
@@ -49,3 +49,5 @@ export default function Header() {
         </header>
     );
 }
+
+export default Header;

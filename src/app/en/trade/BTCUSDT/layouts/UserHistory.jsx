@@ -4,7 +4,7 @@ import Card from "@/app/common/elements/Card";
 import Tabs from "@/app/common/elements/Tabs";
 import {useMemo, useState} from "react";
 
-export default function UserHistory() {
+const UserHistory = () => {
     const tabs = [
         { key: "openOders", label: `Open Oders(${0})` },
         { key: "orderHistory", label: "Order History" },
@@ -60,3 +60,5 @@ export default function UserHistory() {
         </Card>
     )
 }
+
+export default UserHistory;

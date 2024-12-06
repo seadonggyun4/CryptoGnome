@@ -6,7 +6,7 @@ import SearchInput from "@/app/common/elements/SearchInput";
 import { useReactTable, getCoreRowModel, flexRender, createColumnHelper } from "@tanstack/react-table";
 import {useTicker} from "@/features/ticker/hooks/useTicker";
 
-export default function CoinList() {
+const CoinList = () => {
     const [searchText, setSearchText] = useState("BTC");
 
     // 훅으로 코인 목록 데이터 가져오기
@@ -108,3 +108,5 @@ export default function CoinList() {
         </Card>
     );
 }
+
+export default CoinList;

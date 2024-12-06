@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useMemo } from "react";
-import { useWebSocket } from "@/features/webSocket/hooks/useWebSocket";
+import { useWebSocket } from "@/process/webSocket/hooks/useWebSocket";
 
 // WebSocket Context 생성
 const WebSocketContext = createContext();
