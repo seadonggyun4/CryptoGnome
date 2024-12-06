@@ -8,15 +8,17 @@ import {
 } from "@tanstack/react-table";
 import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import Card from "@/app/common/elements/Card";
-import { useTickerContext } from "@/features/ticker/provider/TickerContext";
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
-
+import { useQueryClient } from "@tanstack/react-query";
 
 const OrderBook = () => {
-    // WebSocket과 Query 데이터 훅 사용
     const { data: queryData, isLoading, isError } = useOrderBook("BTCUSDT");
-    const { data:priceData, isLoading:priceLoading } = useTickerContext();
+
+    // React Query의 useQueryClient를 사용하여 캐싱된 데이터 가져오기
+    const queryClient = useQueryClient();
+    const priceData = queryClient.getQueryData(["ticker", "BTCUSDT"]) || [];
+    const priceLoading = !priceData.length;
 
     // Query 및 WebSocket 데이터
     const bids = queryData?.bids || [];
@@ -220,7 +222,7 @@ const OrderBook = () => {
                                     </div>
                                 </div>
                             </div>
-                    )
+                        )
                 }
             </div>
         </Card>

@@ -7,7 +7,6 @@ import {
     createColumnHelper,
 } from "@tanstack/react-table";
 import { useTopMovers } from "@/app/en/trade/BTCUSDT/hooks/useTopMovers";
-import React, { useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 
 const TopMovers = () => {

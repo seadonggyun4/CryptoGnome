@@ -3,10 +3,12 @@
 import React from "react";
 import Card from "@/app/common/elements/Card";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
-import { useTickerContext } from "@/features/ticker/provider/TickerContext";
+import {useQueryClient} from "@tanstack/react-query";
 
 const PriceStatistics = () => {
-    const { data, isLoading, error } = useTickerContext();
+    const queryClient = useQueryClient();
+    const data = queryClient.getQueryData(["ticker", "BTCUSDT"]) || [];
+    const isLoading = !data.length;
 
     return (
         <Card>

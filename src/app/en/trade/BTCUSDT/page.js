@@ -1,5 +1,5 @@
 import StoreProvider from "@/process/store/queryClientProvider";
-import { TickerProvider } from "@/features/ticker/provider/TickerContext";
+// import { TickerSymbolProvider } from "@/features/ticker/provider/TickerSymbolContext";
 import { WebSocketProvider } from "@/process/webSocket/provider/WebSocketContext";
 import HomeSection from "@/app/en/trade/BTCUSDT/HomeSection";
 
@@ -7,9 +7,9 @@ export default function BTCUSDTPage() {
   return (
       <StoreProvider>
           <WebSocketProvider>
-              <TickerProvider>
+              {/*<TickerSymbolProvider>*/}
                       <HomeSection />
-              </TickerProvider>
+              {/*</TickerSymbolProvider>*/}
           </WebSocketProvider>
       </StoreProvider>
   );

@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { useTicker } from "@/features/ticker/hooks/useTicker";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const useTopMovers = () => {
-    const { data, isLoading, error } = useTicker({
-        symbol: "",
-    });
+    const queryClient = useQueryClient();
+    const data = queryClient.getQueryData(["tickers"]) || [];
+    const isLoading = !data.length;
 
     // 정렬 및 슬라이싱 작업을 useMemo로 감싸서 불필요한 재계산 방지
     const topMovers = useMemo(() => {
@@ -14,5 +14,5 @@ export const useTopMovers = () => {
             .slice(0, 10);
     }, [data]);
 
-    return { data: topMovers, isLoading, error };
+    return { data: topMovers, isLoading };
 };
