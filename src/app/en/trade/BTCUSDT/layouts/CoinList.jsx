@@ -5,10 +5,12 @@ import Card from "@/app/common/elements/Card";
 import SearchInput from "@/app/common/elements/SearchInput";
 import { useReactTable, getCoreRowModel, flexRender, createColumnHelper } from "@tanstack/react-table";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
+import {useSymbolContext} from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
 
 const CoinList = () => {
-    const [searchText, setSearchText] = useState("BTC");
-    const { data: coinListData = [], isLoading } = useTicker({ symbol: "" });
+    const {symbol, setSymbol} = useSymbolContext()
+    const [searchText, setSearchText] = useState(symbol);
+    const { data: coinListData = [], isLoading } = useTicker("");
 
     // 검색어 필터링은 useMemo로 처리
     const filteredData = useMemo(() => {

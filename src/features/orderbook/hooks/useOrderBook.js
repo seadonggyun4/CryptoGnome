@@ -3,7 +3,7 @@ import { apiClient } from "@/process/api";
 import {apiErrorHandler} from "@/process/middleware/apiErrorHandler";
 import {REALTIME_CACHE_TIME, REALTIME_STALE_TIME} from "@/process/constants";
 
-export const useOrderBook = (symbol = "BTCUSDT") => {
+export const useOrderBook = (symbol) => {
     const fetchOrderBook = async () => {
         try {
             const response = await apiClient(
@@ -30,7 +30,7 @@ export const useOrderBook = (symbol = "BTCUSDT") => {
 };
 
 
-export const updateOrderBook =  (queryClient, data, symbol = "BTCUSDT") => {
+export const updateOrderBook =  (queryClient, data, symbol) => {
     queryClient.setQueryData(["orderBook", symbol], () => ({
         bids: data.b.slice(0, 17),
         asks: data.a.slice(0, 17),

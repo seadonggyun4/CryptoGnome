@@ -11,10 +11,12 @@ import React, { useMemo } from "react";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import {useOrderBook} from "@/features/orderbook/hooks/useOrderBook";
 import {useTicker} from "@/features/ticker/hooks/useTicker";
+import {useSymbolContext} from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
 
 const OrderBook = () => {
-    const {data:queryData, isLoading} = useOrderBook()
-    const {data:priceData, isLoading:priceLoading } = useTicker({ symbol:"BTCUSDT" });
+    const {symbol} = useSymbolContext()
+    const {data:queryData, isLoading} = useOrderBook(symbol)
+    const {data:priceData, isLoading:priceLoading } = useTicker(symbol);
 
     // Query 및 WebSocket 데이터
     const bids = queryData?.bids || [];

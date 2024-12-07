@@ -9,10 +9,12 @@ import {
     createColumnHelper,
 } from "@tanstack/react-table";
 import {useMarketTrade} from "@/features/marketTrade/hooks/useMarketTrade";
+import {useSymbolContext} from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
 
-const MarketTrades = ({ symbol = "BTCUSDT" }) => {
+const MarketTrades = () => {
+    const {symbol} = useSymbolContext()
     // 데이터 훅 사용
-    const {data:trades, isLoading} = useMarketTrade();
+    const {data:trades, isLoading} = useMarketTrade(symbol);
 
 
     // 컬럼 정의

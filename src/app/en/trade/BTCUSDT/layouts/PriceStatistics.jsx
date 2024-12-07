@@ -4,9 +4,11 @@ import React from "react";
 import Card from "@/app/common/elements/Card";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import {useTicker} from "@/features/ticker/hooks/useTicker";
+import {useSymbolContext} from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
 
 const PriceStatistics = () => {
-    const {data, isLoading} = useTicker({ symbol:"BTCUSDT" });
+    const {symbol} = useSymbolContext();
+    const {data, isLoading} = useTicker(symbol);
 
     return (
         <Card>

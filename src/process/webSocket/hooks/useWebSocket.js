@@ -7,7 +7,7 @@ import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import {updateOrderBook} from "@/features/orderbook/hooks/useOrderBook";
 import {updateTradingData} from "@/features/trading/hooks/useTrading";
 
-export const useWebSocket = (symbol = "BTCUSDT", interval = "1h") => {
+export const useWebSocket = (symbol, interval = "1h") => {
     const queryClient = useQueryClient();
     const wsRef = useRef(null);
 

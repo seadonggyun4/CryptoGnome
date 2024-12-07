@@ -3,7 +3,7 @@ import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import { REALTIME_CACHE_TIME, REALTIME_STALE_TIME } from "@/process/constants";
 
-export const useMarketTrade = (symbol = "BTCUSDT") => {
+export const useMarketTrade = (symbol) => {
     const fetchMarketTrades = async () => {
         try {
             const { data } = await apiClient(
@@ -28,7 +28,7 @@ export const useMarketTrade = (symbol = "BTCUSDT") => {
     });
 };
 
-export const updateMarketTrade = (queryClient, data, symbol = "BTCUSDT") => {
+export const updateMarketTrade = (queryClient, data, symbol) => {
     const newTrade = {
         price: data.p,
         qty: data.q,
