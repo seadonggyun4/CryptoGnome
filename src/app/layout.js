@@ -1,6 +1,4 @@
 import "./globals.css";
-import Header from '@/app/common/components/Header';
-
 
 export const metadata = {
     title: "BTC USDT | Bitcoin to USDT – Binance Spot",
@@ -15,7 +13,6 @@ export default function RootLayout({ children }) {
               <link rel="icon" href="/favicon.ico"/>
           </head>
           <body className="bg-light-bg dark:bg-dark-bg">
-              <Header/>
               {children}
           </body>
       </html>

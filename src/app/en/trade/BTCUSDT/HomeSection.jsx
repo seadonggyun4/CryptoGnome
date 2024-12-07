@@ -9,20 +9,9 @@ import CoinList from "@/app/en/trade/BTCUSDT/layouts/CoinList";
 import MarketTrades from "@/app/en/trade/BTCUSDT/layouts/MarketTrades";
 import TopMovers from "@/app/en/trade/BTCUSDT/layouts/TopMovers";
 import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
-import { useTicker } from "@/features/ticker/hooks/useTicker";
-import {useMarketTrade} from "@/features/marketTrade/hooks/useMarketTrade";
-import {useOrderBook} from "@/features/orderbook/hooks/useOrderBook";
-import {useTrading} from "@/features/trading/hooks/useTrading";
+
 
 const HomeSection =  () => {
-    useTrading()
-    useTicker();
-    useTicker({
-        symbol: "",
-    });
-    useMarketTrade();
-    useOrderBook()
-
     return (
         <section>
             <div className="mx-auto max-w-[1528px] h-full px-4 lg:px-0 py-1">

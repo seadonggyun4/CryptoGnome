@@ -4,18 +4,22 @@ import React, { useState, useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 import SearchInput from "@/app/common/elements/SearchInput";
 import { useReactTable, getCoreRowModel, flexRender, createColumnHelper } from "@tanstack/react-table";
-import {useTicker} from "@/features/ticker/hooks/useTicker";
+import { useTicker } from "@/features/ticker/hooks/useTicker";
 
 const CoinList = () => {
     const [searchText, setSearchText] = useState("BTC");
+    const { data: coinListData = [], isLoading } = useTicker({ symbol: "" });
 
-    // 훅으로 코인 목록 데이터 가져오기
-    const { data: coinListData, isLoading } = useTicker({
-        symbol: "",
-        searchText,
-    });
+    // 검색어 필터링은 useMemo로 처리
+    const filteredData = useMemo(() => {
+        if (!coinListData) return [];
+        const searchTerm = searchText.trim().toUpperCase();
+        return searchTerm
+            ? coinListData.filter((item) => item.symbol.includes(searchTerm))
+            : coinListData;
+    }, [coinListData, searchText]); // `coinListData`와 `searchText` 변화만 필터링 로직에 영향
 
-    // tanstack table 설정 (useMemo로 최적화)
+    // tanstack table 설정
     const columnHelper = createColumnHelper();
     const columns = useMemo(
         () => [
@@ -47,7 +51,7 @@ const CoinList = () => {
     );
 
     const table = useReactTable({
-        data: coinListData || [],
+        data: filteredData,
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
@@ -57,32 +61,29 @@ const CoinList = () => {
             <div className="h-full">
                 {/* 검색 창 */}
                 <div className="flex items-center space-x-4 px-4 py-4">
-                    <SearchInput
-                        inputValue={searchText}
-                        onSearch={setSearchText}
-                    />
+                    <SearchInput inputValue={searchText} onSearch={setSearchText} />
                 </div>
 
                 {/* 테이블 */}
-                <div className="overflow-auto h-[450px] px-4 overflow-x-hidden">
+                <div className="overflow-auto h-[480px] px-4 overflow-x-hidden">
                     <table className="table-fixed w-full text-xs border-collapse">
                         <thead className="sticky top-0 z-10 bg-light-bg1 dark:bg-dark-bg1">
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <tr key={headerGroup.id}>
-                                    {headerGroup.headers.map((header) => (
-                                        <th
-                                            key={header.id}
-                                            className={`${
-                                                header.id !== "symbol"
-                                                    ? "text-right"
-                                                    : "text-left"
-                                            } py-3 text-light-iconNormal dark:text-dark-iconNormal`}
-                                        >
-                                            {flexRender(header.column.columnDef.header, header.getContext())}
-                                        </th>
-                                    ))}
-                                </tr>
-                            ))}
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <th
+                                        key={header.id}
+                                        className={`${
+                                            header.id !== "symbol"
+                                                ? "text-right"
+                                                : "text-left"
+                                        } py-3 text-light-iconNormal dark:text-dark-iconNormal`}
+                                    >
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
                         </thead>
                         <tbody>
                         {table.getRowModel().rows.map((row) => (
@@ -107,6 +108,6 @@ const CoinList = () => {
             </div>
         </Card>
     );
-}
+};
 
 export default CoinList;

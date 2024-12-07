@@ -21,7 +21,7 @@ export const WebSocketProvider = ({ symbol = "BTCUSDT", interval = "1h", childre
 };
 
 // WebSocket 데이터 접근을 위한 커스텀 훅
-export const useWebSocketData = () => {
+export const useWebSocketContext = () => {
     const context = useContext(WebSocketContext);
     if (!context) {
         throw new Error("useWebSocketData must be used within a WebSocketProvider");

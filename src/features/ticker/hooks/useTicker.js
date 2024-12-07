@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import { apiClient } from "@/process/api";
-import { useDeferredValue } from "react";
 import { REALTIME_CACHE_TIME, REALTIME_STALE_TIME } from "@/process/constants";
 
-export const useTicker = ({ symbol = "BTCUSDT", searchText = "" } = {}) => {
-    const deferredSearchText = useDeferredValue(searchText.trim().toUpperCase());
-
+export const useTicker = ({ symbol = "BTCUSDT" } = {}) => {
     // API 호출 함수
     const fetchTickerData = async () => {
         try {
@@ -16,15 +13,13 @@ export const useTicker = ({ symbol = "BTCUSDT", searchText = "" } = {}) => {
 
             const response = await apiClient(url);
 
-            // API 응답이 배열 또는 단일 객체일 수 있으므로 일관된 배열 반환
             const data = Array.isArray(response.data)
                 ? response.data
                 : [response.data];
 
-            // 데이터 매핑
             return data.map((item) => ({
                 ...item,
-                time: new Date().toLocaleTimeString(), // 현재 시간
+                time: new Date().toLocaleTimeString(),
             }));
         } catch (error) {
             apiErrorHandler(error);
@@ -32,19 +27,13 @@ export const useTicker = ({ symbol = "BTCUSDT", searchText = "" } = {}) => {
         }
     };
 
+    // React Query를 통해 데이터 패칭
     return useQuery({
         queryKey: symbol ? ["ticker", symbol] : ["tickers"],
         queryFn: fetchTickerData,
-        select: (data) => {
-            if (deferredSearchText) {
-                return data.filter((item) =>
-                    item.symbol.includes(deferredSearchText)
-                );
-            }
-            return data;
-        },
     });
 };
+
 
 // 24시간 티커 데이터 업데이트 함수
 export const updateTicker = (queryClient, data, symbol = "BTCUSDT") => {
