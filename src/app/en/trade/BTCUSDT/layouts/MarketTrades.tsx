@@ -13,13 +13,12 @@ import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import {MarketTradeData} from "@/features/marketTrade/types";
 
-// 테이블 데이터 준비
 const MarketTrades: React.FC = () => {
     const { symbol } = useTradingContext();
     const { data: trades = [], isLoading } = useMarketTrade(symbol);
 
     const formattedTrades = useMemo<MarketTradeData[]>(() => {
-        return trades.map((trade: MarketTradeData) => ({
+        return trades.map((trade) => ({
             price: parseFloat(trade.price).toFixed(2),
             qty: parseFloat(trade.qty).toFixed(6),
             time: trade.time,
@@ -29,28 +28,27 @@ const MarketTrades: React.FC = () => {
 
     const columnHelper = createColumnHelper<MarketTradeData>();
 
-    const columns: ColumnDef<MarketTradeData>[] = [
+    const columns: ColumnDef<MarketTradeData>[] = useMemo(() => [
         columnHelper.accessor("price", {
             header: "Price (USDT)",
-            cell: (info) => info.getValue(), // price는 string으로 처리
+            cell: (info) => info.getValue() as string, // 타입 명시
         }),
         columnHelper.accessor("qty", {
             header: "Amount (BTC)",
-            cell: (info) => info.getValue(), // qty는 string으로 처리
+            cell: (info) => info.getValue() as string, // 타입 명시
         }),
         columnHelper.accessor((row) => row.time, {
             id: "time",
             header: "Time",
             cell: (info) =>
-                info.getValue().toLocaleTimeString([], {
+                (info.getValue() as Date).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     second: "2-digit",
                     hour12: false,
                 }),
         }),
-    ];
-
+    ], []);
 
     const table = useReactTable<MarketTradeData>({
         data: formattedTrades,
