@@ -5,7 +5,7 @@ import { URL_SOCKET } from "@/process/constants";
 import { updateTicker } from "@/features/ticker/hooks/useTicker";
 import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import {updateOrderBook} from "@/features/orderbook/hooks/useOrderBook";
-import {updateTradingData} from "@/features/trading/hooks/useTrading";
+import {updateTradingChart} from "@/features/tradingChart/hooks/useTradingChart";
 
 export const useWebSocket = (symbol, interval) => {
     const queryClient = useQueryClient();
@@ -33,7 +33,7 @@ export const useWebSocket = (symbol, interval) => {
                 // 주문서 데이터 업데이트
                 if (data.e === "depthUpdate" && data.b.length >= 17 && data.a.length >= 17) updateOrderBook(queryClient, data, symbol)
                 // 캔들스틱 데이터 업데이트
-                if (data.e === "kline") updateTradingData(queryClient, data, symbol)
+                if (data.e === "kline") updateTradingChart(queryClient, data, symbol)
             },
         });
 

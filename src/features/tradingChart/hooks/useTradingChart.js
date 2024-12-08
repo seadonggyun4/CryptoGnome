@@ -3,7 +3,7 @@ import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import {REALTIME_CACHE_TIME, REALTIME_STALE_TIME} from "@/process/constants";
 
-export const useTrading = (symbol, interval = "1h") => {
+export const useTradingChart = (symbol, interval = "1h") => {
     const fetchTradingData = async () => {
         try {
             const response = await apiClient(
@@ -26,7 +26,7 @@ export const useTrading = (symbol, interval = "1h") => {
 };
 
 
-export const updateTradingData =  (queryClient, data, symbol) => {
+export const updateTradingChart =  (queryClient, data, symbol) => {
     const candle = data.k;
     const newPoint = {
         x: new Date(candle.t),
