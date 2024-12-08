@@ -1,21 +1,27 @@
 "use client";
 
-import React, { useState} from "react";
 import dynamic from "next/dynamic";
 import { useTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 
-// dynamic import를 사용하여 react-apexcharts를 클라이언트에서만 로드
+// 차트 데이터 타입 정의
+interface ChartDataPoint {
+    x: Date | number;
+    y: [number, number, number, number]; // [Open, High, Low, Close]
+}
+
+// ApexCharts 동적 import 설정
 const Chart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
     loading: () => <div className="text-center text-iconNormal">Loading Chart...</div>,
 });
 
-const TradingChart = () => {
-    const { symbol, activeInterval,  setActiveInterval} = useTradingContext()
-    const { data: chartData, isLoading } = useTradingChart(symbol, activeInterval);
+const TradingChart: React.FC = () => {
+    const { symbol, activeInterval, setActiveInterval } = useTradingContext();
+    const { data: chartData = [], isLoading } = useTradingChart(symbol, activeInterval);
 
-    const options = {
+    // 차트 옵션 설정
+    const options: ApexCharts.ApexOptions = {
         chart: {
             type: "candlestick",
             background: "transparent",
@@ -73,12 +79,13 @@ const TradingChart = () => {
         },
     };
 
-    const handleIntervalChange = (interval) => {
+    const handleIntervalChange = (interval: string) => {
         setActiveInterval(interval);
     };
 
     return (
         <div>
+            {/* 시간 간격 버튼 */}
             <div className="flex px-2 space-x-1 border-b border-light-line dark:border-dark-line text-sm">
                 {["1m", "15m", "1h", "4h", "1d", "1w"].map((interval) => (
                     <button
@@ -95,6 +102,7 @@ const TradingChart = () => {
                 ))}
             </div>
 
+            {/* 차트 또는 로딩 메시지 */}
             {isLoading ? (
                 <div className="text-center text-iconNormal">Loading Chart...</div>
             ) : (

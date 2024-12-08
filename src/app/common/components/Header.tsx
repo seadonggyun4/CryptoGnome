@@ -1,6 +1,7 @@
 "use client";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe, faMoon } from '@fortawesome/free-solid-svg-icons'; // 아이콘 임포트
 import '@/utils/fontAwesome'; // Font Awesome 설정 파일
 
 const Header = () => {
@@ -14,10 +15,9 @@ const Header = () => {
         }
     };
 
-    // 아이콘 정의
     const icons = [
-        { icon: 'globe', label: 'Language', onClick: () => console.log('Language') },
-        { icon: 'moon', label: 'Dark Mode', onClick: toggleDarkMode },
+        { icon: faGlobe, label: 'Language', onClick: () => console.log('Language') },
+        { icon: faMoon, label: 'Dark Mode', onClick: toggleDarkMode },
     ];
 
     return (
@@ -40,7 +40,7 @@ const Header = () => {
                         key={label}
                         className="text-xl flex items-center justify-center w-5 h-5 hover:text-primary transition-colors duration-200 cursor-pointer"
                         aria-label={label}
-                        onClick={onClick} // 각 아이콘의 onClick 동작 실행
+                        onClick={onClick}
                     >
                         <FontAwesomeIcon icon={icon} />
                     </div>

@@ -1,8 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@/utils/fontAwesome";
+import React from "react";
 
-const SearchInput = ({ placeholder = "Search", inputValue, onSearch, onFocus, onBlur }) => {
-    const handleInputChange = (e) => {
+interface SearchInputProps {
+    placeholder?: string; // 검색 입력창의 기본 텍스트
+    inputValue: string; // 현재 입력값
+    onSearch?: (value: string) => void; // 검색 이벤트 핸들러
+    onFocus?: () => void; // 포커스 이벤트 핸들러
+    onBlur?: () => void; // 블러 이벤트 핸들러
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({
+                                                     placeholder = "Search",
+                                                     inputValue,
+                                                     onSearch,
+                                                     onFocus,
+                                                     onBlur,
+                                                 }) => {
+    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         if (onSearch) onSearch(e.target.value);
     };
 

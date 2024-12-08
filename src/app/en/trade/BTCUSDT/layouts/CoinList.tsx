@@ -3,15 +3,30 @@
 import React, { useState, useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 import SearchInput from "@/app/common/elements/SearchInput";
-import { useReactTable, getCoreRowModel, flexRender, createColumnHelper } from "@tanstack/react-table";
+import {
+    useReactTable,
+    getCoreRowModel,
+    flexRender,
+    ColumnDef,
+} from "@tanstack/react-table";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
-import {useTradingContext} from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import {useSliceSymbol} from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
+import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
+import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 
-const CoinList = () => {
-    const {symbol, setSymbol} = useTradingContext()
-    const {base} = useSliceSymbol(symbol)
-    const [searchText, setSearchText] = useState(base);
+// 데이터 타입 정의
+interface TickerData {
+    symbol: string;
+    lastPrice: string;
+    priceChangePercent: string;
+    [key: string]: any; // 추가 필드에 대비한 유연성
+}
+
+const CoinList: React.FC = () => {
+    const { symbol, setSymbol } = useTradingContext(); // TradingContext 타입에 따라 수정 가능
+    const { base } = useSliceSymbol(symbol);
+    const [searchText, setSearchText] = useState<string>(base || "");
+
+    // Ticker 데이터 패칭
     const { data: coinListData = [], isLoading } = useTicker("");
 
     // 검색어 필터링은 useMemo로 처리
@@ -19,41 +34,46 @@ const CoinList = () => {
         if (!coinListData) return [];
         const searchTerm = searchText.trim().toUpperCase();
         return searchTerm
-            ? coinListData.filter((item) => item.symbol.includes(searchTerm))
+            ? coinListData.filter((item: TickerData) =>
+                item.symbol.includes(searchTerm)
+            )
             : coinListData;
-    }, [coinListData, searchText]); // `coinListData`와 `searchText` 변화만 필터링 로직에 영향
+    }, [coinListData, searchText]);
 
-    // tanstack table 설정
-    const columnHelper = createColumnHelper();
-    const columns = useMemo(
+    // 테이블 컬럼 정의
+    const columns: ColumnDef<TickerData>[] = useMemo(
         () => [
-            columnHelper.accessor("symbol", {
+            {
+                accessorKey: "symbol",
                 header: "Pair",
                 cell: (info) => (
                     <span className="text-primaryText dark:text-dark-primaryText font-semibold">
-                        {info.getValue()}
+                        {info.getValue() as string}
                     </span>
                 ),
-            }),
-            columnHelper.accessor("lastPrice", {
+            },
+            {
+                accessorKey: "lastPrice",
                 header: "Last Price",
-                cell: (info) => info.getValue(),
-            }),
-            columnHelper.accessor("priceChangePercent", {
+                cell: (info) => info.getValue() as string,
+            },
+            {
+                accessorKey: "priceChangePercent",
                 header: "24h Change",
                 cell: (info) => {
-                    const value = parseFloat(info.getValue());
+                    const value = parseFloat(info.getValue() as string);
                     return (
                         <span className={value > 0 ? "text-success" : "text-error"}>
                             {value.toFixed(2)}%
                         </span>
                     );
                 },
-            }),
+            },
         ],
         []
     );
 
+    // 테이블 설정
     const table = useReactTable({
         data: filteredData,
         columns,
@@ -83,7 +103,10 @@ const CoinList = () => {
                                                 : "text-left"
                                         } py-3 text-light-iconNormal dark:text-dark-iconNormal`}
                                     >
-                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                        {flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
                                     </th>
                                 ))}
                             </tr>
@@ -101,7 +124,10 @@ const CoinList = () => {
                                                 : "text-right text-light-primaryText dark:text-dark-primaryText"
                                         }`}
                                     >
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
                                     </td>
                                 ))}
                             </tr>

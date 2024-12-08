@@ -5,34 +5,43 @@ import {
     getCoreRowModel,
     flexRender,
     createColumnHelper,
+    ColumnDef,
 } from "@tanstack/react-table";
 import { useTopMovers } from "@/app/en/trade/BTCUSDT/hooks/useTopMovers";
 import Card from "@/app/common/elements/Card";
 
-const TopMovers = () => {
+// 데이터 타입 정의
+interface Mover {
+    symbol: string;
+    priceChangePercent: string;
+    time?: string;
+}
+
+// `convertTo24Hour` 함수의 타입 정의
+const convertTo24Hour = (timeString: string): string => {
+    if (!timeString) return "";
+    const [period, time] = timeString.split(" ");
+    let [hour, minute, second] = time.split(":").map(Number);
+
+    if (period === "오후" && hour < 12) hour += 12;
+    else if (period === "오전" && hour === 12) hour = 0;
+
+    return `${hour.toString().padStart(2, "0")}:${minute
+        .toString()
+        .padStart(2, "0")}:${second.toString().padStart(2, "0")}`;
+};
+
+const TopMovers: React.FC = () => {
     // 데이터 훅 사용
-    const { data: moversData, isLoading } = useTopMovers();
+    const { data: moversData = [], isLoading } = useTopMovers();
 
     // 컬럼 정의
-    const columnHelper = createColumnHelper();
-    const columns = [
+    const columnHelper = createColumnHelper<Mover>();
+    const columns: ColumnDef<Mover, string>[] = [
         columnHelper.accessor("symbol", {
+            header: "Symbol",
             cell: (info) => {
                 const row = info.row.original;
-
-                // `row.time`을 24시간제 형식으로 변환하는 함수
-                const convertTo24Hour = (timeString) => {
-                    const [period, time] = timeString.split(" ");
-                    let [hour, minute, second] = time.split(":").map(Number);
-
-                    if (period === "오후" && hour < 12) hour += 12;
-                    else if (period === "오전" && hour === 12) hour = 0;
-
-                    return `${hour.toString().padStart(2, "0")}:${minute
-                        .toString()
-                        .padStart(2, "0")}:${second.toString().padStart(2, "0")}`;
-                };
-
                 const formattedTime = convertTo24Hour(row.time || "");
 
                 return (
@@ -48,22 +57,20 @@ const TopMovers = () => {
             },
         }),
         columnHelper.accessor("priceChangePercent", {
+            header: "Change %",
             cell: (info) => {
                 const row = info.row.original; // 현재 행의 데이터 가져오기
                 return (
                     <div className="flex items-center justify-end space-x-2">
-                        {/* Change Percent */}
                         <span
                             className={`${
                                 parseFloat(row.priceChangePercent) > 0
                                     ? "text-success"
-                                    : "text-Error"
+                                    : "text-error"
                             }`}
                         >
                             {row.priceChangePercent}%
                         </span>
-
-                        {/* Button */}
                         <button
                             className={`w-5 h-5 flex items-center justify-center rounded ${
                                 parseFloat(row.priceChangePercent) > 0
@@ -80,9 +87,9 @@ const TopMovers = () => {
     ];
 
     // 테이블 데이터 준비
-    const table = useReactTable({
-        data: moversData || [],
-        columns,
+    const table = useReactTable<Mover>({
+        data: moversData, // Mover 타입
+        columns, // ColumnDef<Mover> 타입
         getCoreRowModel: getCoreRowModel(),
     });
 

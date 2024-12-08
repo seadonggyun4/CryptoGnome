@@ -1,7 +1,14 @@
 import { useMemo } from "react";
-import {QUOTES} from "@/process/constants";
+import { QUOTES } from "@/process/constants";
 
-export const useSliceSymbol = (symbol) => {
+// 반환 타입 정의
+interface SliceSymbolResult {
+    base: string | null;
+    quote: string | null;
+}
+
+// 커스텀 훅 정의
+export const useSliceSymbol = (symbol: string | null): SliceSymbolResult => {
     const { base, quote } = useMemo(() => {
         if (!symbol || typeof symbol !== "string") {
             return { base: null, quote: null }; // 기본 값 처리
