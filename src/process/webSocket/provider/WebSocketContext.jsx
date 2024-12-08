@@ -2,15 +2,15 @@
 
 import React, { createContext, useContext, useMemo } from "react";
 import { useWebSocket } from "@/process/webSocket/hooks/useWebSocket";
-import { useSymbolContext } from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
+import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 
 // WebSocket Context 생성
 const WebSocketContext = createContext();
 
 // WebSocket Provider 컴포넌트
-export const WebSocketProvider = ({ interval = "1h", children }) => {
-    const { symbol } = useSymbolContext()
-    const buffers = useWebSocket(symbol, interval);
+export const WebSocketProvider = ({ children }) => {
+    const { symbol, activeInterval } = useTradingContext()
+    const buffers = useWebSocket(symbol, activeInterval);
 
     // Context 값을 memoization하여 불필요한 리렌더링 방지
     const contextValue = useMemo(() => ({ ...buffers }), [buffers]);

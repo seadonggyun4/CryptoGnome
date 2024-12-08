@@ -1,18 +1,18 @@
 import ReactQueryProvider from "@/process/store/queryClientProvider";
 import { WebSocketProvider } from "@/process/webSocket/provider/WebSocketContext";
-import { SymbolProvider } from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
+import { TradingContextProvider } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import HomeSection from "@/app/en/trade/BTCUSDT/HomeSection";
 import Header from "@/app/common/components/Header";
 
 export default function BTCUSDTPage() {
   return (
     <ReactQueryProvider>
-        <SymbolProvider>
+        <TradingContextProvider>
           <WebSocketProvider>
               <Header/>
               <HomeSection />
           </WebSocketProvider>
-        </SymbolProvider>
+        </TradingContextProvider>
     </ReactQueryProvider>
   );
 }

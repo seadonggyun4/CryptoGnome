@@ -11,10 +11,10 @@ import React, { useMemo } from "react";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import {useOrderBook} from "@/features/orderbook/hooks/useOrderBook";
 import {useTicker} from "@/features/ticker/hooks/useTicker";
-import {useSymbolContext} from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
+import {useTradingContext} from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 
 const OrderBook = () => {
-    const {symbol} = useSymbolContext()
+    const {symbol} = useTradingContext()
     const {data:queryData, isLoading} = useOrderBook(symbol)
     const {data:priceData, isLoading:priceLoading } = useTicker(symbol);
 

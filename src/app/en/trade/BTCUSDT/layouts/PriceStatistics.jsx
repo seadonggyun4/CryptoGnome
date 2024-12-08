@@ -4,11 +4,11 @@ import React from "react";
 import Card from "@/app/common/elements/Card";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import {useTicker} from "@/features/ticker/hooks/useTicker";
-import {useSymbolContext} from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
+import {useTradingContext} from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import {useSliceSymbol} from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 
 const PriceStatistics = () => {
-    const {symbol} = useSymbolContext();
+    const {symbol} = useTradingContext();
     const {data, isLoading} = useTicker(symbol);
     const { base, quote } = useSliceSymbol(symbol)
 
