@@ -1,13 +1,16 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
+import {BASE_SYMBOL} from "@/process/constants";
 
 // Context 생성
 const SymbolContext = createContext();
 
 // Provider 컴포넌트
 export const SymbolProvider = ({ children }) => {
-    const [symbol, setSymbol] = useState("BTCUSDT"); // 초기값 설정
+    const [symbol, setSymbol] = useState(BASE_SYMBOL); // 초기값 설정
+    // const [symbol, setSymbol] = useState("ETHBTC"); // 초기값 설정
+
 
     const value = {
         symbol,

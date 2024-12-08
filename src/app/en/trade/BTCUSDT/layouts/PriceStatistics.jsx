@@ -5,10 +5,12 @@ import Card from "@/app/common/elements/Card";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import {useTicker} from "@/features/ticker/hooks/useTicker";
 import {useSymbolContext} from "@/app/en/trade/BTCUSDT/provider/SymbolContext";
+import {useSliceSymbol} from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 
 const PriceStatistics = () => {
     const {symbol} = useSymbolContext();
     const {data, isLoading} = useTicker(symbol);
+    const { base, quote } = useSliceSymbol(symbol)
 
     return (
         <Card>
@@ -20,7 +22,7 @@ const PriceStatistics = () => {
                     </div>
                     <div className="flex flex-col">
                         <div className="text-lg font-semibold text-light-primaryText dark:text-dark-primaryText">
-                            BTC/USDT
+                            {`${base}/${quote}`}
                         </div>
                         <a
                             href="https://www.binance.com/en/price/bitcoin"
