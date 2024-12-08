@@ -15,7 +15,7 @@ import {MarketTradeData} from "@/features/marketTrade/types";
 
 const MarketTrades: React.FC = () => {
     const { symbol } = useTradingContext();
-    const { data: trades = [], isLoading } = useMarketTrade(symbol);
+    const { data: trades = [], isLoading, error } = useMarketTrade(symbol);
 
     const formattedTrades = useMemo<MarketTradeData[]>(() => {
         return trades.map((trade) => ({
@@ -57,7 +57,7 @@ const MarketTrades: React.FC = () => {
     });
 
     return (
-        <Card>
+        <Card isLoading={isLoading} error={error}>
             <div>
                 <div className="p-4 border-b border-b-light-line dark:border-b-dark-line">
                     <h2 className="text-light-primaryText dark:text-dark-primaryText font-bold text-sm">
@@ -88,14 +88,7 @@ const MarketTrades: React.FC = () => {
                         ))}
                         </thead>
                         <tbody>
-                        {isLoading ? (
-                            <tr>
-                                <td colSpan={3} className="text-center py-4">
-                                    Loading...
-                                </td>
-                            </tr>
-                        ) : (
-                            table.getRowModel().rows.map((row) => (
+                        { table.getRowModel().rows.map((row) => (
                                 <tr
                                     key={row.id}
                                     className={`hover:bg-gray-800 ${
@@ -120,8 +113,7 @@ const MarketTrades: React.FC = () => {
                                         </td>
                                     ))}
                                 </tr>
-                            ))
-                        )}
+                            ))}
                         </tbody>
                     </table>
                 </div>

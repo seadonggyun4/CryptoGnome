@@ -32,7 +32,7 @@ const convertTo24Hour = (timeString: string): string => {
 
 const TopMovers: React.FC = () => {
     // 데이터 훅 사용
-    const { data: moversData = [], isLoading } = useTopMovers();
+    const { data: moversData = [], isLoading, error } = useTopMovers();
 
     // 컬럼 정의
     const columnHelper = createColumnHelper<Mover>();
@@ -93,7 +93,7 @@ const TopMovers: React.FC = () => {
     });
 
     return (
-        <Card>
+        <Card isLoading={isLoading} error={error}>
             <div className="flex items-center space-x-2 px-4 py-2 border-b border-light-line dark:border-dark-line">
                 <h2 className="text-sm font-bold text-light-primaryText dark:text-dark-primaryText">
                     Top Movers
@@ -107,33 +107,29 @@ const TopMovers: React.FC = () => {
                 </a>
             </div>
             <div className="overflow-auto max-h-36 px-4">
-                {isLoading ? (
-                    <div className="text-center py-4">Loading...</div>
-                ) : (
-                    <table className="table-auto w-full text-xs">
-                        <tbody>
-                        {table.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800">
-                                {row.getVisibleCells().map((cell) => (
-                                    <td
-                                        key={cell.id}
-                                        className={`py-1 ${
-                                            cell.column.id === "symbol"
-                                                ? "text-left"
-                                                : "text-right"
-                                        }`}
-                                    >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                )}
+                <table className="table-auto w-full text-xs">
+                    <tbody>
+                    {table.getRowModel().rows.map((row) => (
+                        <tr key={row.id} className="hover:bg-gray-800">
+                            {row.getVisibleCells().map((cell) => (
+                                <td
+                                    key={cell.id}
+                                    className={`py-1 ${
+                                        cell.column.id === "symbol"
+                                            ? "text-left"
+                                            : "text-right"
+                                    }`}
+                                >
+                                    {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                    )}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
         </Card>
     );

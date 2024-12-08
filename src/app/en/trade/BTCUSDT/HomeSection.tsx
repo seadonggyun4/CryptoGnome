@@ -14,7 +14,7 @@ import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
 const HomeSection =  () => {
     return (
         <section>
-            <div className="flex flex-col mx-auto max-w-[1528px] min-h-[120vh] h-full px-4 lg:px-0 py-1">
+            <div className="flex flex-col mx-auto max-w-[1528px] min-h-[150vh] h-full px-4 lg:px-0 py-1">
                 <div className="flex-1 flex gap-1 mb-1">
                     {/*main*/}
                     <div className="flex flex-col gap-1 w-full">

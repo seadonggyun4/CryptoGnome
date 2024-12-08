@@ -21,7 +21,7 @@ const CoinList: React.FC = () => {
     const [searchText, setSearchText] = useState<string>(base || "");
 
     // Ticker 데이터 패칭
-    const { data: coinListData = [] } = useTicker("");
+    const { data: coinListData = [], isLoading, error } = useTicker("");
 
     // 검색어 필터링은 useMemo로 처리
     const filteredData = useMemo(() => {
@@ -75,7 +75,7 @@ const CoinList: React.FC = () => {
     });
 
     return (
-        <Card>
+        <Card isLoading={isLoading} error={error}>
             <div className="h-full">
                 {/* 검색 창 */}
                 <div className="flex items-center space-x-4 px-4 py-4">

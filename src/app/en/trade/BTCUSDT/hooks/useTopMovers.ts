@@ -6,11 +6,12 @@ import { Mover } from "@/app/en/trade/BTCUSDT/types";
 interface UseTopMoversResult {
     data: Mover[];
     isLoading: boolean;
+    error: Error | null;
 }
 
 // 훅 구현
 export const useTopMovers = (): UseTopMoversResult => {
-    const { data, isLoading } = useTicker("");
+    const { data, isLoading, error } = useTicker("");
 
     // 정렬 및 변환 작업을 useMemo로 감싸서 불필요한 재계산 방지
     const topMovers = useMemo(() => {
@@ -25,5 +26,5 @@ export const useTopMovers = (): UseTopMoversResult => {
             }));
     }, [data]);
 
-    return { data: topMovers, isLoading };
+    return { data: topMovers, isLoading, error };
 };

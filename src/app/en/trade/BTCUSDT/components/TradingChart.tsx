@@ -3,17 +3,19 @@
 import dynamic from "next/dynamic";
 import { useTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
+import Loading from "@/app/common/elements/Loading";
+import React from "react";
 
 
 // ApexCharts 동적 import 설정
 const Chart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
-    loading: () => <div className="text-center text-iconNormal">Loading Chart...</div>,
+    loading: () => <Loading />,
 });
 
 const TradingChart: React.FC = () => {
     const { symbol, activeInterval, setActiveInterval } = useTradingContext();
-    const { data: chartData = [], isLoading } = useTradingChart(symbol, activeInterval);
+    const { data: chartData = [], isLoading, error } = useTradingChart(symbol, activeInterval);
 
     // 차트 옵션 설정
     const options: ApexCharts.ApexOptions = {
@@ -98,16 +100,24 @@ const TradingChart: React.FC = () => {
             </div>
 
             {/* 차트 또는 로딩 메시지 */}
-            {isLoading ? (
-                <div className="text-center text-iconNormal">Loading Chart...</div>
-            ) : (
+            {/* 로딩 상태 */}
+            {isLoading && (
+                <Loading />
+            )}
+            {/* 에러 상태 */}
+            {error && (
+                <div className="absolute inset-0 flex items-center justify-center text-error font-bold">
+                    Error.
+                </div>
+            )}
+            {/* 콘텐츠 */}
+            {!isLoading && !error &&
                 <Chart
                     options={options}
                     series={[{ data: chartData }]}
                     type="candlestick"
                     height={400}
-                />
-            )}
+                />}
         </div>
     );
 };
