@@ -1,6 +1,6 @@
 // WebSocket 이벤트 핸들러 인터페이스
 interface WebSocketHandlers {
-    onMessage?: (message: any) => void; // 메시지 처리 핸들러
+    onMessage?: (message: string) => void; // 메시지 처리 핸들러
     onClose?: () => void; // 연결 종료 핸들러
     onError?: (error: Event) => void; // 에러 발생 핸들러
 }

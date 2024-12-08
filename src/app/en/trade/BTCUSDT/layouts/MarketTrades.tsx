@@ -29,7 +29,7 @@ const MarketTrades: React.FC = () => {
 
     const columnHelper = createColumnHelper<MarketTradeData>();
 
-    const columns: ColumnDef<MarketTradeData, any>[] = [
+    const columns: ColumnDef<MarketTradeData>[] = [
         columnHelper.accessor("price", {
             header: "Price (USDT)",
             cell: (info) => info.getValue(), // price는 string으로 처리
