@@ -2,31 +2,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import { apiClient } from "@/process/api";
-
-// Ticker 데이터 타입 정의
-interface TickerData {
-    symbol: string;
-    lastPrice: string;
-    priceChange: string;
-    priceChangePercent: string;
-    highPrice: string;
-    lowPrice: string;
-    volume: string;
-    quoteVolume: string;
-    time: string;
-}
-
-// WebSocket Ticker 데이터 타입 정의
-interface WebSocketTickerData {
-    s: string; // Symbol
-    c: string; // Last price
-    p: string; // Price change
-    P: string; // Price change percentage
-    h: string; // High price
-    l: string; // Low price
-    v: string; // Volume
-    q: string; // Quote volume
-}
+import { ApiTickerResponse, WebSocketTickerData, TickerData } from "@/features/ticker/types";
 
 /**
  * useTicker Hook
@@ -39,17 +15,17 @@ export const useTicker = (symbol?: string) => {
                 ? `ticker/24hr?symbol=${symbol.toUpperCase()}`
                 : "ticker/24hr";
 
-            const response = await apiClient<{
-                data: TickerData | TickerData[];
-            }>(url);
+            const response = await apiClient<ApiTickerResponse | ApiTickerResponse[]>(url);
 
+            // API 응답이 단일 객체인지 배열인지 판별 후 변환
             const data = Array.isArray(response.data)
                 ? response.data
                 : [response.data];
 
+            // 가공된 TickerData 생성
             return data.map((item) => ({
                 ...item,
-                time: new Date().toLocaleTimeString(),
+                time: new Date(item.time),
             }));
         } catch (error) {
             apiErrorHandler(error as AxiosError | Error);
@@ -83,7 +59,7 @@ export const updateTicker = (
         lowPrice: data.l,
         volume: data.v,
         quoteVolume: data.q,
-        time: new Date().toLocaleTimeString(),
+        time: new Date(), // 현재 시간으로 업데이트
     };
 
     queryClient.setQueryData<TickerData[]>(

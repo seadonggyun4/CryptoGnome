@@ -6,12 +6,7 @@ import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
-
-// 타입 정의
-interface SliceSymbolResult {
-    base: string | null;
-    quote: string | null;
-}
+import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
 
 // 컴포넌트 정의
 const PriceStatistics: React.FC = () => {

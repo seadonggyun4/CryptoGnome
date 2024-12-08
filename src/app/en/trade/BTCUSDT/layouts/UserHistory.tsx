@@ -3,9 +3,11 @@
 import Card from "@/app/common/elements/Card";
 import Tabs from "@/app/common/elements/Tabs";
 import {useMemo, useState} from "react";
+import { Tab } from '@/app/common/types'
+
 
 const UserHistory = () => {
-    const tabs = [
+    const tabs:Tab[] = [
         { key: "openOders", label: `Open Oders(${0})` },
         { key: "orderHistory", label: "Order History" },
         { key: "tradHistory", label: "Trad History" },

@@ -9,11 +9,8 @@ const Header = () => {
     // 다크 모드 토글 함수
     const toggleDarkMode = () => {
         const htmlElement = document.documentElement;
-        if (htmlElement.classList.contains("dark")) {
-            htmlElement.classList.remove("dark");
-        } else {
-            htmlElement.classList.add("dark");
-        }
+        if (htmlElement.classList.contains("dark")) htmlElement.classList.remove("dark")
+        else htmlElement.classList.add("dark")
     };
 
     const icons = [

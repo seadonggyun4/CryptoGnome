@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 interface RealTimePriceProps {
-    price: string; // 가격은 숫자 타입이어야 합니다.
-    showIcon?: boolean; // 아이콘 표시 여부는 선택적 속성입니다.
+    price: string;
+    showIcon?: boolean;
 }
 
 const RealTimePrice: React.FC<RealTimePriceProps> = ({ price, showIcon = false }) => {

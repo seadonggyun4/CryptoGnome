@@ -5,16 +5,11 @@ import { useState, useMemo } from "react";
 import Tabs from "@/app/common/elements/Tabs";
 import Card from "@/app/common/elements/Card";
 import TradingChart from "@/app/en/trade/BTCUSDT/components/TradingChart";
-
-// Tab 타입 정의
-interface Tab {
-    key: string; // 탭의 고유 키값
-    label: string; // 탭에 표시될 레이블
-}
+import { Tab } from '@/app/common/types'
 
 const ChartContainer: React.FC = () => {
     // Tabs 데이터 타입 적용
-    const tabs: Tab[] = [
+    const tabs:Tab[] = [
         { key: "chart", label: "Chart" },
         { key: "info", label: "Info" },
         { key: "tradingData", label: "Trading Data" },

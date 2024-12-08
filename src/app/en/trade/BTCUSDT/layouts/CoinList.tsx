@@ -12,18 +12,12 @@ import {
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
-
-// 데이터 타입 정의
-interface TickerData {
-    symbol: string;
-    lastPrice: string;
-    priceChangePercent: string;
-    [key: string]: any; // 추가 필드에 대비한 유연성
-}
+import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
+import {TickerData} from "@/features/ticker/types";
 
 const CoinList: React.FC = () => {
     const { symbol } = useTradingContext(); // TradingContext 타입에 따라 수정 가능
-    const { base } = useSliceSymbol(symbol);
+    const { base }: SliceSymbolResult = useSliceSymbol(symbol);
     const [searchText, setSearchText] = useState<string>(base || "");
 
     // Ticker 데이터 패칭

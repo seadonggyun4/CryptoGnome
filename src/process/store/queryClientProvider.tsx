@@ -14,11 +14,7 @@ const queryClient = new QueryClient({
     },
 });
 
-interface ReactQueryProviderProps {
-    children: ReactNode;
-}
-
-export default function ReactQueryProvider({ children }: ReactQueryProviderProps) {
+export default function ReactQueryProvider({ children }: { children: ReactNode; }) {
     return (
         <QueryClientProvider client={queryClient}>
             {children}

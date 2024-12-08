@@ -3,9 +3,10 @@
 import { useState, useMemo } from "react";
 import Tabs from "@/app/common/elements/Tabs";
 import Card from "@/app/common/elements/Card";
+import { Tab } from '@/app/common/types'
 
 const TradingForm = () => {
-    const tabs = [
+    const tabs:Tab[] = [
         { key: "Spot", label: "Spot" },
         { key: "Cross", label: "Cross" },
         { key: "Isolated", label: "Isolated" },

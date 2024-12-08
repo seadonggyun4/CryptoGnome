@@ -12,28 +12,25 @@ import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
+import { orderBook } from "@/features/orderbook/types"; 
 
 // 타입 정의
-type Order = [string, string]; // [price, amount]
-interface FormattedOrder {
-    price: string;
-    amount: string;
-    total: string;
-}
+interface FormattedOrder extends orderBook {}
 
+// 컴포넌트 정의
 const OrderBook: React.FC = () => {
     const { symbol } = useTradingContext();
 
     // 데이터 훅
-    const { data: queryData, isLoading } = useOrderBook(symbol);
+    const { data: orderBookData, isLoading } = useOrderBook(symbol);
     const { data: priceData = [], isLoading: priceLoading } = useTicker(symbol);
 
     // Query 및 WebSocket 데이터
-    const bids: Order[] = useMemo(() => queryData?.bids || [], [queryData]);
-    const asks: Order[] = useMemo(() => queryData?.asks || [], [queryData]);
+    const bids = useMemo(() => orderBookData?.bids || [], [orderBookData]);
+    const asks = useMemo(() => orderBookData?.asks || [], [orderBookData]);
 
     // 데이터 포맷팅 함수
-    const formatOrderData = (orders: Order[]): FormattedOrder[] => {
+    const formatOrderData = (orders: typeof bids): FormattedOrder[] => {
         let total = 0;
         return orders.map(([price, amount]) => {
             total += parseFloat(price) * parseFloat(amount);

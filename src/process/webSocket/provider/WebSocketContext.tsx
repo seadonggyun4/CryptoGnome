@@ -7,13 +7,8 @@ import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContex
 // WebSocket Context 생성 (현재 데이터 전달 없음)
 const WebSocketContext = createContext<undefined>(undefined);
 
-// WebSocket Provider Props 타입 정의
-interface WebSocketProviderProps {
-    children: ReactNode;
-}
-
 // WebSocket Provider 컴포넌트
-export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
+export const WebSocketProvider: React.FC<{ children: ReactNode; }> = ({ children }) => {
     const { symbol, activeInterval } = useTradingContext();
 
     // useWebSocket 훅 호출 및 clean-up 관리

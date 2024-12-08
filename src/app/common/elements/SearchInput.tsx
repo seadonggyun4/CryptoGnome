@@ -11,12 +11,12 @@ interface SearchInputProps {
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
-                                                     placeholder = "Search",
-                                                     inputValue,
-                                                     onSearch,
-                                                     onFocus,
-                                                     onBlur,
-                                                 }) => {
+         placeholder = "Search",
+         inputValue,
+         onSearch,
+         onFocus,
+         onBlur,
+     }) => {
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         if (onSearch) onSearch(e.target.value);
     };

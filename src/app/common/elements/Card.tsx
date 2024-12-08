@@ -1,10 +1,8 @@
 import React, { ReactNode } from "react";
 
-interface CardProps {
+const Card: React.FC<{
     children: ReactNode;
-}
-
-const Card: React.FC<CardProps> = ({ children }) => {
+}> = ({ children }) => {
     return (
         <article className="bg-light-bg1 dark:bg-dark-bg1 rounded-lg w-full h-full">
             {children}

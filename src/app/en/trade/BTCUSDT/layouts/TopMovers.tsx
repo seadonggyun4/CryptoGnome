@@ -1,5 +1,3 @@
-"use client";
-
 import {
     useReactTable,
     getCoreRowModel,
@@ -9,20 +7,19 @@ import {
 } from "@tanstack/react-table";
 import { useTopMovers } from "@/app/en/trade/BTCUSDT/hooks/useTopMovers";
 import Card from "@/app/common/elements/Card";
-
-// 데이터 타입 정의
-interface Mover {
-    symbol: string;
-    priceChangePercent: string;
-    time?: string;
-}
+import { Mover } from "@/app/en/trade/BTCUSDT/types";
 
 // `convertTo24Hour` 함수의 타입 정의
 const convertTo24Hour = (timeString: string): string => {
     if (!timeString) return "";
+
     const [period, time] = timeString.split(" ");
-    const [hourStr, minute, second] = time.split(":").map(Number);
-    let hour = Number(hourStr); // `hour`는 변경될 수 있으므로 let 사용
+    if (!time) return ""; // time이 undefined인 경우 빈 문자열 반환
+
+    const [hourStr, minuteStr, secondStr] = time.split(":");
+    let hour = parseInt(hourStr, 10) || 0; // hour가 NaN인 경우 0으로 설정
+    const minute = parseInt(minuteStr, 10) || 0; // minute이 NaN인 경우 0으로 설정
+    const second = parseInt(secondStr, 10) || 0; // second가 NaN인 경우 0으로 설정
 
     if (period === "오후" && hour < 12) hour += 12;
     else if (period === "오전" && hour === 12) hour = 0;
@@ -61,7 +58,7 @@ const TopMovers: React.FC = () => {
         columnHelper.accessor("priceChangePercent", {
             header: "Change %",
             cell: (info) => {
-                const row = info.row.original; // 현재 행의 데이터 가져오기
+                const row = info.row.original;
                 return (
                     <div className="flex items-center justify-end space-x-2">
                         <span
@@ -90,8 +87,8 @@ const TopMovers: React.FC = () => {
 
     // 테이블 데이터 준비
     const table = useReactTable<Mover>({
-        data: moversData, // Mover 타입
-        columns, // ColumnDef<Mover> 타입
+        data: moversData,
+        columns,
         getCoreRowModel: getCoreRowModel(),
     });
 

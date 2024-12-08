@@ -2,27 +2,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
-
-// 차트 데이터 포인트 타입 정의
-interface ChartPoint {
-    x: Date;
-    y: [string, string, string, string]; // [Open, High, Low, Close]
-}
-
-// API Kline 데이터 타입 정의
-type KlineData = [number, string, string, string, string, ...any[]];
-
-// WebSocket 캔들스틱 데이터 타입 정의
-interface WebSocketKlineData {
-    k: {
-        t: number; // Open time
-        o: string; // Open price
-        h: string; // High price
-        l: string; // Low price
-        c: string; // Close price
-        [key: string]: any; // 기타 필드
-    };
-}
+import {KlineData, ApiKlineResponse, WebSocketKlineData} from "@/features/tradingChart/types";
 
 /**
  * useTradingChart Hook
@@ -30,13 +10,13 @@ interface WebSocketKlineData {
  * @param interval - 차트 간격 (기본값: "1h")
  */
 export const useTradingChart = (symbol: string, interval: string) => {
-    const fetchTradingData = async (): Promise<ChartPoint[]> => {
+    const fetchTradingData = async (): Promise<KlineData[]> => {
         try {
-            const response = await apiClient<KlineData[]>(
+            const { data } = await apiClient<ApiKlineResponse[]>(
                 `klines?symbol=${symbol}&interval=${interval}&limit=200`
             );
 
-            return response.data.map((item: KlineData) => ({
+            return data.map((item) => ({
                 x: new Date(item[0]),
                 y: [item[1], item[2], item[3], item[4]], // [Open, High, Low, Close]
             }));
@@ -46,7 +26,7 @@ export const useTradingChart = (symbol: string, interval: string) => {
         }
     };
 
-    return useQuery<ChartPoint[], Error>({
+    return useQuery<KlineData[], Error>({
         queryKey: ["tradingData", symbol, interval],
         queryFn: fetchTradingData,
     });
@@ -66,12 +46,12 @@ export const updateTradingChart = (
     interval: string
 ): void => {
     const candle = data.k;
-    const newPoint: ChartPoint = {
+    const newPoint: KlineData = {
         x: new Date(candle.t),
         y: [candle.o, candle.h, candle.l, candle.c],
     };
 
-    queryClient.setQueryData<ChartPoint[]>(
+    queryClient.setQueryData<KlineData[]>(
         ["tradingData", symbol, interval],
         (prevData = []) => {
             const lastPoint = prevData[prevData.length - 1];
