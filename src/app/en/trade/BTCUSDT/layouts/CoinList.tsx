@@ -22,12 +22,12 @@ interface TickerData {
 }
 
 const CoinList: React.FC = () => {
-    const { symbol, setSymbol } = useTradingContext(); // TradingContext 타입에 따라 수정 가능
+    const { symbol } = useTradingContext(); // TradingContext 타입에 따라 수정 가능
     const { base } = useSliceSymbol(symbol);
     const [searchText, setSearchText] = useState<string>(base || "");
 
     // Ticker 데이터 패칭
-    const { data: coinListData = [], isLoading } = useTicker("");
+    const { data: coinListData = [] } = useTicker("");
 
     // 검색어 필터링은 useMemo로 처리
     const filteredData = useMemo(() => {

@@ -29,8 +29,8 @@ const OrderBook: React.FC = () => {
     const { data: priceData = [], isLoading: priceLoading } = useTicker(symbol);
 
     // Query 및 WebSocket 데이터
-    const bids: Order[] = queryData?.bids || [];
-    const asks: Order[] = queryData?.asks || [];
+    const bids: Order[] = useMemo(() => queryData?.bids || [], [queryData]);
+    const asks: Order[] = useMemo(() => queryData?.asks || [], [queryData]);
 
     // 데이터 포맷팅 함수
     const formatOrderData = (orders: Order[]): FormattedOrder[] => {
@@ -49,8 +49,14 @@ const OrderBook: React.FC = () => {
     const formattedAsks = useMemo(() => formatOrderData(asks), [asks]);
 
     // 구매 및 판매 주문량 계산
-    const totalBuyVolume = bids.reduce((acc, [, amount]) => acc + parseFloat(amount), 0);
-    const totalSellVolume = asks.reduce((acc, [, amount]) => acc + parseFloat(amount), 0);
+    const totalBuyVolume = useMemo(
+        () => bids.reduce((acc, [, amount]) => acc + parseFloat(amount), 0),
+        [bids]
+    );
+    const totalSellVolume = useMemo(
+        () => asks.reduce((acc, [, amount]) => acc + parseFloat(amount), 0),
+        [asks]
+    );
     const totalVolume = totalBuyVolume + totalSellVolume;
 
     const buyPercentage = ((totalBuyVolume / totalVolume) * 100).toFixed(2);
@@ -145,11 +151,18 @@ const OrderBook: React.FC = () => {
 
                         <div className="flex items-center space-x-2 my-2">
                             <RealTimePrice
-                                price={priceLoading ? "0": parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)}
+                                price={
+                                    priceLoading
+                                        ? "0"
+                                        : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)
+                                }
                                 showIcon={true}
                             />
                             <span className="text-sm text-light-iconNormal dark:text-dark-iconNormal">
-                                ${priceLoading ? "" : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)}
+                                $
+                                {priceLoading
+                                    ? ""
+                                    : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)}
                             </span>
                         </div>
 

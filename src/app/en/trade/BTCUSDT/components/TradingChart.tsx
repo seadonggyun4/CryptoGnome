@@ -4,11 +4,6 @@ import dynamic from "next/dynamic";
 import { useTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 
-// 차트 데이터 타입 정의
-interface ChartDataPoint {
-    x: Date | number;
-    y: [number, number, number, number]; // [Open, High, Low, Close]
-}
 
 // ApexCharts 동적 import 설정
 const Chart = dynamic(() => import("react-apexcharts"), {

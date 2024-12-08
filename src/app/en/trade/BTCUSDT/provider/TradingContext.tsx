@@ -11,14 +11,6 @@ interface TradingContextType {
     setActiveInterval: React.Dispatch<React.SetStateAction<string>>;
 }
 
-// 초기값 정의
-const initialTradingContext: TradingContextType = {
-    symbol: BASE_SYMBOL,
-    setSymbol: () => {}, // Placeholder function
-    activeInterval: "1h",
-    setActiveInterval: () => {}, // Placeholder function
-};
-
 // Context 생성
 const TradingContext = createContext<TradingContextType | undefined>(undefined);
 

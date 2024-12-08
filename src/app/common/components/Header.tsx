@@ -1,23 +1,24 @@
 "use client";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGlobe, faMoon } from '@fortawesome/free-solid-svg-icons'; // 아이콘 임포트
-import '@/utils/fontAwesome'; // Font Awesome 설정 파일
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGlobe, faMoon } from "@fortawesome/free-solid-svg-icons"; // 아이콘 임포트
+import Image from "next/image"; // Next.js Image 컴포넌트
+import "@/utils/fontAwesome"; // Font Awesome 설정 파일
 
 const Header = () => {
     // 다크 모드 토글 함수
     const toggleDarkMode = () => {
         const htmlElement = document.documentElement;
-        if (htmlElement.classList.contains('dark')) {
-            htmlElement.classList.remove('dark');
+        if (htmlElement.classList.contains("dark")) {
+            htmlElement.classList.remove("dark");
         } else {
-            htmlElement.classList.add('dark');
+            htmlElement.classList.add("dark");
         }
     };
 
     const icons = [
-        { icon: faGlobe, label: 'Language', onClick: () => console.log('Language') },
-        { icon: faMoon, label: 'Dark Mode', onClick: toggleDarkMode },
+        { icon: faGlobe, label: "Language", onClick: () => console.log("Language") },
+        { icon: faMoon, label: "Dark Mode", onClick: toggleDarkMode },
     ];
 
     return (
@@ -25,9 +26,11 @@ const Header = () => {
             {/* Left Section */}
             <div className="flex items-center space-x-4">
                 <div className="w-32">
-                    <img
+                    <Image
                         src="/title.png"
                         alt="Binance Logo"
+                        width={128} // 이미지의 가로 크기
+                        height={32} // 이미지의 세로 크기
                         className="w-full h-auto object-contain"
                     />
                 </div>
@@ -48,6 +51,6 @@ const Header = () => {
             </div>
         </header>
     );
-}
+};
 
 export default Header;

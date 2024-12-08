@@ -21,7 +21,8 @@ interface Mover {
 const convertTo24Hour = (timeString: string): string => {
     if (!timeString) return "";
     const [period, time] = timeString.split(" ");
-    let [hour, minute, second] = time.split(":").map(Number);
+    const [hourStr, minute, second] = time.split(":").map(Number);
+    let hour = Number(hourStr); // `hour`는 변경될 수 있으므로 let 사용
 
     if (period === "오후" && hour < 12) hour += 12;
     else if (period === "오전" && hour === 12) hour = 0;
@@ -30,6 +31,7 @@ const convertTo24Hour = (timeString: string): string => {
         .toString()
         .padStart(2, "0")}:${second.toString().padStart(2, "0")}`;
 };
+
 
 const TopMovers: React.FC = () => {
     // 데이터 훅 사용

@@ -88,6 +88,6 @@ export const updateTicker = (
 
     queryClient.setQueryData<TickerData[]>(
         ["ticker", symbol],
-        (prevData = []) => [updatedTicker]
+        () => [updatedTicker]
     );
 };

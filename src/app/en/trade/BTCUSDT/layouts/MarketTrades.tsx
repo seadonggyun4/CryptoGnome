@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useDeferredValue } from "react";
+import React, { useMemo } from "react";
 import Card from "@/app/common/elements/Card";
 import {
     useReactTable,
@@ -16,7 +16,7 @@ import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContex
 interface Trade {
     price: string;
     qty: string;
-    time: string;
+    time: Date;
     isBuyerMaker: boolean;
 }
 

@@ -8,15 +8,6 @@ import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContex
 import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 
 // 타입 정의
-interface TickerData {
-    lastPrice: string;
-    priceChangePercent: string;
-    highPrice: string;
-    lowPrice: string;
-    volume: string;
-    quoteVolume: string;
-}
-
 interface SliceSymbolResult {
     base: string | null;
     quote: string | null;
