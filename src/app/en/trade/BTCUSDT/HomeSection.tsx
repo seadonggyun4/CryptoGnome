@@ -14,11 +14,11 @@ import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
 const HomeSection =  () => {
     return (
         <section>
-            <div className="mx-auto max-w-[1528px] h-full px-4 lg:px-0 py-1">
-                <div className="flex gap-1 mb-1">
+            <div className="flex flex-col mx-auto max-w-[1528px] min-h-[120vh] h-full px-4 lg:px-0 py-1">
+                <div className="flex-1 flex gap-1 mb-1">
                     {/*main*/}
                     <div className="flex flex-col gap-1 w-full">
-                        <div>
+                        <div className="min-h-20">
                             <PriceStatistics />
                         </div>
                         <div className="flex-1 flex gap-1">
@@ -40,10 +40,10 @@ const HomeSection =  () => {
                         <div className="flex-1">
                             <CoinList/>
                         </div>
-                        <div className="flex-2">
+                        <div className="flex-2 min-h-48">
                             <MarketTrades/>
                         </div>
-                        <div className="flex-2">
+                        <div className="flex-2 min-h-40">
                             <TopMovers/>
                         </div>
                     </aside>
