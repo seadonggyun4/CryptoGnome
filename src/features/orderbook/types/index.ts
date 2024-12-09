@@ -12,7 +12,10 @@ interface BaseData {
 }
 
 // API 응답 타입 (원본 데이터)
-export interface ApiTOrderBookResponse extends BaseData {}
+export interface ApiTOrderBookResponse {
+    bids: orderBookList; // 매수 데이터
+    asks: orderBookList; // 매도 데이터
+}
 
 // WebSocket 업데이트 데이터 타입
 export interface WebSocketOrderBookData {
@@ -21,4 +24,7 @@ export interface WebSocketOrderBookData {
 }
 
 // OrderBook 데이터 타입 정의
-export interface OrderBookData extends BaseData{}
+export interface OrderBookData {
+    bids: orderBookList; // 매수 데이터
+    asks: orderBookList; // 매도 데이터
+}

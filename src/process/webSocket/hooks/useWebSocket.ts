@@ -9,9 +9,10 @@ import { updateTradingChart } from "@/features/tradingChart/hooks/useTradingChar
 import { useToast } from "@/app/common/provider/ToastContext";
 
 export const useWebSocket = (symbol: string, interval: string): (() => void) => {
+    const wsRef = useRef<WebSocket | null>(null);
+
     const { showToast } = useToast();
     const queryClient = useQueryClient();
-    const wsRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
         const connectWebSocket = () => {
@@ -63,6 +64,8 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
                 wsRef.current = null;
             }
         };
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [symbol, interval]);
 
     // clean-up 함수 반환

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import {
     useReactTable,
     getCoreRowModel,
@@ -12,10 +12,13 @@ import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import { orderBook } from "@/features/orderbook/types"; 
 
 // 타입 정의
-interface FormattedOrder extends orderBook {}
+interface FormattedOrder {
+    price: string;
+    amount: string;
+    total: string;
+}
 
 // 컴포넌트 정의
 const OrderBook: React.FC = () => {
@@ -30,20 +33,23 @@ const OrderBook: React.FC = () => {
     const asks = useMemo(() => orderBookData?.asks || [], [orderBookData]);
 
     // 데이터 포맷팅 함수
-    const formatOrderData = (orders: typeof bids): FormattedOrder[] => {
-        let total = 0;
-        return orders.map(([price, amount]) => {
-            total += parseFloat(price) * parseFloat(amount);
-            return {
-                price: parseFloat(price).toFixed(2),
-                amount: parseFloat(amount).toFixed(6),
-                total: total.toFixed(2),
-            };
-        });
-    };
+    const formatOrderData = useCallback(
+        (orders: typeof bids): FormattedOrder[] => {
+            let total = 0;
+            return orders.map(([price, amount]) => {
+                total += parseFloat(price) * parseFloat(amount);
+                return {
+                    price: parseFloat(price).toFixed(2),
+                    amount: parseFloat(amount).toFixed(6),
+                    total: total.toFixed(2),
+                };
+            });
+        },
+        []
+    );
 
-    const formattedBids = useMemo(() => formatOrderData(bids), [bids]);
-    const formattedAsks = useMemo(() => formatOrderData(asks), [asks]);
+    const formattedBids = useMemo(() => formatOrderData(bids), [bids, formatOrderData]);
+    const formattedAsks = useMemo(() => formatOrderData(asks), [asks, formatOrderData]);
 
     // 구매 및 판매 주문량 계산
     const totalBuyVolume = useMemo(
@@ -153,11 +159,11 @@ const OrderBook: React.FC = () => {
                             showIcon={true}
                         />
                         <span className="text-sm text-light-iconNormal dark:text-dark-iconNormal">
-                                $
+                            $
                             {priceLoading
                                 ? ""
                                 : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)}
-                            </span>
+                        </span>
                     </div>
 
                     {/* Buy Orders */}

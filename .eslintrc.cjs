@@ -14,5 +14,6 @@ module.exports = {
     // 원하는 ESLint 규칙 추가
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-empty-interface": "off",
   },
 };
