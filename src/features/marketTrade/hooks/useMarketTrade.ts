@@ -16,10 +16,16 @@ export const useMarketTrade = (symbol: string) => {
                 `trades?symbol=${symbol}&limit=100`
             );
 
+            // 여기서 데이터를 포맷팅
             return data.map((trade) => ({
-                price: trade.price,
-                qty: trade.qty,
-                time: new Date(trade.time),
+                price: parseFloat(trade.price).toFixed(2), // 포맷팅
+                qty: parseFloat(trade.qty).toFixed(6), // 포맷팅
+                time: new Date(trade.time).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false,
+                }), // 포맷팅
                 isBuyerMaker: trade.isBuyerMaker,
             }));
         } catch (error) {
@@ -34,6 +40,7 @@ export const useMarketTrade = (symbol: string) => {
     });
 };
 
+
 // updateMarketTrade 함수
 export const updateMarketTrade = (
     queryClient: QueryClient,
@@ -41,9 +48,14 @@ export const updateMarketTrade = (
     symbol: string
 ) => {
     const newTrade: MarketTradeData = {
-        price: data.p,
-        qty: data.q,
-        time: new Date(data.T),
+        price: parseFloat(data.p).toFixed(2), // 포맷팅
+        qty: parseFloat(data.q).toFixed(6), // 포맷팅
+        time: new Date(data.T).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+        }), // 포맷팅
         isBuyerMaker: data.m,
     };
 

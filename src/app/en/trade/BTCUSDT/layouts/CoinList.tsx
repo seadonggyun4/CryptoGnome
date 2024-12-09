@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Card from "@/app/common/elements/Card";
 import SearchInput from "@/app/common/elements/SearchInput";
 import {
@@ -13,12 +11,17 @@ import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
-import {TickerData} from "@/features/ticker/types";
+import { TickerData } from "@/features/ticker/types";
 
 const CoinList: React.FC = () => {
-    const { symbol } = useTradingContext(); // TradingContext 타입에 따라 수정 가능
+    const { symbol, setSymbol } = useTradingContext(); // TradingContext 타입에 따라 수정 가능
     const { base }: SliceSymbolResult = useSliceSymbol(symbol);
     const [searchText, setSearchText] = useState<string>(base || "");
+
+    // base 변경 시 searchText 동기화
+    useEffect(() => {
+        setSearchText(base || "");
+    }, [base]);
 
     // Ticker 데이터 패칭
     const { data: coinListData = [], isLoading, error } = useTicker("");
@@ -74,6 +77,10 @@ const CoinList: React.FC = () => {
         getCoreRowModel: getCoreRowModel(),
     });
 
+    const switchSymbol = (selectedSymbol: string) => {
+        setSymbol(selectedSymbol); // symbol 값을 업데이트
+    };
+
     return (
         <Card isLoading={isLoading} error={error}>
             <div className="h-full">
@@ -108,7 +115,7 @@ const CoinList: React.FC = () => {
                         </thead>
                         <tbody>
                         {table.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800">
+                            <tr key={row.id} className="hover:bg-gray-800 cursor-pointer">
                                 {row.getVisibleCells().map((cell) => (
                                     <td
                                         key={cell.id}
@@ -117,6 +124,7 @@ const CoinList: React.FC = () => {
                                                 ? "text-left"
                                                 : "text-right text-light-primaryText dark:text-dark-primaryText"
                                         }`}
+                                        onClick={() => switchSymbol(row.original.symbol)}
                                     >
                                         {flexRender(
                                             cell.column.columnDef.cell,

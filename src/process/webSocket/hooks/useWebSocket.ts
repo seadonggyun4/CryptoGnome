@@ -9,43 +9,53 @@ import { updateTradingChart } from "@/features/tradingChart/hooks/useTradingChar
 import { useToast } from "@/app/common/provider/ToastContext";
 
 export const useWebSocket = (symbol: string, interval: string): (() => void) => {
-    const {showToast} = useToast();
+    const { showToast } = useToast();
     const queryClient = useQueryClient();
     const wsRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
-        const streams = [
-            `${symbol.toLowerCase()}@trade`,
-            `${symbol.toLowerCase()}@ticker`,
-            `${symbol.toLowerCase()}@depth`,
-            `${symbol.toLowerCase()}@kline_${interval}`,
-        ];
-        const url = `${URL_SOCKET}/stream?streams=${streams.join("/")}`;
+        const connectWebSocket = () => {
+            const streams = [
+                `${symbol.toLowerCase()}@trade`,
+                `${symbol.toLowerCase()}@ticker`,
+                `${symbol.toLowerCase()}@depth`,
+                `${symbol.toLowerCase()}@kline_${interval}`,
+            ];
+            const url = `${URL_SOCKET}/stream?streams=${streams.join("/")}`;
 
-        wsRef.current = webSocketHandler(url, {
-            onMessage: (message) => {
-                const data = message.data;
+            wsRef.current = webSocketHandler(
+                url,
+                {
+                    onMessage: (message) => {
+                        const data = message.data;
 
-                switch (data.e) {
-                    case "trade":
-                        updateMarketTrade(queryClient, data, symbol);
-                        break;
-                    case "24hrTicker":
-                        updateTicker(queryClient, data, symbol);
-                        break;
-                    case "depthUpdate":
-                        if (data.b?.length >= 17 && data.a?.length >= 17) {
-                            updateOrderBook(queryClient, data, symbol);
+                        switch (data.e) {
+                            case "trade":
+                                updateMarketTrade(queryClient, data, symbol);
+                                break;
+                            case "24hrTicker":
+                                updateTicker(queryClient, data, symbol);
+                                break;
+                            case "depthUpdate":
+                                if (data.b?.length >= 17 && data.a?.length >= 17) {
+                                    updateOrderBook(queryClient, data, symbol);
+                                }
+                                break;
+                            case "kline":
+                                updateTradingChart(queryClient, data, symbol, interval);
+                                break;
+                            default:
+                                console.warn(`Unhandled WebSocket event: ${data.e}`);
                         }
-                        break;
-                    case "kline":
-                        updateTradingChart(queryClient, data, symbol, interval);
-                        break;
-                    default:
-                        console.warn(`Unhandled WebSocket event: ${data.e}`);
-                }
-            },
-        },{}, showToast);
+                    },
+                },
+                {},
+                showToast
+            );
+        };
+
+        // 연결 설정
+        connectWebSocket();
 
         return () => {
             if (wsRef.current) {
@@ -53,7 +63,7 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
                 wsRef.current = null;
             }
         };
-    }, [symbol, interval, queryClient]);
+    }, [symbol, interval]);
 
     // clean-up 함수 반환
     return () => {

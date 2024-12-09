@@ -7,54 +7,42 @@ import {
     getCoreRowModel,
     flexRender,
     createColumnHelper,
-    ColumnDef,
 } from "@tanstack/react-table";
 import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import {MarketTradeData} from "@/features/marketTrade/types";
+import { MarketTradeData } from "@/features/marketTrade/types";
 
 const MarketTrades: React.FC = () => {
     const { symbol } = useTradingContext();
-    const { data: trades = [], isLoading, error } = useMarketTrade(symbol);
-
-    const formattedTrades = useMemo<MarketTradeData[]>(() => {
-        return trades.map((trade) => ({
-            price: parseFloat(trade.price).toFixed(2),
-            qty: parseFloat(trade.qty).toFixed(6),
-            time: trade.time,
-            isBuyerMaker: trade.isBuyerMaker,
-        }));
-    }, [trades]);
+    const { data = [], isLoading, error } = useMarketTrade(symbol);
 
     const columnHelper = createColumnHelper<MarketTradeData>();
 
-    const columns: ColumnDef<MarketTradeData>[] = useMemo(() => [
-        columnHelper.accessor("price", {
-            header: "Price (USDT)",
-            cell: (info) => info.getValue() as string, // 타입 명시
-        }),
-        columnHelper.accessor("qty", {
-            header: "Amount (BTC)",
-            cell: (info) => info.getValue() as string, // 타입 명시
-        }),
-        columnHelper.accessor((row) => row.time, {
-            id: "time",
-            header: "Time",
-            cell: (info) =>
-                (info.getValue() as Date).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hour12: false,
-                }),
-        }),
-    ], []);
+    const columns = useMemo(
+        () => [
+            columnHelper.accessor("price", {
+                header: "Price (USDT)",
+                cell: (info) => info.getValue() as string,
+            }),
+            columnHelper.accessor("qty", {
+                header: "Amount (BTC)",
+                cell: (info) => info.getValue() as string,
+            }),
+            columnHelper.accessor("time", {
+                header: "Time",
+                cell: (info) => info.getValue() as string,
+            }),
+        ],
+        [columnHelper]
+    );
 
     const table = useReactTable<MarketTradeData>({
-        data: formattedTrades,
+        data,
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
+
+    const rowModel = useMemo(() => table.getRowModel(), [table]);
 
     return (
         <Card isLoading={isLoading} error={error}>
@@ -88,32 +76,32 @@ const MarketTrades: React.FC = () => {
                         ))}
                         </thead>
                         <tbody>
-                        { table.getRowModel().rows.map((row) => (
-                                <tr
-                                    key={row.id}
-                                    className={`hover:bg-gray-800 ${
-                                        row.original.isBuyerMaker
-                                            ? "text-error"
-                                            : "text-success"
-                                    }`}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <td
-                                            key={cell.id}
-                                            className={`${
-                                                cell.column.id === "price"
-                                                    ? "text-left py-1"
-                                                    : "text-right text-light-primaryText dark:text-dark-primaryText py-1"
-                                            }`}
-                                        >
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
+                        {rowModel.rows.map((row) => (
+                            <tr
+                                key={row.id}
+                                className={`hover:bg-gray-800 ${
+                                    row.original.isBuyerMaker
+                                        ? "text-error"
+                                        : "text-success"
+                                }`}
+                            >
+                                {row.getVisibleCells().map((cell) => (
+                                    <td
+                                        key={cell.id}
+                                        className={`${
+                                            cell.column.id === "price"
+                                                ? "text-left py-1"
+                                                : "text-right text-light-primaryText dark:text-dark-primaryText py-1"
+                                        }`}
+                                    >
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </div>
