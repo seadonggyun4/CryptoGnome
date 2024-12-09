@@ -14,10 +14,32 @@ import { MarketTradeData } from "@/features/marketTrade/types";
 
 const MarketTrades: React.FC = () => {
     const { symbol } = useTradingContext();
-    const { data = [], isLoading, error } = useMarketTrade(symbol);
+    const { data: marketTradeData, isLoading, error } = useMarketTrade(symbol);
+
+    const data = useMemo(() => marketTradeData || [], [marketTradeData]);
+    console.log(data);
+
+    // 데이터 포맷팅 함수
+    const formatMarketData = (data: MarketTradeData[]): MarketTradeData[] => {
+        return data.map((trade) => ({
+            price: parseFloat(trade.price).toFixed(2), // 포맷팅된 가격
+            qty: parseFloat(trade.qty).toFixed(6), // 포맷팅된 수량
+            time: new Date(trade.time).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
+            }), // 포맷팅된 시간
+            isBuyerMaker: trade.isBuyerMaker, // 기존 값 그대로
+        }));
+    };
+
+    // 포맷팅된 데이터를 useMemo로 관리
+    const formattedData = useMemo(() => formatMarketData(data), [data]);
 
     const columnHelper = createColumnHelper<MarketTradeData>();
 
+    // 테이블 컬럼 정의
     const columns = useMemo(
         () => [
             columnHelper.accessor("price", {
@@ -33,16 +55,15 @@ const MarketTrades: React.FC = () => {
                 cell: (info) => info.getValue() as string,
             }),
         ],
-        [columnHelper]
+        []
     );
 
-    const table = useReactTable<MarketTradeData>({
-        data,
+    // 테이블 데이터 생성
+    const table = useReactTable({
+        data: formattedData,
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
-
-    const rowModel = useMemo(() => table.getRowModel(), [table]);
 
     return (
         <Card isLoading={isLoading} error={error}>
@@ -76,7 +97,7 @@ const MarketTrades: React.FC = () => {
                         ))}
                         </thead>
                         <tbody>
-                        {rowModel.rows.map((row) => (
+                        {table.getRowModel().rows.map((row) => (
                             <tr
                                 key={row.id}
                                 className={`hover:bg-gray-800 ${

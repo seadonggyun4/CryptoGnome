@@ -7,7 +7,7 @@ interface BaseData {
 
 // API 응답 타입 (원본 데이터)
 export interface ApiTradeResponse extends BaseData {
-    time: number; // API에서 timestamp는 number 타입
+    time: string; // API에서 timestamp는 number 타입
 }
 
 // WebSocket 데이터 타입 (원본 데이터)

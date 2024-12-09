@@ -18,14 +18,9 @@ export const useMarketTrade = (symbol: string) => {
 
             // 여기서 데이터를 포맷팅
             return data.map((trade) => ({
-                price: parseFloat(trade.price).toFixed(2), // 포맷팅
-                qty: parseFloat(trade.qty).toFixed(6), // 포맷팅
-                time: new Date(trade.time).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hour12: false,
-                }), // 포맷팅
+                price: trade.price,
+                qty: trade.qty,
+                time: trade.time,
                 isBuyerMaker: trade.isBuyerMaker,
             }));
         } catch (error) {
@@ -48,14 +43,14 @@ export const updateMarketTrade = (
     symbol: string
 ) => {
     const newTrade: MarketTradeData = {
-        price: parseFloat(data.p).toFixed(2), // 포맷팅
-        qty: parseFloat(data.q).toFixed(6), // 포맷팅
+        price: data.p,
+        qty: data.q,
         time: new Date(data.T).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
             hour12: false,
-        }), // 포맷팅
+        }),
         isBuyerMaker: data.m,
     };
 
