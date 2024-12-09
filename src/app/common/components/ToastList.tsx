@@ -2,12 +2,10 @@
 
 import React from "react";
 import Toast from "@/app/common/elements/Toast";
-import { ToastType } from "@/app/common/types"
 
-// ToastListProps 정의
 interface ToastListProps {
-    toasts: ToastType[];
-    onRemove: (id: number) => void;
+    toasts: { id: string; message: string; type: "success" | "error" | "info" }[];
+    onRemove: (id: string) => void;
 }
 
 const ToastList: React.FC<ToastListProps> = ({ toasts, onRemove }) => {

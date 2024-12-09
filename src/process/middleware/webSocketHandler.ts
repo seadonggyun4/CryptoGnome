@@ -35,7 +35,6 @@ export const webSocketHandler = (
         ws = new WebSocket(url);
 
         ws.onopen = () => {
-            console.log("WebSocket connected");
             if (showToast) showToast("WebSocket connected successfully", "success");
             retries = 0;
             if (handlers.onOpen) handlers.onOpen();
@@ -53,21 +52,17 @@ export const webSocketHandler = (
         };
 
         ws.onclose = () => {
-            console.log("WebSocket closed");
             if (showToast) showToast("WebSocket connection closed", "info");
             if (handlers.onClose) handlers.onClose();
             if (retries < maxRetries) {
                 retries++;
-                console.log(`Reconnecting... (${retries}/${maxRetries})`);
                 setTimeout(connect, reconnectInterval);
             } else {
                 if (showToast) showToast("Max reconnect attempts reached", "error");
-                console.error("Max reconnect attempts reached");
             }
         };
 
         ws.onerror = (error: Event) => {
-            console.error("WebSocket error:", error);
             if (showToast) showToast("WebSocket error occurred", "error");
             if (handlers.onError) handlers.onError(error);
         };

@@ -2,21 +2,25 @@
 
 import React, { createContext, useContext, useState } from "react";
 import ToastList from "@/app/common/components/ToastList";
-import { ToastType } from "@/app/common/types";
+import { generateUUID } from "@/utils/generateUUID"; // UUID 유틸 함수
 
-// ToastContext 인터페이스
-interface ToastContextProps {
-    showToast: (message: string, type?: ToastType["type"]) => void;
+interface Toast {
+    id: string;
+    message: string;
+    type: "success" | "error" | "info";
 }
 
-// ToastContext 생성
+interface ToastContextProps {
+    showToast: (message: string, type?: "success" | "error" | "info") => void;
+}
+
 const ToastContext = createContext<ToastContextProps | undefined>(undefined);
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [toasts, setToasts] = useState<ToastType[]>([]); // Toast 배열로 타입 지정
+    const [toasts, setToasts] = useState<Toast[]>([]);
 
-    const showToast = (message: string, type: ToastType["type"] = "info") => {
-        const id = Date.now();
+    const showToast = (message: string, type: "success" | "error" | "info" = "info") => {
+        const id = generateUUID();
         setToasts((prev) => [...prev, { id, message, type }]);
 
         setTimeout(() => {
@@ -29,9 +33,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             {children}
             <ToastList
                 toasts={toasts}
-                onRemove={(id: number) =>
-                    setToasts((prev) => prev.filter((toast) => toast.id !== id))
-                }
+                onRemove={(id) => setToasts((prev) => prev.filter((t) => t.id !== id))}
             />
         </ToastContext.Provider>
     );
