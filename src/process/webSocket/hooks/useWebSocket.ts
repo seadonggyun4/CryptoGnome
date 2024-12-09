@@ -6,8 +6,10 @@ import { updateTicker } from "@/features/ticker/hooks/useTicker";
 import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { updateOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import { updateTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
+import { useToast } from "@/app/common/provider/ToastContext";
 
 export const useWebSocket = (symbol: string, interval: string): (() => void) => {
+    const {showToast} = useToast();
     const queryClient = useQueryClient();
     const wsRef = useRef<WebSocket | null>(null);
 
@@ -43,7 +45,7 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
                         console.warn(`Unhandled WebSocket event: ${data.e}`);
                 }
             },
-        });
+        },{}, showToast);
 
         return () => {
             if (wsRef.current) {

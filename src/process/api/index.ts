@@ -25,9 +25,14 @@ export const apiClient = async <T>(
         },
     };
 
-    // Axios 요청
-    return axios({
-        ...defaultOptions,
-        ...options, // 사용자 지정 옵션 병합
-    });
+    try {
+        // Axios 요청
+        const response = await axios({
+            ...defaultOptions,
+            ...options, // 사용자 지정 옵션 병합
+        });
+        return response as AxiosResponse<T>; // Axios 응답을 반환
+    } catch (error) {
+        throw error; // 에러를 다시 던져서 호출자가 처리할 수 있도록 함
+    }
 };

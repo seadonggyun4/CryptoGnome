@@ -22,11 +22,13 @@
     "next": "15.0.3",
     "react": "18",
     "react-apexcharts": "^1.6.0",
-    "react-dom": "18"
+    "react-dom": "18",
+    "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.1",
+    "@types/react-transition-group": "^4.4.11",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
     "autoprefixer": "^10.4.20",

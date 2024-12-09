@@ -5,11 +5,11 @@ import { useState, useMemo } from "react";
 import Tabs from "@/app/common/elements/Tabs";
 import Card from "@/app/common/elements/Card";
 import TradingChart from "@/app/en/trade/BTCUSDT/components/TradingChart";
-import { Tab } from '@/app/common/types'
+import { TabType } from '@/app/common/types'
 
 const ChartContainer: React.FC = () => {
     // Tabs 데이터 타입 적용
-    const tabs:Tab[] = [
+    const tabs:TabType[] = [
         { key: "chart", label: "Chart" },
         { key: "info", label: "Info" },
         { key: "tradingData", label: "Trading Data" },

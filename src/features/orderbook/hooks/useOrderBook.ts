@@ -3,9 +3,12 @@ import { AxiosError } from "axios";
 import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import { ApiTOrderBookResponse, WebSocketOrderBookData, OrderBookData } from "@/features/orderbook/types"; // 타입 임포트
+import {useToast} from "@/app/common/provider/ToastContext";
 
 // useOrderBook Hook
 export const useOrderBook = (symbol: string) => {
+    const { showToast } = useToast();
+
     const fetchOrderBook = async (): Promise<OrderBookData> => {
         try {
             // API 요청
@@ -19,7 +22,7 @@ export const useOrderBook = (symbol: string) => {
                 asks: asks.slice(0, 17),
             };
         } catch (error) {
-            apiErrorHandler(error as AxiosError | Error);
+            apiErrorHandler(error as AxiosError | Error, showToast);
             throw error;
         }
     };

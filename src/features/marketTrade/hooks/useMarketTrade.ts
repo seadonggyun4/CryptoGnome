@@ -3,10 +3,13 @@ import { AxiosError } from "axios";
 import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import { MarketTradeData, ApiTradeResponse, WebSocketTradeData } from '@/features/marketTrade/types'
+import { useToast } from "@/app/common/provider/ToastContext";
 
 
 // useMarketTrade Hook
 export const useMarketTrade = (symbol: string) => {
+    const { showToast } = useToast(); // Toast 함수 가져오기
+
     const fetchMarketTrades = async (): Promise<MarketTradeData[]> => {
         try {
             const { data } = await apiClient<ApiTradeResponse[]>(
@@ -20,7 +23,7 @@ export const useMarketTrade = (symbol: string) => {
                 isBuyerMaker: trade.isBuyerMaker,
             }));
         } catch (error) {
-            apiErrorHandler(error as AxiosError | Error);
+            apiErrorHandler(error as AxiosError | Error, showToast);
             throw error;
         }
     };
