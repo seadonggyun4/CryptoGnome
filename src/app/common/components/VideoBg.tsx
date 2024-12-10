@@ -8,7 +8,7 @@ const VideoBg = () => {
                 muted
             >
                 <source
-                    src="https://assets.codepen.io/3364143/7btrrd.mp4"
+                    src="/assets/video/bgVideo.mp4"
                     type="video/mp4"
                 />
             </video>
