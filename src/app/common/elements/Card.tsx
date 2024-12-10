@@ -7,7 +7,7 @@ const Card: React.FC<{
     children: ReactNode;
 }> = ({ isLoading, error, children }) => {
     return (
-        <article className="bg-light-bg1 dark:bg-dark-bg1 rounded-lg w-full h-full relative">
+        <article className="bg-light-bg1 dark:bg-dark-bg1 rounded-lg w-full h-full relative backdrop-blur-lg">
             {/* 로딩 상태 */}
             {isLoading && (
                 <Loading />

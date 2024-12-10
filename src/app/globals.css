@@ -82,3 +82,38 @@ input[type='number'] {
     transform: translateY(0);
     will-change: opacity, transform;
 }
+
+
+/* VideoBg */
+.video-bg video {
+    position: relative;
+    z-index: 0;
+}
+
+.video-bg::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.45) 100%);
+    -webkit-backdrop-filter: saturate(3);
+    backdrop-filter: saturate(3);
+    z-index: 1;
+}
+
+html.dark .video-bg::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(24, 26, 32, 0.72) 0%, rgba(24, 26, 32, 0.45) 100%);
+    -webkit-backdrop-filter: saturate(3);
+    backdrop-filter: saturate(3);
+    z-index: 1;
+}
+
+

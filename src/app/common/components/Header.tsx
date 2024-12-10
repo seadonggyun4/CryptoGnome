@@ -10,7 +10,7 @@ const Header = () => {
     const toggleDarkMode = () => {
         const htmlElement = document.documentElement;
         if (htmlElement.classList.contains("dark")) htmlElement.classList.remove("dark")
-        else htmlElement.classList.add("dark")
+        else htmlElement.classList.add("dark");
     };
 
     const icons = [
@@ -19,7 +19,7 @@ const Header = () => {
     ];
 
     return (
-        <header className="bg-light-bg1 text-light-primaryText dark:text-dark-primaryText dark:bg-dark-bg1 flex items-center justify-between px-6">
+        <header className="relative bg-light-bg1 text-light-primaryText dark:text-dark-primaryText dark:bg-dark-bg1 flex items-center justify-between px-6">
             {/* Left Section */}
             <div className="flex items-center space-x-4">
                 <div className="w-32">

@@ -17,7 +17,6 @@ const MarketTrades: React.FC = () => {
     const { data: marketTradeData, isLoading, error } = useMarketTrade(symbol);
 
     const data = useMemo(() => marketTradeData || [], [marketTradeData]);
-    console.log(data);
 
     // 데이터 포맷팅 함수
     const formatMarketData = (data: MarketTradeData[]): MarketTradeData[] => {

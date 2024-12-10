@@ -12,8 +12,6 @@ const ChartContainer: React.FC = () => {
     const tabs:TabType[] = [
         { key: "chart", label: "Chart" },
         { key: "info", label: "Info" },
-        { key: "tradingData", label: "Trading Data" },
-        { key: "square", label: "Square" },
     ];
 
     // 현재 활성화된 탭 관리
