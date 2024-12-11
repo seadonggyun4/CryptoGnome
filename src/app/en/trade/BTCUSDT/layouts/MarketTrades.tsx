@@ -54,7 +54,7 @@ const MarketTrades: React.FC = () => {
                 cell: (info) => info.getValue() as string,
             }),
         ],
-        []
+        [columnHelper]
     );
 
     // 테이블 데이터 생성

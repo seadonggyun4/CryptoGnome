@@ -4,7 +4,7 @@ import React, { memo } from "react";
 import PriceStatistics from "@/app/en/trade/BTCUSDT/layouts/PriceStatistics";
 import OrderBook from "@/app/en/trade/BTCUSDT/layouts/OrderBook";
 import ChartContainer from "@/app/en/trade/BTCUSDT/layouts/ChartContainer";
-import TradingForm from "@/app/en/trade/BTCUSDT/layouts/TradingForm";
+import MiningContainer from "@/app/en/trade/BTCUSDT/layouts/MiningContainer";
 import CoinList from "@/app/en/trade/BTCUSDT/layouts/CoinList";
 import MarketTrades from "@/app/en/trade/BTCUSDT/layouts/MarketTrades";
 import TopMovers from "@/app/en/trade/BTCUSDT/layouts/TopMovers";
@@ -30,7 +30,7 @@ const HomeSection =  () => {
                                     <ChartContainer/>
                                 </div>
                                 <div className="flex-1">
-                                    <TradingForm/>
+                                    <MiningContainer/>
                                 </div>
                             </div>
                         </div>

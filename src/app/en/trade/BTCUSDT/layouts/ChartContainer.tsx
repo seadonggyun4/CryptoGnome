@@ -28,18 +28,6 @@ const ChartContainer: React.FC = () => {
                         Info
                     </div>
                 );
-            case "tradingData":
-                return (
-                    <div className="flex items-center justify-center h-full font-semibold text-primary">
-                        TradingData
-                    </div>
-                );
-            case "square":
-                return (
-                    <div className="flex items-center justify-center h-full font-semibold text-primary">
-                        Square
-                    </div>
-                );
             default:
                 return null;
         }

@@ -22,9 +22,9 @@ const RealTimePrice: React.FC<RealTimePriceProps> = ({ price, showIcon = false }
     }, [price, beforePrice]);
 
     return (
-        <strong className={`text-lg font-semibold w-[100px] ${priceClass}`}>
+        <strong className={`real-time-price text-2xl font-bold w-[100px] ${priceClass}`}>
             {price}
-            {showIcon && <span className={`text-lg font-semibold ${priceClass}`}>{arrowIcon}</span>}
+            {showIcon && <span className={`pl-1 text-2xl font-bold ${priceClass}`}>{arrowIcon}</span>}
         </strong>
     );
 };

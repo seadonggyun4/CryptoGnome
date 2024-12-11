@@ -6,6 +6,7 @@ const VideoBg = () => {
                 autoPlay
                 loop
                 muted
+                controls={false}
             >
                 <source
                     src="/assets/video/bgVideo.mp4"

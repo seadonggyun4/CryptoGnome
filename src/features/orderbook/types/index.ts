@@ -6,10 +6,10 @@ export type orderBook = {
 }
 
 // 공통 데이터 타입
-interface BaseData {
-    bids: orderBookList; // 매수 데이터
-    asks: orderBookList; // 매도 데이터
-}
+// interface BaseData {
+//     bids: orderBookList; // 매수 데이터
+//     asks: orderBookList; // 매도 데이터
+// }
 
 // API 응답 타입 (원본 데이터)
 export interface ApiTOrderBookResponse {

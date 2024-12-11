@@ -19,18 +19,12 @@ const Header = () => {
     ];
 
     return (
-        <header className="relative bg-light-bg1 text-light-primaryText dark:text-dark-primaryText dark:bg-dark-bg1 flex items-center justify-between px-6">
+        <header className="relative bg-light-bg1 text-light-primaryText dark:text-dark-primaryText dark:bg-dark-bg1 flex items-center justify-between px-6 py-4">
             {/* Left Section */}
             <div className="flex items-center space-x-4">
-                <div className="w-32">
-                    <Image
-                        src="/title.png"
-                        alt="Binance Logo"
-                        width={128} // 이미지의 가로 크기
-                        height={32} // 이미지의 세로 크기
-                        className="w-full h-auto object-contain"
-                    />
-                </div>
+                <h1 className="logo flex items-end text-primary font-extrabold text-2xl ">
+                    Crypto<span className="pl-1 text-base text-light-primaryText dark:text-dark-primaryText">Gnome</span>
+                </h1>
             </div>
 
             {/* Right Section */}
