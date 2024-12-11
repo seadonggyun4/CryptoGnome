@@ -11,3 +11,8 @@ export const GENERAL_CACHE_TIME: number = 120000; // 2분
 // 기본 심볼 및 견적 목록
 export const BASE_SYMBOL: string = 'BTCUSDT';
 export const QUOTES: string[] = ["USDT", "BUSD", "BTC", "ETH", "BNB"];
+
+
+// UI 상수
+export const MAX_WIDTH = 1528
+export const MAX_HEIGHT = 2000
