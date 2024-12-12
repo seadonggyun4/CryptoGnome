@@ -92,7 +92,7 @@ const CoinList: React.FC = () => {
                 {/* 테이블 */}
                 <div className="overflow-auto h-[480px] px-4 overflow-x-hidden">
                     <table className="table-fixed w-full text-xs border-collapse">
-                        <thead className="sticky top-0 z-10 bg-light-bg1 dark:bg-dark-bg1">
+                        <thead className="sticky top-0 z-10 bg-light-bg2 dark:bg-dark-bg2">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
@@ -115,7 +115,7 @@ const CoinList: React.FC = () => {
                         </thead>
                         <tbody>
                         {table.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800 cursor-pointer">
+                            <tr key={row.id} className=" hover:bg-light-listHover dark:hover:bg-dark-listHover cursor-pointer">
                                 {row.getVisibleCells().map((cell) => (
                                     <td
                                         key={cell.id}

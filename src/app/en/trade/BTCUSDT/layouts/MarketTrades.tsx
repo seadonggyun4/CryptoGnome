@@ -74,7 +74,7 @@ const MarketTrades: React.FC = () => {
                 </div>
                 <div className="overflow-auto h-60 px-4">
                     <table className="table-fixed w-full text-xs border-collapse">
-                        <thead className="sticky top-0 z-10 bg-light-bg1 dark:bg-dark-bg1">
+                        <thead className="sticky top-0 z-10 bg-light-bg2 dark:bg-dark-bg2">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
@@ -99,7 +99,7 @@ const MarketTrades: React.FC = () => {
                         {table.getRowModel().rows.map((row) => (
                             <tr
                                 key={row.id}
-                                className={`hover:bg-gray-800 ${
+                                className={`hover:bg-light-listHover dark:hover:bg-dark-listHover ${
                                     row.original.isBuyerMaker
                                         ? "text-error"
                                         : "text-success"

@@ -105,7 +105,7 @@ const OrderBook: React.FC = () => {
                 <div className="px-6">
                     {/* Sell Orders */}
                     <table className="table-fixed w-full text-xs">
-                        <thead>
+                        <thead className="bg-light-bg2 dark:bg-dark-bg2">
                         {sellTable.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
@@ -128,7 +128,7 @@ const OrderBook: React.FC = () => {
                         </thead>
                         <tbody>
                         {sellTable.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800">
+                            <tr key={row.id} className="hover:bg-light-listHover dark:hover:bg-dark-listHover">
                                 {row.getVisibleCells().map((cell) => (
                                     <td
                                         key={cell.id}
@@ -149,7 +149,7 @@ const OrderBook: React.FC = () => {
                         </tbody>
                     </table>
 
-                    <div className="flex items-center space-x-2 my-2">
+                    <div className="flex items-end space-x-2 my-2">
                         <RealTimePrice
                             price={
                                 priceLoading
@@ -158,7 +158,7 @@ const OrderBook: React.FC = () => {
                             }
                             showIcon={true}
                         />
-                        <span className="text-sm text-light-iconNormal dark:text-dark-iconNormal">
+                        <span className="pl-2 text-sm text-light-iconNormal dark:text-dark-iconNormal">
                             $
                             {priceLoading
                                 ? ""
@@ -168,7 +168,7 @@ const OrderBook: React.FC = () => {
 
                     {/* Buy Orders */}
                     <table className="table-fixed w-full text-xs">
-                        <thead>
+                        <thead className="bg-light-bg2 dark:bg-dark-bg2">
                         {buyTable.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
@@ -191,7 +191,7 @@ const OrderBook: React.FC = () => {
                         </thead>
                         <tbody>
                         {buyTable.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800">
+                            <tr key={row.id} className="hover:bg-light-listHover dark:hover:bg-dark-listHover">
                                 {row.getVisibleCells().map((cell) => (
                                     <td
                                         key={cell.id}
