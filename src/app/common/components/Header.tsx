@@ -52,7 +52,7 @@ const Header = () => {
 
     return (
         <header className="flex justify-center relative bg-light-bg1 text-light-primaryText dark:text-dark-primaryText dark:bg-dark-bg1">
-            <div className={`flex items-center justify-between py-4 max-w-[1528px] w-full`}>
+            <div className={`flex items-center justify-between py-4 max-w-[100rem] w-full`}>
                 {/* 왼쪽 영역 */}
                 <div className="flex items-center space-x-4">
                     <h1 className="logo flex items-end text-primary font-extrabold text-2xl">
