@@ -3,8 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { code } = req.query;
 
-    console.log(req);
-
     if (!code || typeof code !== "string") {
         res.status(400).json({ error: "Invalid code" });
         return;

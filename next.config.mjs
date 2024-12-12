@@ -14,6 +14,7 @@ const nextConfig = {
         config.resolve.alias['@fortawesome/fontawesome-svg-core/styles.css'] = false;
         return config;
     },
+    reactStrictMode: false,
 };
 
 export default nextConfig;

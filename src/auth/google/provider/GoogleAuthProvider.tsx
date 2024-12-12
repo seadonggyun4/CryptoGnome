@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from "react";
+import { encryptData, decryptData } from "@/utils/cryptoJs";
 
 type GoogleUser = {
     name: string;
@@ -16,18 +17,35 @@ type GoogleAuthContextType = {
 
 const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(undefined);
 
+// 환경 변수 직접 참조
+const SECRET_KEY = process.env.NEXT_PUBLIC_CRYPTO_JS_SECRET;
+
+if (!SECRET_KEY) {
+    throw new Error("NEXT_PUBLIC_CRYPTO_JS_SECRET is not defined in the environment variables");
+}
+
 export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<GoogleUser | null>(null);
 
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!; // Google Cloud 클라이언트 ID
 
+    // 새로고침 시 localStorage에서 사용자 정보 복원
+    useEffect(() => {
+        const encryptedUser = localStorage.getItem("google_user");
+        if (encryptedUser) {
+            const decryptedUser = decryptData(encryptedUser, SECRET_KEY);
+            if (decryptedUser) {
+                setUser(decryptedUser);
+            }
+        }
+    }, []);
+
     // 팝업 로그인 함수
     const login = useCallback(() => {
         const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-            `${window.location.origin}/auth/google/callback` // Next.js API 라우트로 리디렉션
+            `${window.location.origin}/auth/google/callback`
         )}&response_type=code&scope=openid%20email%20profile`;
 
-        // 팝업 창 열기
         const popup = window.open(googleAuthUrl, "Google Login", "width=500,height=600");
 
         if (!popup) {
@@ -37,15 +55,11 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
 
         const interval = setInterval(() => {
             try {
-                // 팝업이 닫힌 경우 감지
                 if (popup.closed) {
                     clearInterval(interval);
-                    console.log("Popup closed by user.");
                 }
 
-                // 팝업의 URL 확인
                 const popupUrl = popup.location.href;
-                console.log("Popup URL:", popupUrl);
                 if (popupUrl.includes("auth/google/callback")) {
                     const urlParams = new URLSearchParams(new URL(popupUrl).search);
                     const authCode = urlParams.get("code");
@@ -56,7 +70,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
                     }
                 }
             } catch (error) {
-                // Cross-Origin 에러 무시
+                console.error("Failed to check popup URL:", error);
             }
         }, 500);
     }, [clientId]);
@@ -89,11 +103,18 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
                 }
             );
             const userInfo = await userInfoResponse.json();
-            setUser({
+
+            const userData: GoogleUser = {
                 name: userInfo.name,
                 email: userInfo.email,
                 profileImage: userInfo.picture,
-            });
+            };
+
+            setUser(userData);
+
+            // 사용자 정보를 암호화하여 localStorage에 저장
+            const encryptedUser = encryptData(userData, SECRET_KEY);
+            localStorage.setItem("google_user", encryptedUser);
         } catch (error) {
             console.error("Failed to fetch user info:", error);
         }
@@ -102,6 +123,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
     // 로그아웃
     const logout = () => {
         setUser(null);
+        localStorage.removeItem("google_user"); // localStorage에서 사용자 정보 제거
     };
 
     return (
