@@ -2,7 +2,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { apiClient } from "@/process/api";
 import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
-import { MarketTradeData, ApiTradeResponse, WebSocketTradeData } from '@/features/marketTrade/types'
+import { ApiTradeResponse, WebSocketTradeData } from '@/features/marketTrade/types'
 import { useToast } from "@/app/common/provider/ToastContext";
 
 
@@ -42,18 +42,18 @@ export const updateMarketTrade = (
     data: WebSocketTradeData,
     symbol: string
 ) => {
-    // WebSocketTradeData -> MarketTradeData 변환
-    const newTrade: MarketTradeData = {
-        price: data.p,
-        qty: data.q,
-        time: new Date(data.T), // 타임스탬프를 Date 객체로 변환
-        isBuyerMaker: data.m,
-    };
+    const { p:price, q:qty, T:time, m:isBuyerMaker } = data;
+    const newTade = {
+        price,
+        qty,
+        time: time.toString(),
+        isBuyerMaker,
+    }
 
-    queryClient.setQueryData<MarketTradeData[]>(
+    queryClient.setQueryData<ApiTradeResponse[]>(
         ["marketTrades", symbol],
         (prevTrades = []) => {
-            return [...prevTrades, newTrade].slice(-100); // 최신 100개 데이터 유지
+            return [...prevTrades, newTade].slice(-100); // 최신 100개 데이터 유지
         },
     );
 };

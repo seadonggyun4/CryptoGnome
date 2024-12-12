@@ -10,16 +10,16 @@ import {
 } from "@tanstack/react-table";
 import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import { MarketTradeData } from "@/features/marketTrade/types";
+import {ApiTradeResponse, MarketTradeData} from "@/features/marketTrade/types";
 
 const MarketTrades: React.FC = () => {
     const { symbol } = useTradingContext();
-    const { data: marketTradeData, isLoading, error } = useMarketTrade(symbol);
+    const { data: ApiTradeResponse, isLoading, error } = useMarketTrade(symbol);
 
-    const data = useMemo(() => marketTradeData || [], [marketTradeData]);
+    const data = useMemo(() => ApiTradeResponse || [], [ApiTradeResponse]);
 
     // 데이터 포맷팅 함수
-    const formatMarketData = (data: MarketTradeData[]): MarketTradeData[] => {
+    const formatMarketData = (data: ApiTradeResponse[]): MarketTradeData[] => {
         return data.map((trade) => ({
             price: parseFloat(trade.price).toFixed(2), // 포맷팅된 가격
             qty: parseFloat(trade.qty).toFixed(6), // 포맷팅된 수량
