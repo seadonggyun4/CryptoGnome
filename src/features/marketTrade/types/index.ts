@@ -20,5 +20,5 @@ export interface WebSocketTradeData {
 
 // 가공된 데이터 타입
 export interface MarketTradeData extends BaseData {
-    time: string; // 포맷팅 후 문자열로 반환
+    time: Date; // 포맷팅 후 문자열로 반환
 }

@@ -10,7 +10,7 @@ import { useToast } from "@/app/common/provider/ToastContext";
 export const useMarketTrade = (symbol: string) => {
     const { showToast } = useToast(); // Toast 함수 가져오기
 
-    const fetchMarketTrades = async (): Promise<MarketTradeData[]> => {
+    const fetchMarketTrades = async (): Promise<ApiTradeResponse[]> => {
         try {
             const { data } = await apiClient<ApiTradeResponse[]>(
                 `trades?symbol=${symbol}&limit=100`
@@ -29,7 +29,7 @@ export const useMarketTrade = (symbol: string) => {
         }
     };
 
-    return useQuery<MarketTradeData[], Error>({
+    return useQuery<ApiTradeResponse[], Error>({
         queryKey: ["marketTrades", symbol],
         queryFn: fetchMarketTrades,
     });
@@ -42,15 +42,11 @@ export const updateMarketTrade = (
     data: WebSocketTradeData,
     symbol: string
 ) => {
+    // WebSocketTradeData -> MarketTradeData 변환
     const newTrade: MarketTradeData = {
         price: data.p,
         qty: data.q,
-        time: new Date(data.T).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false,
-        }),
+        time: new Date(data.T), // 타임스탬프를 Date 객체로 변환
         isBuyerMaker: data.m,
     };
 
@@ -61,3 +57,4 @@ export const updateMarketTrade = (
         },
     );
 };
+
