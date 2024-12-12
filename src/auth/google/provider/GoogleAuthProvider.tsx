@@ -1,13 +1,6 @@
 "use client";
 
-import React, {
-    createContext,
-    useContext,
-    useState,
-    useEffect,
-    ReactNode,
-    useCallback,
-} from "react";
+import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
 type GoogleUser = {
     name: string;
@@ -17,7 +10,6 @@ type GoogleUser = {
 
 type GoogleAuthContextType = {
     user: GoogleUser | null;
-    isMetaMaskInstalled: boolean;
     login: () => void;
     logout: () => void;
 };
@@ -26,41 +18,48 @@ const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(undef
 
 export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<GoogleUser | null>(null);
-    const [googleClient, setGoogleClient] = useState<any>(null);
-    const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
-    const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
 
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!; // Google Cloud 클라이언트 ID
 
-    // Google API 로드
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://accounts.google.com/gsi/client";
-        script.async = true;
-        script.defer = true;
-        script.onload = () => setIsGoogleLoaded(true);
-        document.body.appendChild(script);
+    // 팝업 로그인 함수
+    const login = useCallback(() => {
+        const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+            `${window.location.origin}/auth/google/callback` // Next.js API 라우트로 리디렉션
+        )}&response_type=code&scope=openid%20email%20profile`;
 
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, []);
+        // 팝업 창 열기
+        const popup = window.open(googleAuthUrl, "Google Login", "width=500,height=600");
 
-    // Google OAuth 클라이언트 초기화
-    useEffect(() => {
-        if (isGoogleLoaded && (window as any).google) {
-            const client = (window as any).google.accounts.oauth2.initCodeClient({
-                client_id: clientId,
-                scope: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
-                ux_mode: "redirect",
-                redirect_uri: "http://localhost:3000/en/trade/BTCUSDT", // 로컬 환경 또는 배포 URL
-                callback: (response: any) => {
-                    fetchGoogleUserInfo(response.code);
-                },
-            });
-            setGoogleClient(client);
+        if (!popup) {
+            console.error("Failed to open popup.");
+            return;
         }
-    }, [isGoogleLoaded, clientId]);
+
+        const interval = setInterval(() => {
+            try {
+                // 팝업이 닫힌 경우 감지
+                if (popup.closed) {
+                    clearInterval(interval);
+                    console.log("Popup closed by user.");
+                }
+
+                // 팝업의 URL 확인
+                const popupUrl = popup.location.href;
+                console.log("Popup URL:", popupUrl);
+                if (popupUrl.includes("auth/google/callback")) {
+                    const urlParams = new URLSearchParams(new URL(popupUrl).search);
+                    const authCode = urlParams.get("code");
+
+                    if (authCode) {
+                        popup.close();
+                        fetchGoogleUserInfo(authCode);
+                    }
+                }
+            } catch (error) {
+                // Cross-Origin 에러 무시
+            }
+        }, 500);
+    }, [clientId]);
 
     // Google 사용자 정보 가져오기
     const fetchGoogleUserInfo = async (authCode: string) => {
@@ -74,7 +73,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
                     code: authCode,
                     client_id: clientId,
                     client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!,
-                    redirect_uri: "postmessage",
+                    redirect_uri: `${window.location.origin}/auth/google/callback`,
                     grant_type: "authorization_code",
                 }),
             });
@@ -95,24 +94,10 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
                 email: userInfo.email,
                 profileImage: userInfo.picture,
             });
-        } catch (err) {
-            console.error("Failed to fetch user info:", err);
+        } catch (error) {
+            console.error("Failed to fetch user info:", error);
         }
     };
-
-    // MetaMask 설치 여부 확인
-    useEffect(() => {
-        setIsMetaMaskInstalled(!!(window as any).ethereum);
-    }, []);
-
-    // 로그인
-    const login = useCallback(() => {
-        if (googleClient) {
-            googleClient.requestCode();
-        } else {
-            console.error("Google client is not initialized");
-        }
-    }, [googleClient]);
 
     // 로그아웃
     const logout = () => {
@@ -120,9 +105,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
     };
 
     return (
-        <GoogleAuthContext.Provider
-            value={{ user, isMetaMaskInstalled, login, logout }}
-        >
+        <GoogleAuthContext.Provider value={{ user, login, logout }}>
             {children}
         </GoogleAuthContext.Provider>
     );

@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useMetaMaskAuth } from "@/auth/metamask/provider/MetaMaskAuthProvider";
-// import { useGoogleAuth } from "@/auth/google/provider/GoogleAuthProvider";
+import { useGoogleAuth } from "@/auth/google/provider/GoogleAuthProvider";
 import "@/utils/fontAwesome";
 import { useToast } from "@/app/common/provider/ToastContext";
 import { useEffect } from "react";
@@ -20,11 +20,11 @@ const Header = () => {
         error: metaMaskError,
     } = useMetaMaskAuth();
 
-    // const {
-    //     user: googleUser,
-    //     login: loginWithGoogle,
-    //     logout: logoutGoogle,
-    // } = useGoogleAuth();
+    const {
+        user: googleUser,
+        login: loginWithGoogle,
+        logout: logoutGoogle,
+    } = useGoogleAuth();
 
     const toggleDarkMode = () => {
         const htmlElement = document.documentElement;
@@ -80,21 +80,21 @@ const Header = () => {
 
                         {/* 버튼 그룹 */}
                         <div className="flex space-x-2">
-                            {/*{googleUser ? (*/}
-                            {/*    <button*/}
-                            {/*        onClick={logoutGoogle}*/}
-                            {/*        className="px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600 transition-colors duration-200"*/}
-                            {/*    >*/}
-                            {/*        Logout Google*/}
-                            {/*    </button>*/}
-                            {/*) : (*/}
-                            {/*    <button*/}
-                            {/*        onClick={loginWithGoogle}*/}
-                            {/*        className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition-colors duration-200"*/}
-                            {/*    >*/}
-                            {/*        Login with Google*/}
-                            {/*    </button>*/}
-                            {/*)}*/}
+                            {googleUser ? (
+                                <button
+                                    onClick={logoutGoogle}
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600 transition-colors duration-200"
+                                >
+                                    Logout Google
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={loginWithGoogle}
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition-colors duration-200"
+                                >
+                                    Login with Google
+                                </button>
+                            )}
 
                             <button
                                 onClick={
