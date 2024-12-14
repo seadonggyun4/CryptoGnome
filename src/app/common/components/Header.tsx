@@ -5,6 +5,7 @@ import { faGlobe, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useGoogleAuth } from "@/auth/google/provider/GoogleAuthProvider";
 import "@/utils/fontAwesome";
 import { useToast } from "@/app/common/provider/ToastContext";
+import GoogleLoginButton from "@/app/common/elements/GoogleLoginButton";
 
 const Header = () => {
     const { showToast } = useToast();
@@ -29,15 +30,6 @@ const Header = () => {
         { icon: faGlobe, label: "Language", onClick: () => console.log("Language") },
         { icon: faMoon, label: "Dark Mode", onClick: toggleDarkMode },
     ];
-
-    const LoginCryptoGnome =  async () => {
-        const data = await loginWithGoogle();
-        console.log(data);
-    }
-
-    const LogoutCryptoGnome =  () => {
-        logoutGoogle();
-    }
 
     return (
         <header className="flex justify-center relative bg-light-bg1 text-light-primaryText dark:text-dark-primaryText dark:bg-dark-bg1">
@@ -65,27 +57,11 @@ const Header = () => {
                                 </p>
                             </>
                         )}
-
-
                         {/* 버튼 그룹 */}
                         <div className="flex space-x-2">
-                            { googleUser && (
-                                <button
-                                    onClick={LogoutCryptoGnome}
-                                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600 transition-colors duration-200"
-                                >
-                                    Logout Google
-                                </button>
-                            ) }
-
-                            { !googleUser && (
-                                <button
-                                    onClick={LoginCryptoGnome}
-                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition-colors duration-200"
-                                >
-                                    Login with Google
-                                </button>
-                            )}
+                            {
+                                !googleUser && <GoogleLoginButton text="Google&nbsp;Login" onClick={loginWithGoogle}/>
+                            }
                             { googleUser && !isMetaMaskInstalled && (
                                 <button  className="px-4 py-2 bg-primary text-white rounded-md shadow hover:bg-primaryHover transition-colors duration-200">install MetaMask</button>
                             )}

@@ -42,7 +42,6 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
     // 새로고침 시 localStorage에서 사용자 정보 복원
     useEffect(() => {
         const encryptedUser = localStorage.getItem("google_user");
-        console.log(encryptedUser)
         if (encryptedUser && CRYPTO_JS_KEY) {
             const userInfo =  decryptData(encryptedUser, CRYPTO_JS_KEY)
             setUser(userInfo)

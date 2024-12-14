@@ -24,6 +24,7 @@
     "react": "18",
     "react-apexcharts": "^1.6.0",
     "react-dom": "18",
+    "styled-components": "^6.1.13",
     "web3": "^4.16.0"
   },
   "devDependencies": {

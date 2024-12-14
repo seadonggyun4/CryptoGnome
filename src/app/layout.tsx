@@ -1,5 +1,6 @@
-import "./globals.css";
 import { ReactNode } from "react";
+import "./style/globals.css";
+import './style/custom.css';
 
 export const metadata = {
     title: "Crypto Gnome",
