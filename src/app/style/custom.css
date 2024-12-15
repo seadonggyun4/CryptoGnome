@@ -1,61 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
-
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* 전역 스타일 설정 */
-:root {
-    font-size: 15px;
-    font-family: 'Noto Sans JP', sans-serif;
-}
-
-/* 스크롤바 스타일 설정 */
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #5E6673;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-
-/* body 스크롤바 스타일 설정 */
-body {
-    overflow: auto;
-}
-
-body::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-}
-
-body::-webkit-scrollbar-thumb {
-    background: transparent;
-}
-
-body::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-
-/* input number 초기화 */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type='number'] {
-    -moz-appearance: textfield;
-}
-
 /* Toast 애니메이션 */
 @keyframes fadeIn {
     0% {
@@ -123,5 +65,3 @@ html.dark .video-bg::before {
     backdrop-filter: saturate(3);
     z-index: 1;
 }
-
-
