@@ -6,6 +6,7 @@ import { useGoogleAuth } from "@/auth/google/provider/GoogleAuthProvider";
 import "@/utils/fontAwesome";
 import { useToast } from "@/app/common/provider/ToastContext";
 import GoogleLoginButton from "@/app/common/elements/GoogleLoginButton";
+import UserInfoMenu from "@/app/common/elements/UserInfoMenu";
 
 const Header = () => {
     const { showToast } = useToast();
@@ -48,15 +49,7 @@ const Header = () => {
                 <menu className="flex items-center space-x-4">
                     <div className="flex items-center space-x-3">
                         {/* MetaMask 상태 */}
-                        {isMetaMaskInstalled && (
-                            <>
-                                <p>Balance: {balance} ETH</p>
-                                <p>Network: {network}</p>
-                                <p className="text-sm font-medium text-green-500">
-                                    ACCOUNT: {account?.slice(0, 6)}...{account?.slice(-4)}
-                                </p>
-                            </>
-                        )}
+                        {isMetaMaskInstalled && <UserInfoMenu userData={googleUser} account={account} balance={balance} network={network} onLogout={logoutGoogle} />}
                         {/* 버튼 그룹 */}
                         <div className="flex space-x-2">
                             {

@@ -44,6 +44,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
         const encryptedUser = localStorage.getItem("google_user");
         if (encryptedUser && CRYPTO_JS_KEY) {
             const userInfo =  decryptData(encryptedUser, CRYPTO_JS_KEY)
+            console.log(userInfo)
             setUser(userInfo)
             if((window as any).ethereum) {
                 connectMetaMask()

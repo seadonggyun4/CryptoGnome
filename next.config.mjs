@@ -14,6 +14,9 @@ const nextConfig = {
         config.resolve.alias['@fortawesome/fontawesome-svg-core/styles.css'] = false;
         return config;
     },
+    images: {
+        domains: ['lh3.googleusercontent.com'], // Add this line
+    },
     reactStrictMode: false,
 };
 
