@@ -196,6 +196,36 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
         }
     };
 
+    // 지갑 & 네트워크 변경시 패치
+    useEffect(() => {
+        const handleAccountsChanged = async (accounts: string[]) => {
+            if (accounts.length === 0) {
+                // 사용자가 계정을 연결 해제한 경우
+                setAccount(null);
+                setBalance(null);
+                setNetwork(null);
+            } else {
+                await connectMetaMask(); // 계정 변경 시 MetaMask 재연결 및 데이터 갱신
+            }
+        };
+
+        const ethereum = (window as any).ethereum;
+
+        if (ethereum) {
+            ethereum.on("accountsChanged", handleAccountsChanged);
+            ethereum.on("chainChanged", handleAccountsChanged);
+        }
+
+        // 클린업 함수: 이벤트 리스너 제거
+        return () => {
+            if (ethereum) {
+                ethereum.removeListener("accountsChanged", handleAccountsChanged);
+                ethereum.removeListener("chainChanged", handleAccountsChanged);
+            }
+        };
+    }, [connectMetaMask]);
+
+
     return (
         <GoogleAuthContext.Provider value={{
             user,
