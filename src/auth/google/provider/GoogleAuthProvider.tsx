@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from "react";
 import { encryptData, decryptData } from "@/utils/cryptoJs";
-import {NETWORK_MAP} from "@/process/constants";
+import { NETWORK_MAP } from "@/process/constants";
 
 type GoogleUser = {
     name: string;
@@ -22,8 +22,6 @@ type GoogleAuthContextType = {
 
 const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(undefined);
 
-
-
 export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<GoogleUser | null>(null);
     const [account, setAccount] = useState<string | null>(null);
@@ -31,30 +29,30 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
     const [network, setNetwork] = useState<string | null>(null);
     const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
 
-
-    // const SECRET_KEY = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!;
-    const CRYPTO_JS_KEY = process.env.NEXT_PUBLIC_CRYPTO_JS_SECRET
+    const CRYPTO_JS_KEY = process.env.NEXT_PUBLIC_CRYPTO_JS_SECRET;
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        `${window.location.origin}/auth/google/callback`
+        `${typeof window !== "undefined" ? window.location.origin : ""}/auth/google/callback`
     )}&response_type=code&scope=openid%20email%20profile`;
 
     // 새로고침 시 localStorage에서 사용자 정보 복원
     useEffect(() => {
+        if (typeof window === "undefined") return; // 서버에서는 실행되지 않도록 설정
         const encryptedUser = localStorage.getItem("google_user");
         if (encryptedUser && CRYPTO_JS_KEY) {
-            const userInfo =  decryptData(encryptedUser, CRYPTO_JS_KEY)
-            console.log(userInfo)
-            setUser(userInfo)
-            if((window as any).ethereum) {
-                connectMetaMask()
-                setIsMetaMaskInstalled(true)
+            const userInfo = decryptData(encryptedUser, CRYPTO_JS_KEY);
+            setUser(userInfo);
+            if ((window as any).ethereum) {
+                connectMetaMask();
+                setIsMetaMaskInstalled(true);
             }
         }
     }, []);
 
     // 팝업 로그인 함수
     const login = useCallback(async (): Promise<GoogleUser | null> => {
+        if (typeof window === "undefined") return null; // 서버 환경에서 실행 방지
+
         return new Promise((resolve, reject) => {
             const popup = window.open(googleAuthUrl, "Google Login", "width=500,height=600");
 
@@ -79,18 +77,16 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
                         if (authCode) {
                             fetchGoogleUserInfo(authCode)
                                 .then((userInfo) => {
-                                    // 구글 로그인 성공시 MetaMask 설치 여부 확인
                                     setIsMetaMaskInstalled((window as any).ethereum);
-                                    if((window as any).ethereum) {
-                                        connectMetaMask()
+                                    if ((window as any).ethereum) {
+                                        connectMetaMask();
                                         popup.close();
                                     }
-                                    return userInfo;
+                                    resolve(userInfo);
                                 })
                                 .catch((err) => {
                                     reject(err);
                                     popup.close();
-                                    return null;
                                 });
                         }
                     }
@@ -99,7 +95,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
                 }
             }, 1000);
         });
-    }, [clientId]);
+    }, [googleAuthUrl]);
 
     // 유저 정보 패치 함수
     const fetchGoogleUserInfo = async (authCode: string): Promise<GoogleUser> => {
@@ -112,7 +108,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
                 code: authCode,
                 client_id: clientId,
                 client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!,
-                redirect_uri: `${window.location.origin}/auth/google/callback`,
+                redirect_uri: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/google/callback`,
                 grant_type: "authorization_code",
             }),
         });
@@ -137,7 +133,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
         };
 
         setUser(userData);
-        if(CRYPTO_JS_KEY) localStorage.setItem("google_user", encryptData(userData, CRYPTO_JS_KEY));
+        if (CRYPTO_JS_KEY) localStorage.setItem("google_user", encryptData(userData, CRYPTO_JS_KEY));
 
         return userData;
     };
@@ -153,6 +149,8 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
 
     // MetaMask 연결 함수
     const connectMetaMask = async () => {
+        if (typeof window === "undefined") return; // 서버 환경에서 실행 방지
+
         try {
             const ethereum = (window as any).ethereum;
             const accounts = await ethereum.request({
@@ -164,19 +162,14 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
             await fetchBalance(accounts[0]);
             await fetchNetwork();
         } catch (err: any) {
-            return new Error(err.message || "MetaMask connection failed");
+            console.error(err.message || "MetaMask connection failed");
         }
-    };
-
-    // MetaMask 연결 해제 함수
-    const disconnectMetaMask = () => {
-        setAccount(null);
-        setBalance(null);
-        setNetwork(null);
     };
 
     // 잔액 가져오기
     const fetchBalance = async (account: string) => {
+        if (typeof window === "undefined") return; // 서버 환경에서 실행 방지
+
         try {
             const ethereum = (window as any).ethereum;
             const balanceInWei = await ethereum.request({
@@ -186,50 +179,22 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
             const balanceInEth = (parseInt(balanceInWei, 16) / 10 ** 18).toFixed(4);
             setBalance(balanceInEth);
         } catch (err) {
-            return new Error("Failed to fetch balance.")
+            console.error("Failed to fetch balance.");
         }
     };
 
     // 네트워크 정보 가져오기
     const fetchNetwork = async () => {
+        if (typeof window === "undefined") return; // 서버 환경에서 실행 방지
+
         try {
             const ethereum = (window as any).ethereum;
             const chainId = await ethereum.request({ method: "eth_chainId" });
-
             setNetwork(NETWORK_MAP[chainId] || `Unknown Network (${chainId})`);
         } catch (err) {
-            return new Error("Failed to fetch network.")
+            console.error("Failed to fetch network.");
         }
     };
-
-    useEffect(() => {
-        const handleAccountsChanged = async (accounts: string[]) => {
-            if (accounts.length === 0) {
-                disconnectMetaMask();
-            } else {
-                setAccount(accounts[0]);
-                await fetchBalance(accounts[0]);
-            }
-        };
-
-        const handleChainChanged = async () => {
-            await fetchNetwork();
-        };
-
-        const ethereum = (window as any).ethereum;
-
-        if (ethereum) {
-            ethereum.on("accountsChanged", handleAccountsChanged);
-            ethereum.on("chainChanged", handleChainChanged);
-        }
-
-        return () => {
-            if (ethereum) {
-                ethereum.removeListener("accountsChanged", handleAccountsChanged);
-                ethereum.removeListener("chainChanged", handleChainChanged);
-            }
-        };
-    }, [account]);
 
     return (
         <GoogleAuthContext.Provider value={{
