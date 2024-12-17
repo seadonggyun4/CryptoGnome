@@ -53,8 +53,6 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
     // 팝업 로그인 함수
     const login = useCallback(async (): Promise<GoogleUser | null> => {
         if (typeof window === "undefined") return null; // 서버 환경에서 실행 방지
-        console.log(window.location.origin)
-        console.log(googleAuthUrl);
 
         return new Promise((resolve, reject) => {
             const popup = window.open(googleAuthUrl, "Google Login", "width=500,height=600");
