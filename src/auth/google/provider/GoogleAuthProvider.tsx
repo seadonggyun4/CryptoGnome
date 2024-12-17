@@ -35,6 +35,7 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
         `${typeof window !== "undefined" ? window.location.origin : ""}/auth/google/callback`
     )}&response_type=code&scope=openid%20email%20profile`;
 
+
     // 새로고침 시 localStorage에서 사용자 정보 복원
     useEffect(() => {
         if (typeof window === "undefined") return; // 서버에서는 실행되지 않도록 설정
@@ -52,6 +53,8 @@ export const GoogleAuthProvider: React.FC<{ children: ReactNode }> = ({ children
     // 팝업 로그인 함수
     const login = useCallback(async (): Promise<GoogleUser | null> => {
         if (typeof window === "undefined") return null; // 서버 환경에서 실행 방지
+        console.log(window.location.origin)
+        console.log(googleAuthUrl);
 
         return new Promise((resolve, reject) => {
             const popup = window.open(googleAuthUrl, "Google Login", "width=500,height=600");
