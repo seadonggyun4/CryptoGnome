@@ -1,5 +1,10 @@
 
 <img src="https://github.com/user-attachments/assets/7051afdc-4aad-4550-a1de-b58166f943dd" ></img>
+# CryptoGnome
+**CryptoGnome** is a platform where you can visualize real-time Bitcoin price movements and data. <br>
+Imagine a tiny gnome mining on your behalf, steadily filling your wallet with tokens while you watch. <br>
+Experience this magical and extraordinary journey with CryptoGnome now!<br>
+
 <br>
 
 ## ⚙️ Tech Stack
@@ -31,12 +36,3 @@
 | axios | ^1.7.7 |           for Data Fetching.           | 
 
 <br>
-
-## Features
-|   **Feature**   |                **Description**                |
-|:---------------:|:---------------------------------------------:|
-| marketTrade |        Recent Market Trading Features         |
-| orderbook |              orderbook Features               |
-| symbolPrice |           Price for selected symbol           |
-| ticker | 24-hour price change statistics data Features |
-| trading |   Candlestick data or K-Line data Features    |
