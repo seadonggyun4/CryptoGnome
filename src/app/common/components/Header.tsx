@@ -7,6 +7,8 @@ import "@/utils/fontAwesome";
 import { useToast } from "@/app/common/provider/ToastContext";
 import GoogleLoginButton from "@/app/common/elements/GoogleLoginButton";
 import UserInfoMenu from "@/app/common/elements/UserInfoMenu";
+import Image from "next/image";
+import React from "react";
 
 const Header = () => {
     const { showToast } = useToast();
@@ -32,6 +34,10 @@ const Header = () => {
         { icon: faMoon, label: "Dark Mode", onClick: toggleDarkMode },
     ];
 
+    const moveToInstallMetaMask = () => {
+        window.open("https://metamask.io/download/", "_blank");
+    }
+
     return (
         <header className="flex justify-center relative bg-light-bg1 text-light-primaryText dark:text-dark-primaryText dark:bg-dark-bg1">
             <div className={`flex items-center justify-between py-4 max-w-[100rem] w-full`}>
@@ -55,8 +61,21 @@ const Header = () => {
                             {
                                 !googleUser && <GoogleLoginButton text="Google&nbsp;Login" onClick={loginWithGoogle}/>
                             }
-                            { googleUser && !isMetaMaskInstalled && (
-                                <button  className="px-4 py-2 bg-primary text-white rounded-md shadow hover:bg-primaryHover transition-colors duration-200">install MetaMask</button>
+                            {googleUser && !isMetaMaskInstalled && (
+                                <button
+                                    className="flex items-center px-7 py-2 bg-info text-white rounded-md
+                                     hover:shadow-[4px_4px_12px_rgb(0,138,255)] transition-all duration-300"
+                                    onClick={moveToInstallMetaMask}
+                                >
+                                    <Image
+                                        className="mr-2 object-contain"
+                                        src="/assets/img/metaMaskIcon.png"
+                                        alt="metaMask"
+                                        width={24}
+                                        height={24}
+                                    />
+                                    install MetaMask
+                                </button>
                             )}
                         </div>
                     </div>
@@ -68,7 +87,7 @@ const Header = () => {
                                 aria-label={label}
                                 onClick={onClick}
                             >
-                                <FontAwesomeIcon icon={icon} />
+                                <FontAwesomeIcon icon={icon}/>
                             </li>
                         ))}
                     </ul>

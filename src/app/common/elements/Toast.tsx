@@ -12,7 +12,7 @@ const Toast: React.FC<ToastProps> = ({ message, type, onClose }) => {
     const typeClasses = {
         success: "bg-success text-white",
         error: "bg-error text-white",
-        info: "bg-primary text-white",
+        info: "bg-info text-white",
     };
 
     return (

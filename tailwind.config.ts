@@ -9,6 +9,7 @@ module.exports = {
         primaryHover: '#F0B90B',
         error:  '#E33B54',
         success: '#0ECB81',
+        info:'#008aff',
         textLink: '#C99400',
         badgeBg: "rgba(240, 185, 11, 0.1)",
         // 라이트 모드
