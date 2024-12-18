@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { URL_QUERY } from "@/process/constants";
+import {errorHandler} from "@/process/middleware/apiErrorHandler";
+import {CustomError} from "@/process/api/CustomError";
 
 /**
  * API 요청 함수
@@ -26,13 +28,17 @@ export const apiClient = async <T>(
     };
 
     try {
-        // Axios 요청
         const response = await axios({
             ...defaultOptions,
-            ...options, // 사용자 지정 옵션 병합
+            ...options,
         });
-        return response as AxiosResponse<T>; // Axios 응답을 반환
+        return response as AxiosResponse<T>;
     } catch (error) {
-        throw error; // 에러를 다시 던져서 호출자가 처리할 수 있도록 함
+        if (axios.isAxiosError(error)) {
+            const { status, key, message } = errorHandler(error);
+            throw new CustomError(status, key, message);
+        } else {
+            throw new CustomError(999, "UNKNOWN_ERROR", "알 수 없는 에러가 발생했습니다.");
+        }
     }
 };

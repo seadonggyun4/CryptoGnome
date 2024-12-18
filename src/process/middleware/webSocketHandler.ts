@@ -58,7 +58,7 @@ export const webSocketHandler = (
                 retries++;
                 setTimeout(connect, reconnectInterval);
             } else {
-                if (showToast) showToast("Max reconnect attempts reached", "error");
+                if (showToast) showToast("Max reconnect attempts reached", "info");
             }
         };
 

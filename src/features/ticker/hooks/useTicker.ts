@@ -1,17 +1,12 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import { apiClient } from "@/process/api";
 import { ApiTickerResponse, WebSocketTickerData, TickerData } from "@/features/ticker/types";
-import {useToast} from "@/app/common/provider/ToastContext";
 
 /**
  * useTicker Hook
  * @param symbol - 티커를 가져올 암호화폐 심볼 (예: "BTCUSDT")
  */
 export const useTicker = (symbol?: string) => {
-    const { showToast } = useToast();
-
     const fetchTickerData = async (): Promise<TickerData[]> => {
         try {
             const url = symbol
@@ -31,7 +26,6 @@ export const useTicker = (symbol?: string) => {
                 time: new Date(item.time),
             }));
         } catch (error) {
-            apiErrorHandler(error as AxiosError | Error, showToast);
             throw error;
         }
     };

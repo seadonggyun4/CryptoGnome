@@ -16,6 +16,7 @@ const MarketTrades: React.FC = () => {
     const { symbol } = useTradingContext();
     const { data: ApiTradeResponse, isLoading, error } = useMarketTrade(symbol);
 
+
     const data = useMemo(() => ApiTradeResponse || [], [ApiTradeResponse]);
 
     // 데이터 포맷팅 함수

@@ -1,9 +1,6 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { apiClient } from "@/process/api";
-import { apiErrorHandler } from "@/process/middleware/apiErrorHandler";
 import {KlineData, ApiKlineResponse, WebSocketKlineData} from "@/features/tradingChart/types";
-import {useToast} from "@/app/common/provider/ToastContext";
 
 /**
  * useTradingChart Hook
@@ -11,8 +8,6 @@ import {useToast} from "@/app/common/provider/ToastContext";
  * @param interval - 차트 간격 (기본값: "1h")
  */
 export const useTradingChart = (symbol: string, interval: string) => {
-    const { showToast } = useToast();
-
     const fetchTradingData = async (): Promise<KlineData[]> => {
         try {
             const { data } = await apiClient<ApiKlineResponse[]>(
@@ -24,7 +19,6 @@ export const useTradingChart = (symbol: string, interval: string) => {
                 y: [item[1], item[2], item[3], item[4]], // [Open, High, Low, Close]
             }));
         } catch (error) {
-            apiErrorHandler(error as AxiosError | Error, showToast);
             throw error;
         }
     };
