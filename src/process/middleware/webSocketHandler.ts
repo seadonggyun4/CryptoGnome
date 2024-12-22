@@ -1,7 +1,11 @@
+import {WebSocketError} from "@/process/webSocket/WebSocketError";
+import {ErrorCode} from "@/process/types";
+
+
 // WebSocket 이벤트 핸들러 인터페이스
 interface WebSocketHandlers {
     onMessage?: (message: any) => void; // 메시지 처리 핸들러
-    onClose?: () => void; // 연결 종료 핸들러
+    onClose?: (error: ErrorCode) => void; // 연결 종료 핸들러
     onError?: (error: Event) => void; // 에러 발생 핸들러
     onOpen?: () => void; // 연결 성공 핸들러
 }
@@ -42,6 +46,10 @@ export const webSocketHandler = (
         };
 
         ws.onclose = (e) => {
+            const error = new WebSocketError(e.code)
+            if(error.status !== 4000 && error.status !== 1000 && handlers.onClose) {
+                handlers.onClose(error)
+            }
             setTimeout(connect, reconnectInterval);
         };
 

@@ -55,11 +55,11 @@ export const API_ERROR_CODE: Record<number, ErrorCode> = {
     0: {
         status: 0,
         key: "NO_RESPONSE",
-        message: "서버로부터 응답이 없습니다.\n네트워크 상태를 확인해주세요.",
+        message: "서버로부터 응답이 없습니다.네트워크 상태를 확인해주세요.",
     }
 }
 
-export const WEBSOCKET_CLOSE_CODE = {
+export const WEBSOCKET_CLOSE_CODE: Record<number, ErrorCode> = {
     1000: {
         status: 1000,
         key: 'NORMAL_SHUTDOWN',

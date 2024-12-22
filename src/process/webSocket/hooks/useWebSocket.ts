@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import {useEffect, useRef, useState} from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { webSocketHandler } from "@/process/middleware/webSocketHandler";
 import { URL_SOCKET } from "@/process/constants";
@@ -6,9 +6,16 @@ import { updateTicker } from "@/features/ticker/hooks/useTicker";
 import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { updateOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import { updateTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
+import {ErrorCode} from "@/process/types";
 
-export const useWebSocket = (symbol: string, interval: string): (() => void) => {
+type UseWebSocketReturnType = {
+    cleanUp: () => void;
+    socketError: ErrorCode | null;
+};
+
+export const useWebSocket = (symbol: string, interval: string): UseWebSocketReturnType => {
     const wsRef = useRef<WebSocket | null>(null);
+    const [socketError, setSocketError] = useState<ErrorCode | null>(null)
 
     const queryClient = useQueryClient();
 
@@ -47,6 +54,9 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
                                 console.warn(`Unhandled WebSocket event: ${data.e}`);
                         }
                     },
+                    onClose: (err) => {
+                        setSocketError(err);
+                    }
                 },
                 {},
             );
@@ -57,7 +67,7 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
 
         return () => {
             if (wsRef.current) {
-                wsRef.current.close();
+                wsRef.current.close(4000);
                 wsRef.current = null;
             }
         };
@@ -66,10 +76,13 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
     }, [symbol, interval]);
 
     // clean-up 함수 반환
-    return () => {
-        if (wsRef.current) {
-            wsRef.current.close(4000);
-            wsRef.current = null;
-        }
+    return {
+        cleanUp: () => {
+            if (wsRef.current) {
+                wsRef.current.close(4000);
+                wsRef.current = null;
+            }
+        },
+        socketError,
     };
 };
