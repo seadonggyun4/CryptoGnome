@@ -8,12 +8,11 @@ Experience this magical and extraordinary journey with CryptoGnome now!<br>
 <br>
 
 ## ⚙️ Tech Stack
-- Frontend Framework: React, Next.js <br>
+- Frontend Framework: Next.js, TypeScript <br>
 - Styling: Tailwind CSS <br>
 - State Management: React Query, WebSocket, Context API <br>
 - Data Fetching: Binance API (REST & WebSocket) <br>
 - Charting Library: ApexCharts <br>
-- Others: ESLint <br>
 
 <br>
 
