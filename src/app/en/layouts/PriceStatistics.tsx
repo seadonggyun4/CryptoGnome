@@ -1,13 +1,13 @@
 "use client";
 
 import React, {useEffect} from "react";
-import Card from "@/app/common/elements/Card";
-import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
+import Card from "@/common/elements/Card";
+import RealTimePrice from "@/app/en/components/RealTimePrice";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
-import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
-import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
-import {useToast} from "@/app/common/provider/ToastContext";
+import { useTradingContext } from "@/app/en/provider/TradingContext";
+import { useSliceSymbol } from "@/app/en/hooks/useSliceSymbol";
+import { SliceSymbolResult } from "@/app/en/types";
+import {useToast} from "@/common/provider/ToastContext";
 
 // 컴포넌트 정의
 const PriceStatistics: React.FC = () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import Loading from "@/app/common/elements/Loading";
+import Loading from "@/common/elements/Loading";
 
 const GoogleCallbackPage: React.FC = () => {
     return (

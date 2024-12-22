@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Tabs from "@/app/common/elements/Tabs";
-import Card from "@/app/common/elements/Card";
-import { TabType } from '@/app/common/types'
-import Mining from "@/app/en/trade/BTCUSDT/components/Mining";
+import Tabs from "@/common/elements/Tabs";
+import Card from "@/common/elements/Card";
+import { TabType } from '@/common/types'
+import Mining from "@/app/en/components/Mining";
 
 const MiningContainer = () => {
     const tabs:TabType[] = [

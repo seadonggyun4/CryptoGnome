@@ -2,8 +2,8 @@
 
 import React, { createContext, useContext, ReactNode, useEffect } from "react";
 import { useWebSocket } from "@/process/webSocket/hooks/useWebSocket";
-import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import { useToast } from "@/app/common/provider/ToastContext";
+import { useTradingContext } from "@/app/en/provider/TradingContext";
+import { useToast } from "@/common/provider/ToastContext";
 
 // WebSocket Context 생성 (현재 데이터 전달 없음)
 const WebSocketContext = createContext<undefined>(undefined);

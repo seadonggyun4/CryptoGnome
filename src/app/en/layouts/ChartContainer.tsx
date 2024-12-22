@@ -2,10 +2,10 @@
 
 import React from "react";
 import { useState, useMemo } from "react";
-import Tabs from "@/app/common/elements/Tabs";
-import Card from "@/app/common/elements/Card";
-import TradingChart from "@/app/en/trade/BTCUSDT/components/TradingChart";
-import { TabType } from '@/app/common/types'
+import Tabs from "@/common/elements/Tabs";
+import Card from "@/common/elements/Card";
+import TradingChart from "@/app/en/components/TradingChart";
+import { TabType } from '@/common/types'
 
 const ChartContainer: React.FC = () => {
     // Tabs 데이터 타입 적용

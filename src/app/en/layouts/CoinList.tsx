@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
-import Card from "@/app/common/elements/Card";
-import SearchInput from "@/app/common/elements/SearchInput";
+import Card from "@/common/elements/Card";
+import SearchInput from "@/common/elements/SearchInput";
 import {
     useReactTable,
     getCoreRowModel,
@@ -8,11 +8,11 @@ import {
     ColumnDef,
 } from "@tanstack/react-table";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
-import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
-import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
+import { useTradingContext } from "@/app/en/provider/TradingContext";
+import { useSliceSymbol } from "@/app/en/hooks/useSliceSymbol";
+import { SliceSymbolResult } from "@/app/en/types";
 import { TickerData } from "@/features/ticker/types";
-import {useToast} from "@/app/common/provider/ToastContext";
+import {useToast} from "@/common/provider/ToastContext";
 
 const CoinList: React.FC = () => {
     const {showToast} = useToast();

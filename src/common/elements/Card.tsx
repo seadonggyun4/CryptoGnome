@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import Loading from "@/app/common/elements/Loading";
+import Loading from "@/common/elements/Loading";
 import { ErrorCode } from "@/process/types";
 
 const Card: React.FC<{

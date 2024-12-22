@@ -2,10 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { useTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
-import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import Loading from "@/app/common/elements/Loading";
+import { useTradingContext } from "@/app/en/provider/TradingContext";
+import Loading from "@/common/elements/Loading";
 import React, {useEffect} from "react";
-import {useToast} from "@/app/common/provider/ToastContext";
+import {useToast} from "@/common/provider/ToastContext";
 
 // ApexCharts 동적 import 설정
 const Chart = dynamic(() => import("react-apexcharts"), {

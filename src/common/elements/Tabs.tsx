@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { TabsProps } from "@/app/common/types";
+import { TabsProps } from "@/common/types";
 
 const Tabs: React.FC<TabsProps> = memo(({ activeTab, tabs, onTabChange }) => {
     const handleTabClick = (key: string) => {

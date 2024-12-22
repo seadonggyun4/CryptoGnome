@@ -5,10 +5,10 @@ import {
     createColumnHelper,
     ColumnDef,
 } from "@tanstack/react-table";
-import { useTopMovers } from "@/app/en/trade/BTCUSDT/hooks/useTopMovers";
-import Card from "@/app/common/elements/Card";
-import { Mover } from "@/app/en/trade/BTCUSDT/types";
-import {useToast} from "@/app/common/provider/ToastContext";
+import { useTopMovers } from "@/app/en/hooks/useTopMovers";
+import Card from "@/common/elements/Card";
+import { Mover } from "@/app/en/types";
+import {useToast} from "@/common/provider/ToastContext";
 import {useEffect} from "react";
 
 // `convertTo24Hour` 함수의 타입 정의

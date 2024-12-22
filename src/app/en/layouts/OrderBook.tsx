@@ -7,13 +7,13 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
-import Card from "@/app/common/elements/Card";
-import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
+import Card from "@/common/elements/Card";
+import RealTimePrice from "@/app/en/components/RealTimePrice";
 import { useOrderBook } from "@/features/orderBook/hooks/useOrderBook";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
-import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
-import {useToast} from "@/app/common/provider/ToastContext";
-import Loading from "@/app/common/elements/Loading";
+import { useTradingContext } from "@/app/en/provider/TradingContext";
+import {useToast} from "@/common/provider/ToastContext";
+import Loading from "@/common/elements/Loading";
 
 // 타입 정의
 interface FormattedOrder {

@@ -5,9 +5,9 @@ import { faGlobe, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useGoogleAuth } from "@/auth/google/provider/GoogleAuthProvider";
 import { useMetaMask } from "@/auth/metaMask/provider/MetaMaskProvider";
 import "@/utils/fontAwesome";
-import { useToast } from "@/app/common/provider/ToastContext";
-import GoogleLoginButton from "@/app/common/elements/GoogleLoginButton";
-import UserInfoMenu from "@/app/common/elements/UserInfoMenu";
+import { useToast } from "@/common/provider/ToastContext";
+import GoogleLoginButton from "@/common/elements/GoogleLoginButton";
+import UserInfoMenu from "@/common/elements/UserInfoMenu";
 import Image from "next/image";
 import React from "react";
 

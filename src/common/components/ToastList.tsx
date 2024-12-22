@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Toast from "@/app/common/elements/Toast";
+import Toast from "@/common/elements/Toast";
 
 interface ToastListProps {
     toasts: { id: string; message: string; type: "success" | "error" | "info" }[];

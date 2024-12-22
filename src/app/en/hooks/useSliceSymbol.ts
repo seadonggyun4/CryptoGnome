@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { QUOTES } from "@/process/constants";
-import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
+import { SliceSymbolResult } from "@/app/en/types";
 
 // 커스텀 훅 정의
 export const useSliceSymbol = (symbol: string | null): SliceSymbolResult => {

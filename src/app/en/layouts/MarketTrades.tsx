@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect, useMemo} from "react";
-import Card from "@/app/common/elements/Card";
+import Card from "@/common/elements/Card";
 import {
     useReactTable,
     getCoreRowModel,
@@ -9,9 +9,9 @@ import {
     createColumnHelper,
 } from "@tanstack/react-table";
 import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
-import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
+import { useTradingContext } from "@/app/en/provider/TradingContext";
 import {ApiTradeResponse, MarketTradeData} from "@/features/marketTrade/types";
-import {useToast} from "@/app/common/provider/ToastContext";
+import {useToast} from "@/common/provider/ToastContext";
 
 const MarketTrades: React.FC = () => {
     const {showToast} = useToast();

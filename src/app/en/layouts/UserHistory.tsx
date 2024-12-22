@@ -1,9 +1,9 @@
 "use client";
 
-import Card from "@/app/common/elements/Card";
-import Tabs from "@/app/common/elements/Tabs";
+import Card from "@/common/elements/Card";
+import Tabs from "@/common/elements/Tabs";
 import {useMemo, useState} from "react";
-import { TabType } from '@/app/common/types'
+import { TabType } from '@/common/types'
 
 
 const UserHistory = () => {

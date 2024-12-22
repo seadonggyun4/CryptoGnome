@@ -1,14 +1,14 @@
 "use client";
 
 import React, { memo } from "react";
-import PriceStatistics from "@/app/en/trade/BTCUSDT/layouts/PriceStatistics";
-import OrderBook from "@/app/en/trade/BTCUSDT/layouts/OrderBook";
-import ChartContainer from "@/app/en/trade/BTCUSDT/layouts/ChartContainer";
-import MiningContainer from "@/app/en/trade/BTCUSDT/layouts/MiningContainer";
-import CoinList from "@/app/en/trade/BTCUSDT/layouts/CoinList";
-import MarketTrades from "@/app/en/trade/BTCUSDT/layouts/MarketTrades";
-import TopMovers from "@/app/en/trade/BTCUSDT/layouts/TopMovers";
-import UserHistory from "@/app/en/trade/BTCUSDT/layouts/UserHistory";
+import PriceStatistics from "@/app/en/layouts/PriceStatistics";
+import OrderBook from "@/app/en/layouts/OrderBook";
+import ChartContainer from "@/app/en/layouts/ChartContainer";
+import MiningContainer from "@/app/en/layouts/MiningContainer";
+import CoinList from "@/app/en/layouts/CoinList";
+import MarketTrades from "@/app/en/layouts/MarketTrades";
+import TopMovers from "@/app/en/layouts/TopMovers";
+import UserHistory from "@/app/en/layouts/UserHistory";
 
 
 const HomeSection =  () => {

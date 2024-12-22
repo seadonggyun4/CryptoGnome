@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
-import ToastList from "@/app/common/components/ToastList";
+import ToastList from "@/common/components/ToastList";
 import { generateUUID } from "@/utils/generateUUID"; // UUID 유틸 함수
 
 interface Toast {
