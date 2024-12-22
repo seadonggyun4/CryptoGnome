@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { Mover } from "@/app/en/trade/BTCUSDT/types";
+import {ErrorCode} from "@/process/types";
 
 // 훅 반환 타입 정의
 interface UseTopMoversResult {
     data: Mover[];
     isLoading: boolean;
-    error: Error | null;
+    error: ErrorCode | null;
 }
 
 // 훅 구현

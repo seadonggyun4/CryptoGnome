@@ -12,19 +12,25 @@ import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContex
 import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
 import { TickerData } from "@/features/ticker/types";
+import {useToast} from "@/app/common/provider/ToastContext";
+import {API_ERROR_CODE} from "@/process/constants";
 
 const CoinList: React.FC = () => {
+    const {showToast} = useToast();
     const { symbol, setSymbol } = useTradingContext(); // TradingContext 타입에 따라 수정 가능
     const { base }: SliceSymbolResult = useSliceSymbol(symbol);
     const [searchText, setSearchText] = useState<string>(base || "");
+    // Ticker 데이터 패칭
+    const { data: coinListData = [], isLoading, error } = useTicker("");
+
+    useEffect(() => {
+        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+    }, [error]);
 
     // base 변경 시 searchText 동기화
     useEffect(() => {
         setSearchText(base || "");
     }, [base]);
-
-    // Ticker 데이터 패칭
-    const { data: coinListData = [], isLoading, error } = useTicker("");
 
     // 검색어 필터링은 useMemo로 처리
     const filteredData = useMemo(() => {

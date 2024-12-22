@@ -1,6 +1,7 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import {KlineData, ApiKlineResponse, WebSocketKlineData} from "@/features/tradingChart/types";
+import { ErrorCode } from "@/process/types";
 
 /**
  * useTradingChart Hook
@@ -23,7 +24,7 @@ export const useTradingChart = (symbol: string, interval: string) => {
         }
     };
 
-    return useQuery<KlineData[], Error>({
+    return useQuery<KlineData[], ErrorCode>({
         queryKey: ["tradingData", symbol, interval],
         queryFn: fetchTradingData,
     });

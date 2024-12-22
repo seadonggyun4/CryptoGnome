@@ -1,6 +1,7 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import { ApiTickerResponse, WebSocketTickerData, TickerData } from "@/features/ticker/types";
+import { ErrorCode } from "@/process/types";
 
 /**
  * useTicker Hook
@@ -30,7 +31,7 @@ export const useTicker = (symbol?: string) => {
         }
     };
 
-    return useQuery<TickerData[], Error>({
+    return useQuery<TickerData[], ErrorCode>({
         queryKey: symbol ? ["ticker", symbol] : ["tickers"],
         queryFn: fetchTickerData,
     });

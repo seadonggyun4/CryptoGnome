@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, {useEffect, useMemo} from "react";
 import Card from "@/app/common/elements/Card";
 import {
     useReactTable,
@@ -11,10 +11,17 @@ import {
 import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import {ApiTradeResponse, MarketTradeData} from "@/features/marketTrade/types";
+import {useToast} from "@/app/common/provider/ToastContext";
+import {API_ERROR_CODE} from "@/process/constants";
 
 const MarketTrades: React.FC = () => {
+    const {showToast} = useToast();
     const { symbol } = useTradingContext();
     const { data: ApiTradeResponse, isLoading, error } = useMarketTrade(symbol);
+
+    useEffect(() => {
+        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+    }, [error]);
 
 
     const data = useMemo(() => ApiTradeResponse || [], [ApiTradeResponse]);

@@ -1,6 +1,8 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import { ApiTOrderBookResponse, WebSocketOrderBookData, OrderBookData } from "@/features/orderbook/types"; // 타입 임포트
+import { ErrorCode } from "@/process/types";
+
 
 // useOrderBook Hook
 export const useOrderBook = (symbol: string) => {
@@ -21,7 +23,7 @@ export const useOrderBook = (symbol: string) => {
         }
     };
 
-    return useQuery<OrderBookData, Error>({
+    return useQuery<OrderBookData, ErrorCode>({
         queryKey: ["orderBook", symbol],
         queryFn: fetchOrderBook,
     });

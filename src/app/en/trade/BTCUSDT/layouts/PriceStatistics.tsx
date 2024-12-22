@@ -1,18 +1,25 @@
 "use client";
 
-import React from "react";
+import React, {useEffect} from "react";
 import Card from "@/app/common/elements/Card";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
+import {useToast} from "@/app/common/provider/ToastContext";
+import {API_ERROR_CODE} from "@/process/constants";
 
 // 컴포넌트 정의
 const PriceStatistics: React.FC = () => {
+    const {showToast} = useToast();
     const { symbol } = useTradingContext();
     const { data, isLoading, error } = useTicker(symbol);
     const { base, quote }: SliceSymbolResult = useSliceSymbol(symbol);
+
+    useEffect(() => {
+        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+    }, [error]);
 
     return (
         <Card isLoading={isLoading} error={error}>

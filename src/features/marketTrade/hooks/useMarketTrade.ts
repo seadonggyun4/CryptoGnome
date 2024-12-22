@@ -1,6 +1,7 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
 import { ApiTradeResponse, WebSocketTradeData } from '@/features/marketTrade/types'
+import { ErrorCode } from "@/process/types";
 
 
 // useMarketTrade Hook
@@ -23,7 +24,7 @@ export const useMarketTrade = (symbol: string) => {
         }
     };
 
-    return useQuery<ApiTradeResponse[], Error>({
+    return useQuery<ApiTradeResponse[], ErrorCode>({
         queryKey: ["marketTrades", symbol],
         queryFn: fetchMarketTrades,
     });

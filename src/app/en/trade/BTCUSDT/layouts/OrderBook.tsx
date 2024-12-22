@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useCallback } from "react";
+import React, {useMemo, useCallback, useEffect} from "react";
 import {
     useReactTable,
     getCoreRowModel,
@@ -12,6 +12,9 @@ import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
 import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
+import {useToast} from "@/app/common/provider/ToastContext";
+import {API_ERROR_CODE} from "@/process/constants";
+import Loading from "@/app/common/elements/Loading";
 
 // 타입 정의
 interface FormattedOrder {
@@ -22,15 +25,21 @@ interface FormattedOrder {
 
 // 컴포넌트 정의
 const OrderBook: React.FC = () => {
+    const {showToast} = useToast();
     const { symbol } = useTradingContext();
 
     // 데이터 훅
     const { data: orderBookData, isLoading, error } = useOrderBook(symbol);
-    const { data: priceData = [], isLoading: priceLoading } = useTicker(symbol);
+    const { data: priceData = [], isLoading: priceLoading, error: priceError } = useTicker(symbol);
 
     // Query 및 WebSocket 데이터
     const bids = useMemo(() => orderBookData?.bids || [], [orderBookData]);
     const asks = useMemo(() => orderBookData?.asks || [], [orderBookData]);
+
+    useEffect(() => {
+        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+        if(priceError) showToast(API_ERROR_CODE[priceError.status].message, 'error')
+    }, [error, priceError]);
 
     // 데이터 포맷팅 함수
     const formatOrderData = useCallback(
@@ -148,24 +157,27 @@ const OrderBook: React.FC = () => {
                         ))}
                         </tbody>
                     </table>
-
-                    <div className="flex items-end space-x-2 my-2">
-                        <RealTimePrice
-                            price={
-                                priceLoading
-                                    ? "0"
-                                    : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)
-                            }
-                            showIcon={true}
-                        />
-                        <span className="pl-2 text-sm text-light-iconNormal dark:text-dark-iconNormal">
-                            $
-                            {priceLoading
-                                ? ""
-                                : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)}
-                        </span>
+                    <div className="flex items-end space-x-2 my-2 min-h-6">
+                        {
+                            priceError
+                                ? <Loading />
+                                : <>
+                                    <RealTimePrice
+                                        price={
+                                            priceLoading
+                                                ? "0"
+                                                : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)
+                                        }
+                                        showIcon={true}
+                                    />
+                                    <span className="pl-2 text-sm text-light-iconNormal dark:text-dark-iconNormal">
+                                        ${priceLoading
+                                                    ? ""
+                                                    : parseFloat(priceData[0]?.lastPrice || "0").toFixed(2)}
+                                    </span>
+                                </>
+                        }
                     </div>
-
                     {/* Buy Orders */}
                     <table className="table-fixed w-full text-xs">
                         <thead className="bg-light-bg2 dark:bg-dark-bg2">

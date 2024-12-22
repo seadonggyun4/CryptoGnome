@@ -1,9 +1,10 @@
 import React, { ReactNode } from "react";
 import Loading from "@/app/common/elements/Loading";
+import { ErrorCode } from "@/process/types";
 
 const Card: React.FC<{
     isLoading?: boolean;
-    error?: Error | null;
+    error?: ErrorCode | null;
     children: ReactNode;
 }> = ({ isLoading, error, children }) => {
     return (
@@ -15,7 +16,7 @@ const Card: React.FC<{
 
             {/* 에러 상태 */}
             {error && (
-                <div className="absolute inset-0 flex items-center justify-center text-error font-bold">
+                <div className="absolute inset-0 flex items-center justify-center text-error font-semibold">
                     Error.
                 </div>
             )}

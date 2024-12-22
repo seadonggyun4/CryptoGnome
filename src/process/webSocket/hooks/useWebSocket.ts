@@ -6,12 +6,10 @@ import { updateTicker } from "@/features/ticker/hooks/useTicker";
 import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { updateOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import { updateTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
-import { useToast } from "@/app/common/provider/ToastContext";
 
 export const useWebSocket = (symbol: string, interval: string): (() => void) => {
     const wsRef = useRef<WebSocket | null>(null);
 
-    const { showToast } = useToast();
     const queryClient = useQueryClient();
 
     useEffect(() => {
@@ -51,7 +49,6 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
                     },
                 },
                 {},
-                showToast
             );
         };
 
@@ -71,7 +68,7 @@ export const useWebSocket = (symbol: string, interval: string): (() => void) => 
     // clean-up 함수 반환
     return () => {
         if (wsRef.current) {
-            wsRef.current.close();
+            wsRef.current.close(4000);
             wsRef.current = null;
         }
     };
