@@ -117,7 +117,7 @@ const TopMovers: React.FC = () => {
                 <table className="table-auto w-full text-xs">
                     <tbody>
                     {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id} className="hover:bg-gray-800">
+                        <tr key={row.id} className="hover:bg-light-listHover dark:hover:bg-dark-listHover">
                             {row.getVisibleCells().map((cell) => (
                                 <td
                                     key={cell.id}
