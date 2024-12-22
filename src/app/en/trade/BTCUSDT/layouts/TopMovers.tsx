@@ -9,7 +9,6 @@ import { useTopMovers } from "@/app/en/trade/BTCUSDT/hooks/useTopMovers";
 import Card from "@/app/common/elements/Card";
 import { Mover } from "@/app/en/trade/BTCUSDT/types";
 import {useToast} from "@/app/common/provider/ToastContext";
-import {API_ERROR_CODE} from "@/process/constants";
 import {useEffect} from "react";
 
 // `convertTo24Hour` 함수의 타입 정의
@@ -39,7 +38,7 @@ const TopMovers: React.FC = () => {
     const { data: moversData = [], isLoading, error } = useTopMovers();
 
     useEffect(() => {
-        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+        if(error) showToast(error.message, 'error')
     }, [error]);
 
     // 컬럼 정의

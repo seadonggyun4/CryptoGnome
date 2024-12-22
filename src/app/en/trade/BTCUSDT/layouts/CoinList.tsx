@@ -13,7 +13,6 @@ import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
 import { TickerData } from "@/features/ticker/types";
 import {useToast} from "@/app/common/provider/ToastContext";
-import {API_ERROR_CODE} from "@/process/constants";
 
 const CoinList: React.FC = () => {
     const {showToast} = useToast();
@@ -24,7 +23,7 @@ const CoinList: React.FC = () => {
     const { data: coinListData = [], isLoading, error } = useTicker("");
 
     useEffect(() => {
-        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+        if(error) showToast(error.message, 'error')
     }, [error]);
 
     // base 변경 시 searchText 동기화

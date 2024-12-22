@@ -12,7 +12,6 @@ import { useMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import {ApiTradeResponse, MarketTradeData} from "@/features/marketTrade/types";
 import {useToast} from "@/app/common/provider/ToastContext";
-import {API_ERROR_CODE} from "@/process/constants";
 
 const MarketTrades: React.FC = () => {
     const {showToast} = useToast();
@@ -20,7 +19,7 @@ const MarketTrades: React.FC = () => {
     const { data: ApiTradeResponse, isLoading, error } = useMarketTrade(symbol);
 
     useEffect(() => {
-        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+        if(error) showToast(error.message, 'error')
     }, [error]);
 
 

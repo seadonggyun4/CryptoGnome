@@ -13,7 +13,6 @@ import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import {useToast} from "@/app/common/provider/ToastContext";
-import {API_ERROR_CODE} from "@/process/constants";
 import Loading from "@/app/common/elements/Loading";
 
 // 타입 정의
@@ -37,8 +36,8 @@ const OrderBook: React.FC = () => {
     const asks = useMemo(() => orderBookData?.asks || [], [orderBookData]);
 
     useEffect(() => {
-        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
-        if(priceError) showToast(API_ERROR_CODE[priceError.status].message, 'error')
+        if(error) showToast(error.message, 'error')
+        if(priceError) showToast(priceError.message, 'error')
     }, [error, priceError]);
 
     // 데이터 포맷팅 함수

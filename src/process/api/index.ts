@@ -35,10 +35,9 @@ export const apiClient = async <T>(
         return response as AxiosResponse<T>;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            const { status, key, message } = errorHandler(error);
-            throw new CustomError(status, key, message);
+            throw new CustomError(error.status);
         } else {
-            throw new CustomError(999, "UNKNOWN_ERROR", "알 수 없는 에러가 발생했습니다.");
+            throw new CustomError(999);
         }
     }
 };

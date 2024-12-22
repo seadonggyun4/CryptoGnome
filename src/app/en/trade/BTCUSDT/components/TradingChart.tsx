@@ -6,7 +6,6 @@ import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContex
 import Loading from "@/app/common/elements/Loading";
 import React, {useEffect} from "react";
 import {useToast} from "@/app/common/provider/ToastContext";
-import {API_ERROR_CODE} from "@/process/constants";
 
 // ApexCharts 동적 import 설정
 const Chart = dynamic(() => import("react-apexcharts"), {
@@ -20,7 +19,7 @@ const TradingChart: React.FC = () => {
     const { data: chartData = [], isLoading, error } = useTradingChart(symbol, activeInterval);
 
     useEffect(() => {
-        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+        if(error) showToast(error.message, 'error')
     }, [error]);
 
     // 차트 옵션 설정

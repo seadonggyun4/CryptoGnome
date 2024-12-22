@@ -5,11 +5,9 @@ export class WebSocketError extends Error {
     status: number;
 
     constructor(status: number) {
-        super(); // Error 클래스의 기본 생성자 호출
-
+        super();
         this.status = status;
 
-        // 상태 코드가 유효한지 확인
         const closeInfo = WEBSOCKET_CLOSE_CODE[status];
         if (closeInfo) {
             this.key = closeInfo.key;

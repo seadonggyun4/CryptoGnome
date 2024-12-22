@@ -8,7 +8,6 @@ import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContex
 import { useSliceSymbol } from "@/app/en/trade/BTCUSDT/hooks/useSliceSymbol";
 import { SliceSymbolResult } from "@/app/en/trade/BTCUSDT/types";
 import {useToast} from "@/app/common/provider/ToastContext";
-import {API_ERROR_CODE} from "@/process/constants";
 
 // 컴포넌트 정의
 const PriceStatistics: React.FC = () => {
@@ -18,7 +17,7 @@ const PriceStatistics: React.FC = () => {
     const { base, quote }: SliceSymbolResult = useSliceSymbol(symbol);
 
     useEffect(() => {
-        if(error) showToast(API_ERROR_CODE[error.status].message, 'error')
+        if(error) showToast(error.message, 'error')
     }, [error]);
 
     return (
