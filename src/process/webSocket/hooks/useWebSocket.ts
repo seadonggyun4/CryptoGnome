@@ -4,7 +4,7 @@ import { webSocketHandler } from "@/process/middleware/webSocketHandler";
 import { URL_SOCKET } from "@/process/constants";
 import { updateTicker } from "@/features/ticker/hooks/useTicker";
 import { updateMarketTrade } from "@/features/marketTrade/hooks/useMarketTrade";
-import { updateOrderBook } from "@/features/orderbook/hooks/useOrderBook";
+import { updateOrderBook } from "@/features/orderBook/hooks/useOrderBook";
 import { updateTradingChart } from "@/features/tradingChart/hooks/useTradingChart";
 import {ErrorCode} from "@/process/types";
 

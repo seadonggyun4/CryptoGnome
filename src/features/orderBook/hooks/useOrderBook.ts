@@ -1,6 +1,6 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/process/api";
-import { ApiTOrderBookResponse, WebSocketOrderBookData, OrderBookData } from "@/features/orderbook/types"; // 타입 임포트
+import { ApiTOrderBookResponse, WebSocketOrderBookData, OrderBookData } from "@/features/orderBook/types"; // 타입 임포트
 import { ErrorCode } from "@/process/types";
 
 

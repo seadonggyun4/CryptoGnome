@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { URL_QUERY } from "@/process/constants";
-import {errorHandler} from "@/process/middleware/apiErrorHandler";
 import {CustomError} from "@/process/api/CustomError";
 
 /**

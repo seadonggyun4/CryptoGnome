@@ -3,6 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useGoogleAuth } from "@/auth/google/provider/GoogleAuthProvider";
+import { useMetaMask } from "@/auth/metaMask/provider/MetaMaskProvider";
 import "@/utils/fontAwesome";
 import { useToast } from "@/app/common/provider/ToastContext";
 import GoogleLoginButton from "@/app/common/elements/GoogleLoginButton";
@@ -16,11 +17,14 @@ const Header = () => {
         user: googleUser,
         login: loginWithGoogle,
         logout: logoutGoogle,
+    } = useGoogleAuth();
+
+    const {
         account,
         balance,
         network,
         isMetaMaskInstalled,
-    } = useGoogleAuth();
+    } = useMetaMask()
 
     const toggleDarkMode = () => {
         const htmlElement = document.documentElement;
@@ -55,7 +59,7 @@ const Header = () => {
                 <menu className="flex items-center space-x-4">
                     <div className="flex items-center space-x-3">
                         {/* MetaMask 상태 */}
-                        {isMetaMaskInstalled && <UserInfoMenu userData={googleUser} account={account} balance={balance} network={network} onLogout={logoutGoogle} />}
+                        {isMetaMaskInstalled && googleUser && <UserInfoMenu userData={googleUser} account={account} balance={balance} network={network} onLogout={logoutGoogle} />}
                         {/* 버튼 그룹 */}
                         <div className="flex space-x-2">
                             {

@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table";
 import Card from "@/app/common/elements/Card";
 import RealTimePrice from "@/app/en/trade/BTCUSDT/components/RealTimePrice";
-import { useOrderBook } from "@/features/orderbook/hooks/useOrderBook";
+import { useOrderBook } from "@/features/orderBook/hooks/useOrderBook";
 import { useTicker } from "@/features/ticker/hooks/useTicker";
 import { useTradingContext } from "@/app/en/trade/BTCUSDT/provider/TradingContext";
 import {useToast} from "@/app/common/provider/ToastContext";
